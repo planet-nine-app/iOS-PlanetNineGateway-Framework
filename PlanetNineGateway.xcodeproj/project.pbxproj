@@ -26,6 +26,8 @@
 		CA8BCA5222011A0700D0C3BA /* PlanetNineGatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */; };
 		CA8BCA5422011A0700D0C3BA /* PlanetNineGateway.h in Headers */ = {isa = PBXBuildFile; fileRef = CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */; };
+		CA98A51C220384BA00F8978E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98A51B220384BA00F8978E /* Network.swift */; };
+		CA98A51E2203870200F8978E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98A51D2203870200F8978E /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineGatewayTests.swift; sourceTree = "<group>"; };
 		CA8BCA5322011A0700D0C3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeGateway.swift; sourceTree = "<group>"; };
+		CA98A51B220384BA00F8978E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		CA98A51D2203870200F8978E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 		CA8BCA4522011A0700D0C3BA /* PlanetNineGateway */ = {
 			isa = PBXGroup;
 			children = (
+				CA98A51A2203846B00F8978E /* Utilities */,
 				CA8BCA5F22011A6400D0C3BA /* Ongoing Gateway */,
 				CA8BCA5E22011A5700D0C3BA /* One Time Gateway */,
 				CA8BCA5D22011A4F00D0C3BA /* BLE */,
@@ -133,6 +138,15 @@
 			children = (
 			);
 			path = "Ongoing Gateway";
+			sourceTree = "<group>";
+		};
+		CA98A51A2203846B00F8978E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CA98A51B220384BA00F8978E /* Network.swift */,
+				CA98A51D2203870200F8978E /* Utils.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,7 +282,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA98A51C220384BA00F8978E /* Network.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
+				CA98A51E2203870200F8978E /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
