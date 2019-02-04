@@ -28,6 +28,7 @@
 		CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */; };
 		CA98A51C220384BA00F8978E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98A51B220384BA00F8978E /* Network.swift */; };
 		CA98A51E2203870200F8978E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98A51D2203870200F8978E /* Utils.swift */; };
+		CAA4499C2208FD9D000B7DF8 /* NineumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeGateway.swift; sourceTree = "<group>"; };
 		CA98A51B220384BA00F8978E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		CA98A51D2203870200F8978E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineumModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		CA8BCA4522011A0700D0C3BA /* PlanetNineGateway */ = {
 			isa = PBXGroup;
 			children = (
+				CAA4499D2208FDA9000B7DF8 /* Models */,
 				CA98A51A2203846B00F8978E /* Utilities */,
 				CA8BCA5F22011A6400D0C3BA /* Ongoing Gateway */,
 				CA8BCA5E22011A5700D0C3BA /* One Time Gateway */,
@@ -147,6 +150,14 @@
 				CA98A51D2203870200F8978E /* Utils.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		CAA4499D2208FDA9000B7DF8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA98A51C220384BA00F8978E /* Network.swift in Sources */,
+				CAA4499C2208FD9D000B7DF8 /* NineumModel.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
 				CA98A51E2203870200F8978E /* Utils.swift in Sources */,
 			);
