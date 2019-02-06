@@ -8,28 +8,26 @@
 
 import Foundation
 
-struct Gateway: Codable {
-    let totalPower: Int
-    let partnerName: String
-    let gatewayName: String
-    let gatewayURL: String
-}
-
 struct PowerUsage: Codable {
     let totalPower: Int
     let partnerName: String
     let gatewayName: String
     let userId: Int
     let signature: String
+    let partnerDisplayName: String
     let description: String
 }
 
 public class OneTimeGateway {
     
     var gateway: Gateway
+    let partnerDisplayName: String
+    let description: String
     
-    public init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String) {
+    public init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
         gateway = Gateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL)
+        self.partnerDisplayName = partnerDisplayName
+        self.description = description
     }
     
     public func askForPowerUsage() {
@@ -40,8 +38,8 @@ public class OneTimeGateway {
         }
     }
     
-    public func submitPowerUsage(userId: Int, signature: String, description: String, callback: @escaping (Error?, Data?) -> Void) {
-        let powerUsage = PowerUsage(totalPower: gateway.totalPower, partnerName: gateway.partnerName, gatewayName: gateway.gatewayName, userId: userId, signature: signature, description: description)
+    public func submitPowerUsage(userId: Int, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+        let powerUsage = PowerUsage(totalPower: gateway.totalPower, partnerName: gateway.partnerName, gatewayName: gateway.gatewayName, userId: userId, signature: signature, partnerDisplayName: self.partnerDisplayName, description: self.description)
         Network().usePowerAtOneTimeGateway(powerUsageObject: powerUsage, callback: callback)
     }
 }

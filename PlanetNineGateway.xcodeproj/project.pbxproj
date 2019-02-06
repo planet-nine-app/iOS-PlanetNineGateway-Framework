@@ -29,6 +29,10 @@
 		CA98A51C220384BA00F8978E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98A51B220384BA00F8978E /* Network.swift */; };
 		CA98A51E2203870200F8978E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA98A51D2203870200F8978E /* Utils.swift */; };
 		CAA4499C2208FD9D000B7DF8 /* NineumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */; };
+		CAA449E9220B6B01000B7DF8 /* GatewayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449E8220B6B01000B7DF8 /* GatewayModel.swift */; };
+		CAA449EB220B6B4A000B7DF8 /* BLETwoWayPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449EA220B6B4A000B7DF8 /* BLETwoWayPeripheral.swift */; };
+		CAA449ED220B6DA2000B7DF8 /* BLEUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449EC220B6DA2000B7DF8 /* BLEUtils.swift */; };
+		CAA449EF220B8CA7000B7DF8 /* OneTimeBLEGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449EE220B8CA7000B7DF8 /* OneTimeBLEGateway.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +63,10 @@
 		CA98A51B220384BA00F8978E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		CA98A51D2203870200F8978E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NineumModel.swift; sourceTree = "<group>"; };
+		CAA449E8220B6B01000B7DF8 /* GatewayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayModel.swift; sourceTree = "<group>"; };
+		CAA449EA220B6B4A000B7DF8 /* BLETwoWayPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLETwoWayPeripheral.swift; sourceTree = "<group>"; };
+		CAA449EC220B6DA2000B7DF8 /* BLEUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEUtils.swift; sourceTree = "<group>"; };
+		CAA449EE220B8CA7000B7DF8 /* OneTimeBLEGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeBLEGateway.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +132,8 @@
 		CA8BCA5D22011A4F00D0C3BA /* BLE */ = {
 			isa = PBXGroup;
 			children = (
+				CAA449EA220B6B4A000B7DF8 /* BLETwoWayPeripheral.swift */,
+				CAA449EC220B6DA2000B7DF8 /* BLEUtils.swift */,
 			);
 			path = BLE;
 			sourceTree = "<group>";
@@ -132,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */,
+				CAA449EE220B8CA7000B7DF8 /* OneTimeBLEGateway.swift */,
 			);
 			path = "One Time Gateway";
 			sourceTree = "<group>";
@@ -156,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */,
+				CAA449E8220B6B01000B7DF8 /* GatewayModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -293,8 +305,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAA449EF220B8CA7000B7DF8 /* OneTimeBLEGateway.swift in Sources */,
+				CAA449EB220B6B4A000B7DF8 /* BLETwoWayPeripheral.swift in Sources */,
 				CA98A51C220384BA00F8978E /* Network.swift in Sources */,
 				CAA4499C2208FD9D000B7DF8 /* NineumModel.swift in Sources */,
+				CAA449ED220B6DA2000B7DF8 /* BLEUtils.swift in Sources */,
+				CAA449E9220B6B01000B7DF8 /* GatewayModel.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
 				CA98A51E2203870200F8978E /* Utils.swift in Sources */,
 			);

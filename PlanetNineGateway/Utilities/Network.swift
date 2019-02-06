@@ -13,6 +13,7 @@ import SystemConfiguration
 enum NetworkErrors: Error {
     case couldNotReachNetwork
     case authenticationError
+    case noData
 }
 
 class Network: NSObject {
@@ -66,6 +67,7 @@ class Network: NSObject {
             }
             guard let data = data else {
                 
+                callback(NetworkErrors.noData, nil)
                 return
                 
             }

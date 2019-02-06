@@ -9,20 +9,20 @@
 import Foundation
 import UIKit
 
-enum Universes: String {
+public enum Universes: String {
     case theUniverse = "The Universe"
 }
 
-enum Addresses: String {
+public enum Addresses: String {
     case planetNine = "Planet Nine"
 }
 
-enum Charges: String {
+public enum Charges: String {
     case positive = "Positive"
     case negative = "Negative"
 }
 
-enum Directions: String {
+public enum Directions: String {
     case north = "North"
     case south = "South"
     case east = "East"
@@ -31,7 +31,7 @@ enum Directions: String {
     case down = "Down"
 }
 
-enum Rarities: String {
+public enum Rarities: String {
     case common = "Common"
     case nine = "Nine"
     case uncommon = "Uncommon"
@@ -41,7 +41,7 @@ enum Rarities: String {
     case mythical = "Mythical"
 }
 
-enum Sizes: String {
+public enum Sizes: String {
     case miniscule = "Miniscule"
     case tiny = "Tiny"
     case small = "Small"
@@ -52,7 +52,7 @@ enum Sizes: String {
     case huge = "Huge"
 }
 
-enum Textures: String {
+public enum Textures: String {
     case soft = "Soft"
     case bumpy = "Bumpy"
     case satin = "Satin"
@@ -63,7 +63,7 @@ enum Textures: String {
     case woolen = "Woolen"
 }
 
-enum Shapes: String {
+public enum Shapes: String {
     case sphere = "Sphere"
     case cylinder = "Cylinder"
     case tetrahedron = "Tetrahedron"
@@ -74,7 +74,7 @@ enum Shapes: String {
     case torus = "Torus"
 }
 
-enum Years: String {
+public enum Years: String {
     case year1 = "2018"
     case year2 = "2019"
     case year3 = "2020"
@@ -85,22 +85,26 @@ enum Years: String {
     case year8 = "2025"
 }
 
-struct Nineum {
-    let universe: Universes
-    let address: Addresses
-    let charge: Charges
-    let direction: Directions
-    let rarity: Rarities
-    let size: Sizes
-    let texture: Textures
-    let shape: Shapes
-    let year: Years
-    let ordinal: Int
+public struct Nineum {
+    public let universe: Universes
+    public let address: Addresses
+    public let charge: Charges
+    public let direction: Directions
+    public let rarity: Rarities
+    public let size: Sizes
+    public let texture: Textures
+    public let shape: Shapes
+    public let year: Years
+    public let ordinal: Int
 }
 
-class NineumModel {
+public class NineumModel {
     
-    func getNineumArrayForNineumHexStrings(hexStrings: [String]) -> [Nineum] {
+    public init() {
+        
+    }
+    
+    public func getNineumArrayForNineumHexStrings(hexStrings: [String]) -> [Nineum] {
         var nineumArray = [Nineum]()
         for hexString in hexStrings {
             let nineum = getNineumFromHexString(hexString: hexString)
@@ -109,7 +113,7 @@ class NineumModel {
         return nineumArray
     }
     
-    func getNineumFromHexString(hexString: String) -> Nineum {
+    public func getNineumFromHexString(hexString: String) -> Nineum {
         //print("Nineum \(hexString)")
         let universeStart = hexString.startIndex
         let universeEnd = hexString.index(hexString.startIndex, offsetBy: 2)
@@ -166,7 +170,7 @@ class NineumModel {
         return nineum
     }
     
-    func getUniverseFromHexString(hexString: String) -> Universes {
+    public func getUniverseFromHexString(hexString: String) -> Universes {
         //print("Universe \(hexString)")
         switch hexString {
         case "01":
@@ -176,7 +180,7 @@ class NineumModel {
         }
     }
     
-    func getAddressFromHexString(hexString: String) -> Addresses {
+    public func getAddressFromHexString(hexString: String) -> Addresses {
         //print("Address \(hexString)")
         switch hexString {
         case "00000001":
@@ -186,7 +190,7 @@ class NineumModel {
         }
     }
     
-    func getChargeFromHexString(hexString: String) -> Charges {
+    public func getChargeFromHexString(hexString: String) -> Charges {
         //print("Charge \(hexString)")
         switch hexString {
         case "01":
@@ -198,7 +202,7 @@ class NineumModel {
         }
     }
     
-    func getDirectionFromHexString(hexString: String) -> Directions {
+    public func getDirectionFromHexString(hexString: String) -> Directions {
         //print("Direction \(hexString)")
         switch hexString {
         case "01":
@@ -218,7 +222,7 @@ class NineumModel {
         }
     }
     
-    func getRarityFromHexString(hexString: String) -> Rarities {
+    public func getRarityFromHexString(hexString: String) -> Rarities {
         //print("Rarity \(hexString)")
         switch hexString {
         case "01":
@@ -240,7 +244,7 @@ class NineumModel {
         }
     }
     
-    func getSizeFromHexString(hexString: String) -> Sizes {
+    public func getSizeFromHexString(hexString: String) -> Sizes {
         //print("Size \(hexString)")
         switch hexString {
         case "01":
@@ -264,7 +268,7 @@ class NineumModel {
         }
     }
     
-    func getTextureFromHexString(hexString: String) -> Textures {
+    public func getTextureFromHexString(hexString: String) -> Textures {
         //print("Texture \(hexString)")
         switch hexString {
         case "01":
@@ -288,7 +292,7 @@ class NineumModel {
         }
     }
     
-    func getShapeFromHexString(hexString: String) -> Shapes {
+    public func getShapeFromHexString(hexString: String) -> Shapes {
         //print("Shape \(hexString)")
         switch hexString {
         case "01":
@@ -312,7 +316,7 @@ class NineumModel {
         }
     }
     
-    func getYearFromHexString(hexString: String) -> Years {
+    public func getYearFromHexString(hexString: String) -> Years {
         //print("Year \(hexString)")
         switch hexString {
         case "01":
@@ -336,12 +340,12 @@ class NineumModel {
         }
     }
     
-    func getOrdinalFromHexString(hexString: String) -> Int {
+    public func getOrdinalFromHexString(hexString: String) -> Int {
         //print("Ordinal \(hexString)")
         return Int(hexString, radix: 16)!
     }
     
-    func getNineumForRarityOrdering(nineum: [String], anOrdering: [String]?) -> [Int: [Int: String]] {
+    public func getNineumForRarityOrdering(nineum: [String], anOrdering: [String]?) -> [Int: [Int: String]] {
         var results = [Int: [Int: String]]()
         var tempResults = [Int: [Int: String]]()
         var mapping = [String: Int]()
@@ -370,7 +374,7 @@ class NineumModel {
     }
     
     //Helper methods for the collection view
-    func getOrderedRaritiesFromNineumArray(nineum: [String], anOrdering: [String] = ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythical", "Nine"]) -> [String] {
+    public func getOrderedRaritiesFromNineumArray(nineum: [String], anOrdering: [String] = ["Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythical", "Nine"]) -> [String] {
         var results = [String]()
         var tempResults = [String]()
         var mapping = [String: Int]()
@@ -391,7 +395,7 @@ class NineumModel {
         return results
     }
     
-    func getCountForRarity(nineum: [String], rarity: Rarities) -> Int {
+    public func getCountForRarity(nineum: [String], rarity: Rarities) -> Int {
         var count = 0
         for ninea in nineum {
             if getNineumFromHexString(hexString: ninea).rarity == rarity {
@@ -401,7 +405,7 @@ class NineumModel {
         return count
     }
     
-    func getImageForRarity(rarity: Rarities) -> UIImage {
+    public func getImageForRarity(rarity: Rarities) -> UIImage {
         switch rarity {
         case .common:
             return UIImage(named: "NineumBubble_Pink")!
@@ -422,7 +426,7 @@ class NineumModel {
         }
     }
     
-    func getBigImageForRarity(rarity: Rarities) -> UIImage {
+    public func getBigImageForRarity(rarity: Rarities) -> UIImage {
         switch rarity {
         case .common:
             return UIImage(named: "Nineum1_Large")!
