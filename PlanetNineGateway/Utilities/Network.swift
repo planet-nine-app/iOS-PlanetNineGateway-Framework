@@ -102,6 +102,14 @@ class Network: NSObject {
         task.resume()
     }
     
+    func getUserById(userId: Int, callback: @escaping (Error?, Data?) -> Void) {
+        
+    }
+    
+    func getUserByPublicKey(publicKey: String, callback: @escaping (Error?, Data?) -> Void) {
+        
+    }
+    
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
         let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
