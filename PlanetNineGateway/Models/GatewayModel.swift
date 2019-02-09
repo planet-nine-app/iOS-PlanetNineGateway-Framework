@@ -20,6 +20,7 @@ struct Gateway: Codable {
 
 struct GatewayResponse: Codable {
     var userId: Int
+    var username: String
     var signature: String
 }
 
@@ -36,7 +37,7 @@ struct GatewayUsePower: Codable {
 class GatewayModel {
     func getGatewayResponseFromJSON(jsonString: String) -> GatewayResponse? {
         let jsonData = jsonString.data(using: .utf8)
-        var decodedGatewayResponse = GatewayResponse(userId: 0, signature: "")
+        var decodedGatewayResponse = GatewayResponse(userId: 0, username: "", signature: "")
         do {
             decodedGatewayResponse = try JSONDecoder().decode(GatewayResponse.self, from: jsonData!)
         } catch {

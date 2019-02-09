@@ -32,7 +32,7 @@ public class OneTimeGateway {
     
     public func askForPowerUsage() {
         print("asking for power usage")
-        let urlString = "planetnine://gateway/details?gatewayname=\(gateway.gatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)"
+        let urlString = "planetnine://gateway/details?gatewayname=\(gateway.gatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(partnerDisplayName)&description=\(description)"
         if let link = URL(string: urlString) {
             UIApplication.shared.open(link)
         }

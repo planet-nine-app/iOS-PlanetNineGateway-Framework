@@ -9,9 +9,14 @@
 import Foundation
 import CoreBluetooth
 
-class OneTimeBLEGateway: OneTimeGateway {
+public class OneTimeBLEGateway: OneTimeGateway {
     var twoWayPeripheral: BLETwoWayPeripheral?
+    let successCallback: (String) -> Void
     
+    public init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, successCallback: @escaping (String) -> Void) {
+        self.successCallback = successCallback
+        super.init(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
+    }
     
     public func createTwoWayPeripheral() {
         twoWayPeripheral = BLETwoWayPeripheral(readCallback: readCallback(characteristic:), writeCallback: writeCallback(value:central:), notifyCallback: notifyCallback(characteristic:))
@@ -32,10 +37,14 @@ class OneTimeBLEGateway: OneTimeGateway {
         let path = "/user/userId/\(gatewayResponse.userId)/power/gateway/\(gateway.gatewayName)"
         let jsonData = Utils().encodableToJSONData(gatewayUsePowerObject)
         Network().put(body: jsonData, path: path) { error, resp in
-            if error == nil {
+            if error != nil {
                 //TODO: What happens here?
+                print("You got an error on your put")
+                print(error)
                 return
             }
+            print("Calling successCallback")
+            self.successCallback(gatewayResponse.username)
             self.twoWayPeripheral!.notifySubscribedCentral(update: "power use success!", central: central)
         }
     }
