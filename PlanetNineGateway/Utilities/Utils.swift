@@ -20,3 +20,9 @@ class Utils {
         return jsonData
     }
 }
+
+extension String {
+    func urlEncoded() -> String? {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+    }
+}

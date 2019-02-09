@@ -34,6 +34,20 @@ struct GatewayUsePower: Codable {
     var description: String
 }
 
+struct GatewayKey: Codable {
+    var gatewayName: String
+    var publicKey: String
+    func toString() -> String {
+        return "{\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\"}"
+    }
+}
+
+struct GatewayKeyWithSignature: Codable {
+    var gatewayName: String
+    var publicKey: String
+    var signature: String
+}
+
 class GatewayModel {
     func getGatewayResponseFromJSON(jsonString: String) -> GatewayResponse? {
         let jsonData = jsonString.data(using: .utf8)
@@ -49,5 +63,10 @@ class GatewayModel {
             return nil
         }
         return decodedGatewayResponse
+    }
+    
+    func addSignatureToGatewayKey(gatewayKeyObject: GatewayKey, signature: String) -> GatewayKeyWithSignature {
+        let gatewayKeyObjectWithSignature = GatewayKeyWithSignature(gatewayName: gatewayKeyObject.gatewayName, publicKey: gatewayKeyObject.publicKey, signature: signature)
+        return gatewayKeyObjectWithSignature
     }
 }

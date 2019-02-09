@@ -35,6 +35,7 @@
 		CAA449EF220B8CA7000B7DF8 /* OneTimeBLEGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449EE220B8CA7000B7DF8 /* OneTimeBLEGateway.swift */; };
 		CAA449F9220CD7A9000B7DF8 /* UsePowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449F8220CD7A9000B7DF8 /* UsePowerModel.swift */; };
 		CAA449FB220CD7B4000B7DF8 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449FA220CD7B4000B7DF8 /* UserModel.swift */; };
+		CAA44A1E220F5D9A000B7DF8 /* OngoingGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		CAA449EE220B8CA7000B7DF8 /* OneTimeBLEGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeBLEGateway.swift; sourceTree = "<group>"; };
 		CAA449F8220CD7A9000B7DF8 /* UsePowerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsePowerModel.swift; sourceTree = "<group>"; };
 		CAA449FA220CD7B4000B7DF8 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OngoingGateway.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 		CA8BCA5F22011A6400D0C3BA /* Ongoing Gateway */ = {
 			isa = PBXGroup;
 			children = (
+				CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */,
 			);
 			path = "Ongoing Gateway";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				CAA4499C2208FD9D000B7DF8 /* NineumModel.swift in Sources */,
 				CAA449F9220CD7A9000B7DF8 /* UsePowerModel.swift in Sources */,
 				CAA449ED220B6DA2000B7DF8 /* BLEUtils.swift in Sources */,
+				CAA44A1E220F5D9A000B7DF8 /* OngoingGateway.swift in Sources */,
 				CAA449E9220B6B01000B7DF8 /* GatewayModel.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
 				CA98A51E2203870200F8978E /* Utils.swift in Sources */,

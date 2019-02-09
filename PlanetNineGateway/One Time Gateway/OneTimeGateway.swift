@@ -32,7 +32,11 @@ public class OneTimeGateway {
     
     public func askForPowerUsage() {
         print("asking for power usage")
-        let urlString = "planetnine://gateway/details?gatewayname=\(gateway.gatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(partnerDisplayName)&description=\(description)"
+        guard let urlEncodedGatewayName = gateway.gatewayName.urlEncoded() else {
+            print("Error: Gateway Name's must be url encodable")
+            return
+        }
+        let urlString = "planetnine://gateway/details?gatewayname=\(urlEncodedGatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(partnerDisplayName)&description=\(description)"
         if let link = URL(string: urlString) {
             UIApplication.shared.open(link)
         }
