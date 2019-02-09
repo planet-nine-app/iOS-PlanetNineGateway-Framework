@@ -36,6 +36,7 @@
 		CAA449F9220CD7A9000B7DF8 /* UsePowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449F8220CD7A9000B7DF8 /* UsePowerModel.swift */; };
 		CAA449FB220CD7B4000B7DF8 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449FA220CD7B4000B7DF8 /* UserModel.swift */; };
 		CAA44A1E220F5D9A000B7DF8 /* OngoingGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */; };
+		CAA44A2A220F7841000B7DF8 /* PlanetNineUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A29220F7841000B7DF8 /* PlanetNineUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		CAA449F8220CD7A9000B7DF8 /* UsePowerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsePowerModel.swift; sourceTree = "<group>"; };
 		CAA449FA220CD7B4000B7DF8 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OngoingGateway.swift; sourceTree = "<group>"; };
+		CAA44A29220F7841000B7DF8 /* PlanetNineUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */,
+				CAA44A29220F7841000B7DF8 /* PlanetNineUser.swift */,
 			);
 			path = "Ongoing Gateway";
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				CAA449ED220B6DA2000B7DF8 /* BLEUtils.swift in Sources */,
 				CAA44A1E220F5D9A000B7DF8 /* OngoingGateway.swift in Sources */,
 				CAA449E9220B6B01000B7DF8 /* GatewayModel.swift in Sources */,
+				CAA44A2A220F7841000B7DF8 /* PlanetNineUser.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
 				CA98A51E2203870200F8978E /* Utils.swift in Sources */,
 				CAA449FB220CD7B4000B7DF8 /* UserModel.swift in Sources */,

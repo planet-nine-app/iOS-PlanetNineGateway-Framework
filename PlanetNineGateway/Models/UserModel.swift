@@ -30,27 +30,11 @@ struct User: Codable {
 }
 
 class UserModel {
-    
-    let userId: Int
-    let publicKey: String
-    var initializing = true
-    
+        
     private var user: User?
     
-    init(userId: Int, publicKey: String) {
-        self.userId = userId
-        self.publicKey = publicKey
+    init() {
         
-        Network().getUserByPublicKey(publicKey: publicKey) { error, resp in
-            self.initializing = false
-            if error != nil || resp == nil {
-                return
-            }
-            guard let resp = resp else {
-                return
-            }
-            self.user = self.getUserFromJSONData(userData: resp)
-        }
     }
     
     func getUser() -> User? {
