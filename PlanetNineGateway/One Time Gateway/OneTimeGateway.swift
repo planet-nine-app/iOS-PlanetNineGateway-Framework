@@ -25,7 +25,7 @@ public class OneTimeGateway {
     let description: String
     
     public init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
-        gateway = Gateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL)
+        gateway = Gateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
         self.partnerDisplayName = partnerDisplayName
         self.description = description
     }

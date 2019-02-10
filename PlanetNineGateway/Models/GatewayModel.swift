@@ -13,8 +13,10 @@ struct Gateway: Codable {
     var partnerName: String
     var gatewayName: String
     var gatewayURL: String
+    var partnerDisplayName: String
+    var description: String
     func toString() -> String {
-        return "{\"totalPower\":\(totalPower),\"gatewayName\":\"\(gatewayName)\",\"partnerName\":\"\(partnerName)\",\"gatewayURL\":\"\(gatewayURL)\"}"
+        return "{\"totalPower\":\(totalPower),\"gatewayName\":\"\(gatewayName)\",\"partnerName\":\"\(partnerName)\",\"gatewayURL\":\"\(gatewayURL)\",\"partnerDisplayName\":\"\(partnerDisplayName)\",\"description\":\"\(description)\"}"
     }
 }
 
