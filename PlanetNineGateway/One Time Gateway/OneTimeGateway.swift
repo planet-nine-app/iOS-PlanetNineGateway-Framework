@@ -36,9 +36,20 @@ public class OneTimeGateway {
             print("Error: Gateway Name's must be url encodable")
             return
         }
-        let urlString = "planetnine://gateway/details?gatewayname=\(urlEncodedGatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(partnerDisplayName)&description=\(description)"
+        guard let urlEncodedPartnerDisplayName = partnerDisplayName.urlEncoded() else {
+            print("Error: partnerDisplayName must be url encodable")
+            return
+        }
+        guard let urlEncodedDescription = description.urlEncoded() else {
+            print("Error: description must be url encodable")
+            return
+        }
+        let urlString = "planetnine://gateway/details?gatewayname=\(urlEncodedGatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(urlEncodedPartnerDisplayName)&description=\(urlEncodedDescription)"
+        print("trying to open \(urlString)")
         if let link = URL(string: urlString) {
             UIApplication.shared.open(link)
+        } else {
+            print("Could not open urlString")
         }
     }
     
