@@ -44,7 +44,7 @@ public class OneTimeBLEGateway: OneTimeGateway {
             if error != nil {
                 //TODO: What happens here?
                 print("You got an error on your put")
-                print(error)
+                //print(error)
                 return
             }
             print("Calling successCallback")

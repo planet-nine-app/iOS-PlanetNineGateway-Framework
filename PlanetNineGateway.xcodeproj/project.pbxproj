@@ -22,7 +22,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		CA8BCA4D22011A0700D0C3BA /* PlanetNineGateway.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8BCA4322011A0700D0C3BA /* PlanetNineGateway.framework */; };
 		CA8BCA5222011A0700D0C3BA /* PlanetNineGatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */; };
 		CA8BCA5422011A0700D0C3BA /* PlanetNineGateway.h in Headers */ = {isa = PBXBuildFile; fileRef = CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */; };
@@ -57,10 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CA8BCA4322011A0700D0C3BA /* PlanetNineGateway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlanetNineGateway.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA8BCA4322011A0700D0C3BA /* PlanetNineGateway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PlanetNineGateway.framework; path = "/Users/zachbabb/Work/planet-nine/PlanetNineGateway/build/Debug-iphoneos/PlanetNineGateway.framework"; sourceTree = "<absolute>"; };
 		CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetNineGateway.h; sourceTree = "<group>"; };
 		CA8BCA4722011A0700D0C3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA8BCA4C22011A0700D0C3BA /* PlanetNineGatewayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlanetNineGatewayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA8BCA4C22011A0700D0C3BA /* PlanetNineGatewayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PlanetNineGatewayTests.xctest; path = "/Users/zachbabb/Work/planet-nine/PlanetNineGateway/build/Debug-iphoneos/PlanetNineGatewayTests.xctest"; sourceTree = "<absolute>"; };
 		CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineGatewayTests.swift; sourceTree = "<group>"; };
 		CA8BCA5322011A0700D0C3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeGateway.swift; sourceTree = "<group>"; };
@@ -89,7 +88,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA8BCA4D22011A0700D0C3BA /* PlanetNineGateway.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,17 +99,7 @@
 			children = (
 				CA8BCA4522011A0700D0C3BA /* PlanetNineGateway */,
 				CA8BCA5022011A0700D0C3BA /* PlanetNineGatewayTests */,
-				CA8BCA4422011A0700D0C3BA /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		CA8BCA4422011A0700D0C3BA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CA8BCA4322011A0700D0C3BA /* PlanetNineGateway.framework */,
-				CA8BCA4C22011A0700D0C3BA /* PlanetNineGatewayTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		CA8BCA4522011A0700D0C3BA /* PlanetNineGateway */ = {
@@ -264,7 +252,7 @@
 				en,
 			);
 			mainGroup = CA8BCA3922011A0700D0C3BA;
-			productRefGroup = CA8BCA4422011A0700D0C3BA /* Products */;
+			productRefGroup = CA8BCA3922011A0700D0C3BA;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -489,6 +477,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PlanetNineGateway/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -517,6 +509,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PlanetNineGateway/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

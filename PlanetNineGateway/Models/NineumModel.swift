@@ -421,8 +421,6 @@ public class NineumModel {
             return UIImage(named: "NineumBubble_Purple")!
         case .nine:
             return UIImage(named: "NineumBubble_Green")!
-        default:
-            return UIImage(named: "MoveLeftIcon")!
         }
     }
     
@@ -442,8 +440,6 @@ public class NineumModel {
             return UIImage(named: "Nineum7_Large")!
         case .nine:
             return UIImage(named: "Nineum2_Large")!
-        default:
-            return UIImage(named: "MoveLeftIcon")!
         }
     }
 }
