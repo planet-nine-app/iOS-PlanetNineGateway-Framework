@@ -102,17 +102,20 @@ class Network: NSObject {
         task.resume()
     }
     
-    func getUserById(userId: Int, callback: @escaping (Error?, Data?) -> Void) {
-        
-    }
-    
-    func getUserByPublicKey(publicKey: String, callback: @escaping (Error?, Data?) -> Void) {
-        
+    func getUserById(userId: Int, gatewayName: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/user/userId/\(userId)/gateway/\(gatewayName)/signature/\(signature)"
+        get(path: path, callback: callback)
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
         let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
+        put(body: jsonData, path: path, callback: callback)
+    }
+    
+    func usePowerAtOngoingGateway(usePowerAtOngoingGatewayWithSignature: UsePowerAtOngoingGatewayWithSignature, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/user/userId/\(usePowerAtOngoingGatewayWithSignature.userId)/power/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing"
+        let jsonData = Utils().encodableToJSONData(usePowerAtOngoingGatewayWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
 }
