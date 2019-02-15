@@ -75,14 +75,14 @@ public enum Shapes: String {
 }
 
 public enum Years: String {
-    case year1 = "2018"
-    case year2 = "2019"
-    case year3 = "2020"
-    case year4 = "2021"
-    case year5 = "2022"
-    case year6 = "2023"
-    case year7 = "2024"
-    case year8 = "2025"
+    case year1 = "Year One"
+    case year2 = "Year Two"
+    case year3 = "Year Three"
+    case year4 = "Year Four"
+    case year5 = "Year Five"
+    case year6 = "Year Six"
+    case year7 = "Year Seven"
+    case year8 = "Year Eight"
 }
 
 public struct Nineum {
