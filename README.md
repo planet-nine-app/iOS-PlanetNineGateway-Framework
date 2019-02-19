@@ -58,12 +58,12 @@ let planetNineGateway = PlanetNineGateway()
 planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
 planetNineGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error, resp) in
    guard let resp = resp else {
-       print("You got an error bro")
+       print("You got an error")
        print(error)
        return
    }
    if error != nil {
-       print("You got an error bro")
+       print("You got an error")
        print(error)
        return
    }
