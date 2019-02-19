@@ -8,17 +8,17 @@
 
 import Foundation
 
-public class OngoingGateway {
+class OngoingGateway {
     
     let gatewayKeyWithSignature: GatewayKeyWithSignature
     let gatewayURL: String
     
-    public init(gatewayName: String, publicKey: String, gatewayURL: String, signature: String) {
+    init(gatewayName: String, publicKey: String, gatewayURL: String, signature: String) {
         gatewayKeyWithSignature = GatewayKeyWithSignature(gatewayName: gatewayName, publicKey: publicKey, signature: signature)
         self.gatewayURL = gatewayURL
     }
     
-    public func askForOngoingGatewayUsage() {
+    func askForOngoingGatewayUsage() {
         print("Asking for ongoing Gateway usage")
         guard let urlEncodedGatewayName = gatewayKeyWithSignature.gatewayName.urlEncoded() else {
             print("Gateway names must be url encodable")

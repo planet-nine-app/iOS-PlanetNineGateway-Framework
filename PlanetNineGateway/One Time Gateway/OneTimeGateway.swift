@@ -18,19 +18,19 @@ struct PowerUsage: Codable {
     let description: String
 }
 
-public class OneTimeGateway {
+class OneTimeGateway {
     
     var gateway: Gateway
     let partnerDisplayName: String
     let description: String
     
-    public init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
+    init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
         gateway = Gateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
         self.partnerDisplayName = partnerDisplayName
         self.description = description
     }
     
-    public func askForPowerUsage() {
+    func askForPowerUsage() {
         print("asking for power usage")
         guard let urlEncodedGatewayName = gateway.gatewayName.urlEncoded() else {
             print("Error: Gateway Name's must be url encodable")
@@ -53,7 +53,7 @@ public class OneTimeGateway {
         }
     }
     
-    public func submitPowerUsage(userId: Int, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+    func submitPowerUsage(userId: Int, signature: String, callback: @escaping (Error?, Data?) -> Void) {
         let powerUsage = PowerUsage(totalPower: gateway.totalPower, partnerName: gateway.partnerName, gatewayName: gateway.gatewayName, userId: userId, signature: signature, partnerDisplayName: self.partnerDisplayName, description: self.description)
         Network().usePowerAtOneTimeGateway(powerUsageObject: powerUsage, callback: callback)
     }

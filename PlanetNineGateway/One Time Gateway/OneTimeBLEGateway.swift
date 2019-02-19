@@ -9,16 +9,16 @@
 import Foundation
 import CoreBluetooth
 
-public class OneTimeBLEGateway: OneTimeGateway {
+class OneTimeBLEGateway: OneTimeGateway {
     var twoWayPeripheral: BLETwoWayPeripheral?
     let successCallback: (String) -> Void
     
-    public init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, successCallback: @escaping (String) -> Void) {
+    init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, successCallback: @escaping (String) -> Void) {
         self.successCallback = successCallback
         super.init(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
     }
     
-    public func createTwoWayPeripheral() {
+    func createTwoWayPeripheral() {
         twoWayPeripheral = BLETwoWayPeripheral(readCallback: readCallback(characteristic:), writeCallback: writeCallback(value:central:), notifyCallback: notifyCallback(characteristic:))
     }
     

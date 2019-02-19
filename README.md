@@ -98,6 +98,8 @@ bleOneTimeGateway.createTwoWayPeripheral()
 
 `description`: is a description of what the transaction is for
 
+`successCallback`: this last argument is a callback for the gateway to use upon successful expenditure with a user. The Planet Nine app will provide the username of the user who uses the gateway.
+
 Once you've started the gateway, it handles all spending with it automatically so there is no additional code required. 
 
 ### Ongoing Gateways

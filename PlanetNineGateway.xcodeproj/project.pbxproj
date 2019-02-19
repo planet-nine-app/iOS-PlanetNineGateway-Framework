@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CA087A96221CBAD2006FF950 /* PlanetNineGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA087A95221CBAD2006FF950 /* PlanetNineGateway.swift */; };
 		CA8BCA5222011A0700D0C3BA /* PlanetNineGatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */; };
 		CA8BCA5422011A0700D0C3BA /* PlanetNineGateway.h in Headers */ = {isa = PBXBuildFile; fileRef = CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */; };
@@ -56,10 +57,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CA8BCA4322011A0700D0C3BA /* PlanetNineGateway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PlanetNineGateway.framework; path = "/Users/zachbabb/Work/planet-nine/PlanetNineGateway/build/Debug-iphoneos/PlanetNineGateway.framework"; sourceTree = "<absolute>"; };
+		CA087A932217593F006FF950 /* PlanetNineGateway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlanetNineGateway.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA087A942217593F006FF950 /* PlanetNineGatewayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlanetNineGatewayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA087A95221CBAD2006FF950 /* PlanetNineGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineGateway.swift; sourceTree = "<group>"; };
 		CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetNineGateway.h; sourceTree = "<group>"; };
 		CA8BCA4722011A0700D0C3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA8BCA4C22011A0700D0C3BA /* PlanetNineGatewayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = PlanetNineGatewayTests.xctest; path = "/Users/zachbabb/Work/planet-nine/PlanetNineGateway/build/Debug-iphoneos/PlanetNineGatewayTests.xctest"; sourceTree = "<absolute>"; };
 		CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineGatewayTests.swift; sourceTree = "<group>"; };
 		CA8BCA5322011A0700D0C3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeGateway.swift; sourceTree = "<group>"; };
@@ -99,6 +101,8 @@
 			children = (
 				CA8BCA4522011A0700D0C3BA /* PlanetNineGateway */,
 				CA8BCA5022011A0700D0C3BA /* PlanetNineGatewayTests */,
+				CA087A932217593F006FF950 /* PlanetNineGateway.framework */,
+				CA087A942217593F006FF950 /* PlanetNineGatewayTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +116,7 @@
 				CA8BCA5D22011A4F00D0C3BA /* BLE */,
 				CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */,
 				CA8BCA4722011A0700D0C3BA /* Info.plist */,
+				CA087A95221CBAD2006FF950 /* PlanetNineGateway.swift */,
 			);
 			path = PlanetNineGateway;
 			sourceTree = "<group>";
@@ -201,7 +206,7 @@
 			);
 			name = PlanetNineGateway;
 			productName = PlanetNineGateway;
-			productReference = CA8BCA4322011A0700D0C3BA /* PlanetNineGateway.framework */;
+			productReference = CA087A932217593F006FF950 /* PlanetNineGateway.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		CA8BCA4B22011A0700D0C3BA /* PlanetNineGatewayTests */ = {
@@ -219,7 +224,7 @@
 			);
 			name = PlanetNineGatewayTests;
 			productName = PlanetNineGatewayTests;
-			productReference = CA8BCA4C22011A0700D0C3BA /* PlanetNineGatewayTests.xctest */;
+			productReference = CA087A942217593F006FF950 /* PlanetNineGatewayTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -310,6 +315,7 @@
 				CA98A51C220384BA00F8978E /* Network.swift in Sources */,
 				CAA4499C2208FD9D000B7DF8 /* NineumModel.swift in Sources */,
 				CAA449F9220CD7A9000B7DF8 /* UsePowerModel.swift in Sources */,
+				CA087A96221CBAD2006FF950 /* PlanetNineGateway.swift in Sources */,
 				CAA449ED220B6DA2000B7DF8 /* BLEUtils.swift in Sources */,
 				CAA44A1E220F5D9A000B7DF8 /* OngoingGateway.swift in Sources */,
 				CAA449E9220B6B01000B7DF8 /* GatewayModel.swift in Sources */,
