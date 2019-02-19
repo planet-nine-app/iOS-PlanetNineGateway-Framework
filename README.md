@@ -18,8 +18,9 @@ pod 'PlanetNineGateway'
 A one-time gateway is the most basic way of interacting with the Planet Nine app. One-time gateways let users spend Power one time when prompted from your app. To start a one-time gateway import PlanetNineGateway and simply use:
 
 ```swift
-let oneTimeGateway = OneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoingtest://gateway", partnerDisplayName: "Gateway Tester", description: "This is the test app for Planet Nine Gateway Framework")
-oneTimeGateway.askForPowerUsage()
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoingtest://gateway", partnerDisplayName: "Gateway Tester", description: "This is the test app for Planet Nine Gateway Framework")
+planetNineGateway.askForPowerUsage()
 ```
 
 `totalPower`: can be any value over 200
@@ -39,7 +40,8 @@ Calling `askForPowerUsage` will open the Planet Nine app and display an alert of
 Once the user accepts the Power usage, the Planet Nine app will open the URL specified in gatewayURL with its response. To handle this in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to catch the URL response and then create the gateway again:
 
 ```swift
-let oneTimeGateway = OneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
 ```
 
 Get the userId and signature from the queryItems of the URL:
@@ -52,27 +54,29 @@ let signature = components.queryItems![1].value
 And finally call `submitPowerUsage` on the gateway object with a callback that will handle errors and responses. 
 
 ```swift
-oneTimeGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error, resp) in
-                guard let resp = resp else {
-                    print("You got an error bro")
-                    print(error)
-                    return
-                }
-                if error != nil {
-                    print("You got an error bro")
-                    print(error)
-                    return
-                }
-                let responseString = String(data: resp, encoding: .utf8)
-                print(responseString)
-                DispatchQueue.main.async {
-                    let viewController = UIApplication.topViewController() as! ViewController
-                    let alert = UIAlertController(title: "Heyoo", message: "You spent the power", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    viewController.present(alert, animated: true, completion: nil)
-                }
-                
-            }
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
+planetNineGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error, resp) in
+   guard let resp = resp else {
+       print("You got an error bro")
+       print(error)
+       return
+   }
+   if error != nil {
+       print("You got an error bro")
+       print(error)
+       return
+   }
+   let responseString = String(data: resp, encoding: .utf8)
+   print(responseString)
+   DispatchQueue.main.async {
+       let viewController = UIApplication.topViewController() as! ViewController
+       let alert = UIAlertController(title: "Heyoo", message: "You spent the power", preferredStyle: .alert)
+       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+       viewController.present(alert, animated: true, completion: nil)
+   }
+   
+}
 ```
 
 ### One-Time BLE Gateways
@@ -80,10 +84,11 @@ oneTimeGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error
 A One-Time BLE Gateway is for usage when you want to interact with the Planet Nine app via Bluetooth Low Energy (BLE). This is great for POS implementations. You start a BLE gateway much in the same way that you start a One-Time Gateway. 
 
 ```swift
-let bleOneTimeGateway = OneTimeBLEGateway(totalPower: 300, partnerName: "test50603336", gatewayName: "Planet Nine Point of Sale", gatewayURL: "pnpos://gateway", partnerDisplayName: "A Test User", description: "This is a test of the BLE gateway") { username in
-            print("User: \(username) used 300 Power")
-        }
-bleOneTimeGateway.createTwoWayPeripheral()
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.oneTimeBLEGateway(totalPower: 300, partnerName: "test50603336", gatewayName: "Planet Nine Point of Sale", gatewayURL: "pnpos://gateway", partnerDisplayName: "A Test User", description: "This is a test of the BLE gateway") { username in
+    print("User: \(username) used 300 Power")
+}
+planetNineGateway.broadcastBLEGateway()
 ```
 
 `totalPower`: can be any value over 200
@@ -115,7 +120,8 @@ let keys = Crypto().getKeys()!
 let gatewayKey = GatewayKey(gatewayName: gatewayName, publicKey: keys.publicKey)
 let signature = Crypto().signMessage(message: gatewayKey.toString())
         
-let ongoingGateway = OngoingGateway(gatewayName: gatewayName, publicKey: keys.publicKey, gatewayURL: "ongoingtest://ongoing", signature: signature)
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.ongoingGateway(gatewayName: gatewayName, publicKey: keys.publicKey, gatewayURL: "ongoingtest://ongoing", signature: signature)
 ongoingGateway.askForOngoingGatewayUsage()
 ```
 
