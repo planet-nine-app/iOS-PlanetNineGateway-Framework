@@ -17,8 +17,10 @@ pod 'PlanetNineGateway'
 ### One-Time Gateways
 A one-time gateway is the most basic way of interacting with the Planet Nine app. One-time gateways let users spend Power one time when prompted from your app. To start a one-time gateway import PlanetNineGateway and simply use:
 
-```let oneTimeGateway = OneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoingtest://gateway", partnerDisplayName: "Gateway Tester", description: "This is the test app for Planet Nine Gateway Framework")
-oneTimeGateway.askForPowerUsage()```
+```
+let oneTimeGateway = OneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoingtest://gateway", partnerDisplayName: "Gateway Tester", description: "This is the test app for Planet Nine Gateway Framework")
+oneTimeGateway.askForPowerUsage()
+```
 
 `totalPower`: can be any value over 200
 `partnerName`: is the username of the partner to receive Nineum from the transaction
@@ -31,16 +33,21 @@ Calling `askForPowerUsage` will open the Planet Nine app and display an alert of
 
 Once the user accepts the Power usage, the Planet Nine app will open the URL specified in gatewayURL with its response. To handle this in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to catch the URL response and then create the gateway again:
 
-```let oneTimeGateway = OneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")```
+```
+let oneTimeGateway = OneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
+```
 
 Get the userId and signature from the queryItems of the URL:
 
-```let userId = Int(components.queryItems![0].value!)
-let signature = components.queryItems![1].value```
+```
+let userId = Int(components.queryItems![0].value!)
+let signature = components.queryItems![1].value
+```
 
 And finally call `submitPowerUsage` on the gateway object with a callback that will handle errors and responses. 
 
-``` oneTimeGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error, resp) in
+```
+oneTimeGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error, resp) in
                 guard let resp = resp else {
                     print("You got an error bro")
                     print(error)
@@ -60,16 +67,19 @@ And finally call `submitPowerUsage` on the gateway object with a callback that w
                     viewController.present(alert, animated: true, completion: nil)
                 }
                 
-            }```
+            }
+```
 
 ### One-Time BLE Gateways
 
 A One-Time BLE Gateway is for usage when you want to interact with the Planet Nine app via Bluetooth Low Energy (BLE). This is great for POS implementations. You start a BLE gateway much in the same way that you start a One-Time Gateway. 
 
-```let bleOneTimeGateway = OneTimeBLEGateway(totalPower: 300, partnerName: "test50603336", gatewayName: "Planet Nine Point of Sale", gatewayURL: "pnpos://gateway", partnerDisplayName: "A Test User", description: "This is a test of the BLE gateway") { username in
+```
+let bleOneTimeGateway = OneTimeBLEGateway(totalPower: 300, partnerName: "test50603336", gatewayName: "Planet Nine Point of Sale", gatewayURL: "pnpos://gateway", partnerDisplayName: "A Test User", description: "This is a test of the BLE gateway") { username in
             print("User: \(username) used 300 Power")
         }
-bleOneTimeGateway.createTwoWayPeripheral()```
+bleOneTimeGateway.createTwoWayPeripheral()
+```
 
 `totalPower`: can be any value over 200
 `partnerName`: is the username of the partner to receive Nineum from the transaction
@@ -88,36 +98,43 @@ In order to handle ongoing gateways, your app will have to implement cryptograph
 
 Once you have your cryptography set up, to prompt the user for an ongoing gateway just:
 
-```let keys = Crypto().getKeys()!
+```
+let keys = Crypto().getKeys()!
         let gatewayKey = GatewayKey(gatewayName: gatewayName, publicKey: keys.publicKey)
         let signature = Crypto().signMessage(message: gatewayKey.toString())
         
         let ongoingGateway = OngoingGateway(gatewayName: gatewayName, publicKey: keys.publicKey, gatewayURL: "ongoingtest://ongoing", signature: signature)
-        ongoingGateway.askForOngoingGatewayUsage()```
+        ongoingGateway.askForOngoingGatewayUsage()
+```
 
 Invoking `askForOngoingGatewayUsage` will open the Planet Nine app and prompt the user for their permission. Just like with the one-time gateway, we need to capture the response from the Planet Nine app. Again in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to handle the queryItems again:
 
-```guard let success = components.queryItems![0].value else {
+```
+guard let success = components.queryItems![0].value else {
             print("Unsuccessful")
             return
         }
         guard let userId = components.queryItems![1].value else {
             print("No userId")
             return
-        }```
+        }
+```
 
 Once you check if success is true you can then get the Planet Nine user object by signing your gateway name:
 
-```let signature = Crypto().signMessage(message: gatewayName)
+```
+let signature = Crypto().signMessage(message: gatewayName)
         let planetNineUser = PlanetNineUser(userId: Int(userId)!, gatewayName: gatewayName, signature: signature) { pnUser in
             UserModel().saveUser(user: pnUser)
-        }```
+        }
+```
 
 This user object will have all the relevant user information including the user's Nineum. For an example of working with a user's Nineum check out this blogpost about making an inventory system (TODO: Link to inventory system blog post). 
 
 You can also make Power expenditures on the behalf of the user. To do this you will need to create a `UsePowerAtOngoingGateway` struct, sign it, and submit it to the server. This would look like:
 
-```let user = UserModel().getUser()!
+```
+let user = UserModel().getUser()!
         let usePowerModel = UsePowerModel()
         let usePowerAtOngoingGateway = UsePowerAtOngoingGateway(totalPower: 300, partnerName: "whirl-five-cool", gatewayName: gatewayName, userId: user.userId, publicKey: Crypto().getKeys()!.publicKey, ordinal: user.powerOrdinal + 1)
         let usePowerAtOngoingGatewayWithSignature = usePowerModel.addSignatureToUsePowerAtOngoingGatewayObject(object: usePowerAtOngoingGateway, signature: Crypto().signMessage(message: usePowerAtOngoingGateway.toString()))
@@ -127,7 +144,8 @@ You can also make Power expenditures on the behalf of the user. To do this you w
                 return
             }
             print(String(data: resp!, encoding: .utf8))
-        }```
+        }
+```
 
 Remember to be responsible with other users' Power, if you spend it when you shouldn't they'll revoke their connection and your reputation will suffer. 
 
