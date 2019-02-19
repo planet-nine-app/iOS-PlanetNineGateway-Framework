@@ -14,6 +14,10 @@ public class PlanetNineGateway {
     var bleOneTime: OneTimeBLEGateway?
     var ongoing: OngoingGateway?
     
+    public init() {
+        
+    }
+    
     public func oneTimeGateway(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
         oneTime = OneTimeGateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
     }
