@@ -54,7 +54,7 @@ class BLETwoWayPeripheral: NSObject, CBPeripheralManagerDelegate {
         case .poweredOff:
             print("Off")
         case .poweredOn:
-            print("powered on")
+            print("peripheral powered on")
             createServicesAndStartAdvertising()
         case .resetting:
             print("Resetting")
@@ -107,7 +107,7 @@ class BLETwoWayPeripheral: NSObject, CBPeripheralManagerDelegate {
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
-        print("Got a subscription")
+        print("Got a notification subscription")
     }
     
     func notifySubscribedCentral(update: String, central: CBCentral) {

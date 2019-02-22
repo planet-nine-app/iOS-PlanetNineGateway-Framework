@@ -32,6 +32,7 @@ class OneTimeBLEGateway: OneTimeGateway {
     }
     
     func writeCallback(value: String, central: CBCentral) {
+        print("Calling write callback")
         guard let gatewayResponse = GatewayModel().getGatewayResponseFromJSON(jsonString: value) else {
             return
         }
