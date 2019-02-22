@@ -23,6 +23,7 @@ class OneTimeBLEGateway: OneTimeGateway {
     }
     
     func readCallback(characteristic: CBCharacteristic) -> String {
+        print("Calling read callback")
         if characteristic.uuid == bleCharacteristics().read {
             print(gateway.toString())
             return gateway.toString()

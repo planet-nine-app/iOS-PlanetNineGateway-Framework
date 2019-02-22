@@ -88,6 +88,7 @@ class BLETwoWayPeripheral: NSObject, CBPeripheralManagerDelegate {
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+        print("Did receive read request")
         let responseString = readCallback!(request.characteristic)
         print(responseString)
         let response = responseString.data(using: .utf8)
