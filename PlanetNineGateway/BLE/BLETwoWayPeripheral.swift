@@ -91,6 +91,7 @@ class BLETwoWayPeripheral: NSObject, CBPeripheralManagerDelegate {
         print("Did receive read request")
         let responseString = readCallback!(request.characteristic)
         print(responseString)
+        print(responseString.count)
         let response = responseString.data(using: .utf8)
         request.value = response!
         peripheral.respond(to: request, withResult: .success)

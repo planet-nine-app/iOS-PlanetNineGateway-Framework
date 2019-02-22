@@ -101,4 +101,17 @@ public class PlanetNineUser {
         pnUser.currentPower = currentUser.currentPower
         return pnUser
     }
+    
+    public class func getPNUserFromJSONData(jsonData: Data) -> PNUser? {
+        var decodedPNUser = PNUser()
+        do {
+            decodedPNUser = try JSONDecoder().decode(PNUser.self, from: jsonData)
+        } catch {
+            return nil
+        }
+        if decodedPNUser.userId == 0 {
+            return nil
+        }
+        return decodedPNUser
+    }
 }
