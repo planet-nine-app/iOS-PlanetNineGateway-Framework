@@ -16,6 +16,10 @@ class OneTimeBLEGateway: OneTimeGateway {
     init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, networkCallback: @escaping (Error?, Data?) -> Void) {
         self.networkCallback = networkCallback
         super.init(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
+        if gateway.toString().count > 182 {
+            print("Your gateway is too big and won't work with BLE")
+            print("Future versions will slim down the gateway payload")
+        }
     }
     
     func createTwoWayPeripheral() {
