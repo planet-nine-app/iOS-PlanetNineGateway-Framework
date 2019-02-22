@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 import SystemConfiguration
 
-enum NetworkErrors: Error {
+public enum NetworkErrors: Error {
     case couldNotReachNetwork
     case authenticationError
     case noData
+    case unknownError
 }
 
 class Network: NSObject {

@@ -87,4 +87,18 @@ public class PlanetNineUser {
             self.user = UserModel().getUserFromJSONData(userData: jsonData)
         }
     }
+    
+    class func getPNUserForUser(currentUser: User) -> PNUser {
+        var pnUser = PNUser()
+        pnUser.userId = currentUser.userId
+        pnUser.name = currentUser.name
+        pnUser.powerOrdinal = currentUser.powerOrdinal
+        pnUser.lastPowerUsed = currentUser.lastPowerUsed
+        pnUser.powerRegenerationRate = currentUser.powerRegenerationRate
+        pnUser.globalRegenerationRate = currentUser.globalRegenerationRate
+        pnUser.publicKey = currentUser.publicKey
+        pnUser.nineum = currentUser.nineum
+        pnUser.currentPower = currentUser.currentPower
+        return pnUser
+    }
 }

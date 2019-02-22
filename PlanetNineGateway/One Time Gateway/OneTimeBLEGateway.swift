@@ -11,10 +11,10 @@ import CoreBluetooth
 
 class OneTimeBLEGateway: OneTimeGateway {
     var twoWayPeripheral: BLETwoWayPeripheral?
-    let successCallback: (String) -> Void
+    let networkCallback: (Error?, Data?) -> Void
     
-    init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, successCallback: @escaping (String) -> Void) {
-        self.successCallback = successCallback
+    init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, networkCallback: @escaping (Error?, Data?) -> Void) {
+        self.networkCallback = networkCallback
         super.init(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
     }
     
@@ -40,15 +40,22 @@ class OneTimeBLEGateway: OneTimeGateway {
         }
         let path = "/user/userId/\(gatewayResponse.userId)/power/gateway/\(urlEncodedGatewayName)"
         let jsonData = Utils().encodableToJSONData(gatewayUsePowerObject)
+        print(path)
+        print(gatewayUsePowerObject)
         Network().put(body: jsonData, path: path) { error, resp in
             if error != nil {
-                //TODO: What happens here?
+                self.networkCallback(error, resp)
                 print("You got an error on your put")
-                //print(error)
                 return
             }
             print("Calling successCallback")
-            self.successCallback(gatewayResponse.username)
+            guard let userData = resp else {
+                self.networkCallback(error, resp)
+                return
+            }
+            let user = UserModel().getUserFromJSONData(userData: userData)!
+            let pnUser = PlanetNineUser.getPNUserForUser(currentUser: user)
+            self.networkCallback(error, Utils().encodableToJSONData(pnUser))
             self.twoWayPeripheral!.notifySubscribedCentral(update: "power use success!", central: central)
         }
     }
