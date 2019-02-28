@@ -26,7 +26,12 @@ class OngoingGateway {
         }
         let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)"
         if let link = URL(string: urlString) {
-            UIApplication.shared.open(link)
+            if UIApplication.shared.canOpenURL(link) {
+                UIApplication.shared.open(link)
+            } else {
+                //TODO: Add link to app store
+                print("Could not open Planet Nine app here is where you would put link to app store")
+            }
         }
     }
     

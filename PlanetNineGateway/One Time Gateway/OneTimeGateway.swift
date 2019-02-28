@@ -47,7 +47,12 @@ class OneTimeGateway {
         let urlString = "planetnine://gateway/details?gatewayname=\(urlEncodedGatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(urlEncodedPartnerDisplayName)&description=\(urlEncodedDescription)"
         print("trying to open \(urlString)")
         if let link = URL(string: urlString) {
-            UIApplication.shared.open(link)
+            if UIApplication.shared.canOpenURL(link) {
+                 UIApplication.shared.open(link)
+            } else {
+                //TODO: Add link to app store
+                print("Could not open Planet Nine app here is where you would put link to app store")
+            }
         } else {
             print("Could not open urlString")
         }
