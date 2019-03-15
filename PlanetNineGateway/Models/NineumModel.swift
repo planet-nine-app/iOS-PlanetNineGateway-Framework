@@ -96,6 +96,7 @@ public struct Nineum {
     public let shape: Shapes
     public let year: Years
     public let ordinal: Int
+    public let hexString: String
 }
 
 public class NineumModel {
@@ -165,7 +166,7 @@ public class NineumModel {
         let ordinalRange = ordinalStart..<ordinalEnd
         let ordinal = getOrdinalFromHexString(hexString: String(hexString[ordinalRange]))
         
-        let nineum = Nineum(universe: universe, address: address, charge: charge, direction: direction, rarity: rarity, size: size, texture: texture, shape: shape, year: year, ordinal: ordinal)
+        let nineum = Nineum(universe: universe, address: address, charge: charge, direction: direction, rarity: rarity, size: size, texture: texture, shape: shape, year: year, ordinal: ordinal, hexString: hexString)
         
         return nineum
     }
