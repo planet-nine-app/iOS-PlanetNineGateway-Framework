@@ -63,7 +63,4 @@ public class PlanetNineGateway {
         gateway.askForOngoingGatewayUsage()
     }
     
-    public func refreshUser(userId: Int, gatewayName: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        network.getUserById(userId: userId, gatewayName: gatewayName, signature: signature, callback: callback)
-    }
 }
