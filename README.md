@@ -143,6 +143,7 @@ Once you check if success is true you can then get the Planet Nine user object b
 ```swift
 let signature = Crypto().signMessage(message: gatewayName)
 let planetNineUser = PlanetNineUser(userId: Int(userId)!, gatewayName: gatewayName, signature: signature) { pnUser in
+    // Save the PNUser here
     UserModel().saveUser(user: pnUser)
 }
 ```
