@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name             = 'PlanetNineGateway'
-  s.version          = '0.0.13'
+  s.version          = '0.0.14'
   s.summary          = 'The Planet Nine Gateway Framework'
  
   s.description      = <<-DESC
@@ -18,6 +18,6 @@ This contains everything you need to build one-time, one-time-ble, and ongoing g
   s.source_files = 'PlanetNineGateway/**/*'
   s.exclude_files = 'PlanetNineGateway/*.plist'
 
-  s.swift_version = '4.0'
+  s.swift_version = '5.0'
  
 end
