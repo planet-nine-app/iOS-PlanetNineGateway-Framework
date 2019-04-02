@@ -32,13 +32,15 @@ public struct UsePowerAtOngoingGateway: Codable {
     var userId: Int
     var publicKey: String
     var ordinal: Int
-    public init(totalPower: Int, partnerName: String, gatewayName: String, userId: Int, publicKey: String, ordinal: Int) {
+    var description: String
+    public init(totalPower: Int, partnerName: String, gatewayName: String, userId: Int, publicKey: String, ordinal: Int, description: String) {
         self.totalPower = totalPower
         self.partnerName = partnerName
         self.gatewayName = gatewayName
         self.userId = userId
         self.publicKey = publicKey
         self.ordinal = ordinal
+        self.description = description
     }
     public func toString() -> String {
         return "{\"totalPower\":\(totalPower),\"partnerName\":\"\(partnerName)\",\"gatewayName\":\"\(gatewayName)\",\"userId\":\(userId),\"publicKey\":\"\(publicKey)\",\"ordinal\":\(ordinal)}"
@@ -52,7 +54,7 @@ public struct UsePowerAtOngoingGatewayWithSignature: Codable {
     let userId: Int
     let publicKey: String
     let ordinal: Int
-    let description = "Using Power in the ongoing test app"
+    let description: String
     let signature: String
 }
 
@@ -68,7 +70,7 @@ public class UsePowerModel {
     }
     
     public func addSignatureToUsePowerAtOngoingGatewayObject(object: UsePowerAtOngoingGateway, signature: String) -> UsePowerAtOngoingGatewayWithSignature {
-        let objectWithSignature = UsePowerAtOngoingGatewayWithSignature(totalPower: object.totalPower, partnerName: object.partnerName, gatewayName: object.gatewayName, userId: object.userId, publicKey: object.publicKey, ordinal: object.ordinal, signature: signature)
+        let objectWithSignature = UsePowerAtOngoingGatewayWithSignature(totalPower: object.totalPower, partnerName: object.partnerName, gatewayName: object.gatewayName, userId: object.userId, publicKey: object.publicKey, ordinal: object.ordinal, description: object.description, signature: signature)
         return objectWithSignature
     }
     
