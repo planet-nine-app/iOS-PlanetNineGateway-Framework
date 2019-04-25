@@ -36,9 +36,9 @@ public class PlanetNineUser {
     var user: User?
     let gatewayName: String
     
-    public init(userId: Int, gatewayName: String, signature: String, callback: ((PNUser) -> Void)?) {
+    public init(userId: Int, gatewayName: String, timestamp: String, signature: String, callback: ((PNUser) -> Void)?) {
         self.gatewayName = gatewayName
-        Network().getUserById(userId: userId, gatewayName: gatewayName, signature: signature) { error, resp in
+        Network().getUserById(userId: userId, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
             if error != nil {
                 return
             }
@@ -72,12 +72,12 @@ public class PlanetNineUser {
         return pnUser
     }
     
-    public func refreshUser(signature: String) {
+    public func refreshUser(timestamp: String, signature: String) {
         guard let currentUser = user else {
             print("No user retrieved yet")
             return
         }
-        Network().getUserById(userId: currentUser.userId, gatewayName: gatewayName, signature: signature) { error, resp in
+        Network().getUserById(userId: currentUser.userId, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
             if error != nil {
                 return
             }
