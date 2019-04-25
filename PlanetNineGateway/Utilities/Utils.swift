@@ -25,4 +25,17 @@ extension String {
     func urlEncoded() -> String? {
         return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
     }
+    
+    func getTime() -> String {
+        let currentDate = NSDate()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        let date = dateFormatter.date(from: dateFormatter.string(from: currentDate as Date))
+        let nowDouble = date!.timeIntervalSince1970
+        print("TIME:")
+        print(nowDouble)
+        print("EMIT")
+        return String(Int(nowDouble * 1000.0))
+    }
 }

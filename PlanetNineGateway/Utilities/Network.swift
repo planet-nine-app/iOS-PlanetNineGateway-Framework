@@ -17,6 +17,14 @@ public enum NetworkErrors: Error {
     case unknownError
 }
 
+struct GetUserById: Codable {
+    var userId: Int
+    var timestamp: String
+    func toString() -> String {
+        return "{\"userId\":\(userId),\"timestamp\":\"\(timestamp)\"}"
+    }
+}
+
 class Network: NSObject {
     let baseURL = "https://www.plnet9.com"
     
@@ -103,8 +111,8 @@ class Network: NSObject {
         task.resume()
     }
     
-    func getUserById(userId: Int, gatewayName: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(userId)/gateway/\(gatewayName)/signature/\(signature)"
+    func getUserById(userId: Int, gatewayName: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/user/userId/\(userId)/gateway/\(gatewayName)/signature/\(signature)/timestamp/\(timestamp)"
         get(path: path, callback: callback)
     }
     
