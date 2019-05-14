@@ -51,8 +51,8 @@ public class PlanetNineGateway {
         gateway.createTwoWayPeripheral()
     }
     
-    public func ongoingGateway(gatewayName: String, publicKey: String, gatewayURL: String, signature: String) {
-        ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: publicKey, gatewayURL: gatewayURL, signature: signature)
+    public func ongoingGateway(gatewayName: String, publicKey: String, gatewayURL: String, timestamp: String, signature: String) {
+        ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: publicKey, gatewayURL: gatewayURL, timestamp: timestamp, signature: signature)
     }
     
     public func askForOngoingGatewayUsage() {
