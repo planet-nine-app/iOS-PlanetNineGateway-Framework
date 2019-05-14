@@ -25,6 +25,7 @@ class OngoingGateway {
             return
         }
         let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"
+        print(urlString)
         if let link = URL(string: urlString) {
             if UIApplication.shared.canOpenURL(link) {
                 UIApplication.shared.open(link)
