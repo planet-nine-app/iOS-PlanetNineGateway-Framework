@@ -13,8 +13,8 @@ class OngoingGateway {
     let gatewayKeyWithSignature: GatewayKeyWithSignature
     let gatewayURL: String
     
-    init(gatewayName: String, publicKey: String, gatewayURL: String, signature: String) {
-        gatewayKeyWithSignature = GatewayKeyWithSignature(gatewayName: gatewayName, publicKey: publicKey, signature: signature)
+    init(gatewayName: String, publicKey: String, gatewayURL: String, timestamp: String, signature: String) {
+        gatewayKeyWithSignature = GatewayKeyWithSignature(gatewayName: gatewayName, publicKey: publicKey, timestamp: timestamp, signature: signature)
         self.gatewayURL = gatewayURL
     }
     
@@ -24,7 +24,7 @@ class OngoingGateway {
             print("Gateway names must be url encodable")
             return
         }
-        let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)"
+        let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"
         if let link = URL(string: urlString) {
             if UIApplication.shared.canOpenURL(link) {
                 UIApplication.shared.open(link)
