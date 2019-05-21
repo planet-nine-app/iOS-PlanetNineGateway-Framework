@@ -12,6 +12,7 @@ import SystemConfiguration
 
 public enum NetworkErrors: Error {
     case couldNotReachNetwork
+    case pageNotFound
     case authenticationError
     case noData
     case unknownError
@@ -71,6 +72,10 @@ class Network: NSObject {
                     callback(NetworkErrors.authenticationError, data)
                     return
                 }
+                if httpResponse.statusCode == 404 {
+                    callback(NetworkErrors.pageNotFound, data)
+                    return
+                }
                 callback(NetworkErrors.couldNotReachNetwork, data)
                 return
             }
@@ -99,6 +104,10 @@ class Network: NSObject {
                     callback(NetworkErrors.authenticationError, data)
                     return
                 }
+                if httpResponse.statusCode == 404 {
+                    callback(NetworkErrors.pageNotFound, data)
+                    return
+                }
                 callback(NetworkErrors.couldNotReachNetwork, data)
                 return
             }
@@ -117,7 +126,7 @@ class Network: NSObject {
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)"
+        let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)/timestamp/\(powerUsageObject.timestamp)"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
         put(body: jsonData, path: path, callback: callback)
     }
