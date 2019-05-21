@@ -31,12 +31,12 @@ public class PlanetNineGateway {
         gateway.askForPowerUsage()
     }
     
-    public func submitPowerUsage(userId: Int, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+    public func submitPowerUsage(userId: Int, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
         guard let gateway = oneTime else {
             print("Must initialize oneTimeGateway before submitting power usage")
             return
         }
-        gateway.submitPowerUsage(userId: userId, signature: signature, callback: callback)
+        gateway.submitPowerUsage(userId: userId, signature: signature, timestamp: timestamp, callback: callback)
     }
     
     public func oneTimeBLEGateway(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, callback: @escaping (Error?, Data?) -> Void) {
