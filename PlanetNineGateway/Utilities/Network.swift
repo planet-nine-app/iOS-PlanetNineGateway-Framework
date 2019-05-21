@@ -126,7 +126,7 @@ class Network: NSObject {
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)/timestamp/\(powerUsageObject.timestamp)"
+        let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
         put(body: jsonData, path: path, callback: callback)
     }
