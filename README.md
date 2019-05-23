@@ -14,6 +14,9 @@ pod 'PlanetNineGateway'
 
 ## Usage
 
+### Enabling Deeplinking
+First to enable deeplinking with the Planet Nine app add the `LSApplicationQueriesSchemes` property to your info.plist and add `planetnine` to the array.
+
 ### One-Time Gateways
 A one-time gateway is the most basic way of interacting with the Planet Nine app. One-time gateways let users spend Power one time when prompted from your app. To start a one-time gateway import PlanetNineGateway and simply use:
 
