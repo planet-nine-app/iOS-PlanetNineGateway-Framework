@@ -125,7 +125,7 @@ let signature = Crypto().signMessage(message: gatewayKey.toString())
         
 let planetNineGateway = PlanetNineGateway()
 planetNineGateway.ongoingGateway(gatewayName: gatewayName, publicKey: keys.publicKey, gatewayURL: "ongoingtest://ongoing", signature: signature)
-ongoingGateway.askForOngoingGatewayUsage()
+planetNineGateway.askForOngoingGatewayUsage()
 ```
 
 Invoking `askForOngoingGatewayUsage` will open the Planet Nine app and prompt the user for their permission. Just like with the one-time gateway, we need to capture the response from the Planet Nine app. Again in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to handle the queryItems again:
