@@ -112,9 +112,9 @@ Once you've started the gateway, it handles all spending with it automatically s
 
 ### Ongoing Gateways
 
-An ongoing gateway is used when you want to utilize a user's information, typically their Nineum, and/or you want to make Power expenditures on their behalf. Once a user has connected their account to their app you'll see their user information and be able to perform Power transactions. A user can revoke this connection at any time so be sure to handle that situation in your app. 
+An ongoing gateway is used when you want to utilize a user's information, typically their Nineum, and/or you want to make Power expenditures on their behalf. Once a user has connected their account to your app you'll see their user information and be able to perform Power transactions. A user can revoke this connection at any time so be sure to handle that situation in your app. 
 
-In order to handle ongoing gateways, your app will have to implement cryptographic functions. This has repurcusions for storing information in your app and doing so is outside of scope for the Planet Nine Gateway framework. To learn more about the cryptography necessary for Planet Nine please check out here (TODO: provide link to cryptographic information). This README assumes that you've already implemented cryptography and that you have a `Crypto` class with a `signMessage` method which will provide the require cryptographic signatures, as well as a `getKeys` method which will supply you with your publicKey.
+In order to handle ongoing gateways, your app will have to implement cryptographic functions. This has repurcusions for storing information in your app and doing so is outside of scope for the Planet Nine Gateway framework. To learn more about the cryptography necessary for Planet Nine please check out here (TODO: provide link to cryptographic information). This README assumes that you've already implemented cryptography and that you have a `Crypto` class with a `signMessage` method which will provide the required cryptographic signatures, as well as a `getKeys` method which will supply you with your publicKey.
 
 Once you have your cryptography set up, to prompt the user for an ongoing gateway just:
 
@@ -131,6 +131,11 @@ ongoingGateway.askForOngoingGatewayUsage()
 Invoking `askForOngoingGatewayUsage` will open the Planet Nine app and prompt the user for their permission. Just like with the one-time gateway, we need to capture the response from the Planet Nine app. Again in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to handle the queryItems again:
 
 ```swift
+guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) else {
+            print("Invalid URL or path missing")
+            return false
+        }
+
 guard let success = components.queryItems![0].value else {
     print("Unsuccessful")
     return
