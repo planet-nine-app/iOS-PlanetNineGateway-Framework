@@ -37,8 +37,8 @@ struct GatewayUsePower: Codable {
 }
 
 public struct GatewayKey: Codable {
-    var gatewayName: String
-    var publicKey: String
+    public var gatewayName: String
+    public var publicKey: String
     let timestamp = "".getTime()
     func toString() -> String {
         return "{\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\"}"
@@ -53,7 +53,7 @@ struct GatewayKeyWithSignature: Codable {
 }
 
 public struct GatewayTimestampTuple {
-    let gatewayName: String
+    public let gatewayName: String
     let timestamp = "".getTime()
     func toString() -> String {
         return "{\"gatewayName\":\"\(gatewayName)\",\"timestamp\":\"\(timestamp)\"}"

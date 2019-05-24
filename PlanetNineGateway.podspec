@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name             = 'PlanetNineGateway'
-  s.version          = '0.0.23'
+  s.version          = '0.0.24'
   s.summary          = 'The Planet Nine Gateway Framework'
  
   s.description      = <<-DESC
