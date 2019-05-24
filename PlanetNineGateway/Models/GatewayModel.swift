@@ -44,7 +44,7 @@ public struct GatewayKey: Codable {
         self.gatewayName = gatewayName
         self.publicKey = publicKey
     }
-    func toString() -> String {
+    public func toString() -> String {
         return "{\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\"}"
     }
 }
@@ -62,7 +62,7 @@ public struct GatewayTimestampTuple {
     public init(gatewayName: String) {
         self.gatewayName = gatewayName
     }
-    func toString() -> String {
+    public func toString() -> String {
         return "{\"gatewayName\":\"\(gatewayName)\",\"timestamp\":\"\(timestamp)\"}"
     }
 }
