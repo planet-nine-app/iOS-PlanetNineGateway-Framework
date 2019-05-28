@@ -63,18 +63,9 @@ public class PlanetNineGateway {
         gateway.askForOngoingGatewayUsage()
     }
     
-/*let messageObject = {
- userId: payload.userId,
- sourceUserId: payload.sourceUserId,
- destinationUserId: payload.destinationUserId,
- nineumUniqueIds: payload.nineumUniqueIds,
- price: payload.price,
- currencyName: payload.currencyName,
- ordinal: payload.ordinal,
- timestamp: payload.timestamp
- };*/
-    
-    
+    public func getUserIdForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
+        Network().getUserIdForUsername(username: username, callback: callback)
+    }
     
     public func requestTransfer(gatewayName: String, transferRequest: TransferRequest, signature: String, callback: @escaping (Error?, Data?) -> Void) {
         let transferRequestWithSignature = TransferModel().addSignatureToTransferRequest(transferRequest: transferRequest, signature: signature)
