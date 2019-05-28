@@ -23,6 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		CA087A96221CBAD2006FF950 /* PlanetNineGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA087A95221CBAD2006FF950 /* PlanetNineGateway.swift */; };
+		CA183B92229DD1D6005ECB59 /* TransferModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA183B91229DD1D6005ECB59 /* TransferModel.swift */; };
 		CA8BCA5222011A0700D0C3BA /* PlanetNineGatewayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */; };
 		CA8BCA5422011A0700D0C3BA /* PlanetNineGateway.h in Headers */ = {isa = PBXBuildFile; fileRef = CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */; };
@@ -60,6 +61,7 @@
 		CA087A932217593F006FF950 /* PlanetNineGateway.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlanetNineGateway.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA087A942217593F006FF950 /* PlanetNineGatewayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlanetNineGatewayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA087A95221CBAD2006FF950 /* PlanetNineGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineGateway.swift; sourceTree = "<group>"; };
+		CA183B91229DD1D6005ECB59 /* TransferModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferModel.swift; sourceTree = "<group>"; };
 		CA8BCA4622011A0700D0C3BA /* PlanetNineGateway.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetNineGateway.h; sourceTree = "<group>"; };
 		CA8BCA4722011A0700D0C3BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA8BCA5122011A0700D0C3BA /* PlanetNineGatewayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineGatewayTests.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				CAA4499B2208FD9D000B7DF8 /* NineumModel.swift */,
 				CAA449F8220CD7A9000B7DF8 /* UsePowerModel.swift */,
 				CAA449FA220CD7B4000B7DF8 /* UserModel.swift */,
+				CA183B91229DD1D6005ECB59 /* TransferModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				CAA44A2A220F7841000B7DF8 /* PlanetNineUser.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
 				CA98A51E2203870200F8978E /* Utils.swift in Sources */,
+				CA183B92229DD1D6005ECB59 /* TransferModel.swift in Sources */,
 				CAA449FB220CD7B4000B7DF8 /* UserModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,0 +1,11 @@
+framework module PlanetNineGateway {
+  umbrella header "PlanetNineGateway.h"
+
+  export *
+  module * { export * }
+}
+
+module PlanetNineGateway.Swift {
+    header "PlanetNineGateway-Swift.h"
+    requires objc
+}
