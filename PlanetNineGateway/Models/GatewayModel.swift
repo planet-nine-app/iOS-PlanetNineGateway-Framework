@@ -45,7 +45,7 @@ public struct GatewayKey: Codable {
         self.publicKey = publicKey
     }
     public func toString() -> String {
-        return "{\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\"}"
+        return "{\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\",\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
