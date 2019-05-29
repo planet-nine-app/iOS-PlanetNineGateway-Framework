@@ -143,7 +143,7 @@ class Network: NSObject {
     }
     
     func requestTransfer(transferRequestWithSignature: TransferRequestWithSignature, gatewayName: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/useerId/\(transferRequestWithSignature.userId)/gateway/\(gatewayName)/transfer/request"
+        let path = "/user/userId/\(transferRequestWithSignature.userId)/gateway/\(gatewayName)/transfer/request"
         let jsonData = Utils().encodableToJSONData(transferRequestWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
