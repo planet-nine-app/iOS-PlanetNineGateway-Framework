@@ -40,13 +40,13 @@ struct TransferRequestWithSignature: Codable {
     let price: Int
     let currencyName: String
     let ordinal: Int
-    let timestamp = "".getTime()
+    let timestamp: String
     let signature: String
 }
 
 class TransferModel {
     func addSignatureToTransferRequest(transferRequest: TransferRequest, signature: String) -> TransferRequestWithSignature {
-        let transferRequestWithSignature = TransferRequestWithSignature(userId: transferRequest.userId, sourceUserId: transferRequest.sourceUserId, destinationUserId: transferRequest.destinationUserId, nineumUniqueIds: transferRequest.nineumUniqueIds, price: transferRequest.price, currencyName: transferRequest.currencyName, ordinal: transferRequest.ordinal, signature: signature)
+        let transferRequestWithSignature = TransferRequestWithSignature(userId: transferRequest.userId, sourceUserId: transferRequest.sourceUserId, destinationUserId: transferRequest.destinationUserId, nineumUniqueIds: transferRequest.nineumUniqueIds, price: transferRequest.price, currencyName: transferRequest.currencyName, ordinal: transferRequest.ordinal, timestamp: transferRequest.timestamp, signature: signature)
         return transferRequestWithSignature
     }
 }
