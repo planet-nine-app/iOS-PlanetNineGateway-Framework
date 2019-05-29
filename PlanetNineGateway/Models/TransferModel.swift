@@ -28,7 +28,7 @@ public struct TransferRequest: Codable {
         self.ordinal = ordinal
     }
     public func toString() -> String {
-        return "{\"userId\":\(userId),\"sourceUserId\":\(sourceUserId),\"destinationUsername\":\(destinationUserId),\"nineumUniqueIds\":\(nineumUniqueIds),\"price\":\(price),\"currencyName\":\"\(currencyName)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
+        return "{\"userId\":\(userId),\"sourceUserId\":\(sourceUserId),\"destinationUserId\":\(destinationUserId),\"nineumUniqueIds\":\(nineumUniqueIds),\"price\":\(price),\"currencyName\":\"\(currencyName)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
