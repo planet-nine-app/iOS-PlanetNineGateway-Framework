@@ -24,6 +24,7 @@ struct GatewayResponse: Codable {
     var userId: Int
     var username: String
     var signature: String
+    var timestamp: String
 }
 
 struct GatewayUsePower: Codable {
@@ -34,6 +35,7 @@ struct GatewayUsePower: Codable {
     var gatewayName: String
     var partnerDisplayName: String
     var description: String
+    var timestamp: String
 }
 
 public struct GatewayKey: Codable {
@@ -70,7 +72,7 @@ public struct GatewayTimestampTuple {
 class GatewayModel {
     func getGatewayResponseFromJSON(jsonString: String) -> GatewayResponse? {
         let jsonData = jsonString.data(using: .utf8)
-        var decodedGatewayResponse = GatewayResponse(userId: 0, username: "", signature: "")
+        var decodedGatewayResponse = GatewayResponse(userId: 0, username: "", signature: "", timestamp: "")
         do {
             decodedGatewayResponse = try JSONDecoder().decode(GatewayResponse.self, from: jsonData!)
         } catch {

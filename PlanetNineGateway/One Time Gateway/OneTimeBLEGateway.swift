@@ -40,7 +40,7 @@ class OneTimeBLEGateway: OneTimeGateway {
         guard let gatewayResponse = GatewayModel().getGatewayResponseFromJSON(jsonString: value) else {
             return
         }
-        let gatewayUsePowerObject = GatewayUsePower(totalPower: gateway.totalPower, partnerName: gateway.partnerName, userId: gatewayResponse.userId, signature: gatewayResponse.signature, gatewayName: gateway.gatewayName, partnerDisplayName: self.partnerDisplayName, description: self.description)
+        let gatewayUsePowerObject = GatewayUsePower(totalPower: gateway.totalPower, partnerName: gateway.partnerName, userId: gatewayResponse.userId, signature: gatewayResponse.signature, gatewayName: gateway.gatewayName, partnerDisplayName: self.partnerDisplayName, description: self.description, timestamp: gatewayResponse.timestamp)
         guard let urlEncodedGatewayName = gateway.gatewayName.urlEncoded() else {
             print("Gateway name's must be URL encodable")
             return
