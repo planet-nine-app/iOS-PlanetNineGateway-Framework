@@ -31,7 +31,9 @@ class OngoingGateway {
             if UIApplication.shared.canOpenURL(link) {
                 UIApplication.shared.open(link)
             } else {
-                //TODO: Add link to app store
+                if let appStoreLink = URL(string: "https://apps.apple.com/us/app/planet-nine/id1445951763") {
+                    UIApplication.shared.open(appStoreLink)
+                }
                 print("Could not open Planet Nine app here is where you would put link to app store")
             }
         }
