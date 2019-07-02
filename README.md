@@ -1,3 +1,13 @@
+# Notice About planetninekit.com
+
+www.planetninekit.com is currently under construction. Until it is up and running here are some helpful links.
+
+* For the PlanetNineGateway Cocoapod look no further than right here. Just scroll on down.
+
+* [For the game demo The Ballad of Lorbert](https://github.com/planet-nine-app/theballadoflorbert)
+
+* [For the web](https://github.com/planet-nine-app/web-power-gateway) 
+
 # Planet Nine Gateway
 
 Planet Nine Gateway lets you interact with the Planet Nine ecosystem on iOS. 
