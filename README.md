@@ -186,6 +186,26 @@ usePowerModel.usePowerAtOngoingGateway(gatewayObjectWithSignature: usePowerAtOng
 
 Remember to be responsible with other users' Power, if you spend it when you shouldn't they'll revoke their connection and your reputation will suffer. 
 
+### Transferring Nineum
+
+Transferring Nineum is a two-step process. First a request for a transfer is made, then a user must approve the transfer in the Planet Nine app. This is because third-parties are not given permission to exchange a user's Nineum. In order to request a user you will need the receiving user's userId. Since most of the time what is known is a user's name, we provide a call to get the userId:
+
+```swift
+pn.requestTransfer(gatewayName: "trade-your-nineum", transferRequest: transferRequest, signature: signature) { error, data in
+
+// Do work here
+
+}
+```
+
+Once you have the userId for the receiving user you can construct the transfer request object. 
+
+```swift
+let transferRequest = TransferRequest(userId: user.userId, destinationUserId: decodedUser.userId, nineumUniqueIds: nineumUniqueIds, price: 0, ordinal: user.powerOrdinal + 1)
+```
+
+This object also contains a timestamp for your request. Here userId and destinationUserId are the userIds of the sender and receiver. nineumUniqueIds is an array of 128-bit integers representing Nineum, price is any price associated with the transfer, and ordinal is the user's powerOrdinal incremented by one. You then sign this message and send it to the server using the `requestTransfer` method. 
+
 ## Conclusion
 
 Thank you for checking out the Planet Nine Gateway framework. Hopefully this README has been helpful. We look forward to seeing what you create!
