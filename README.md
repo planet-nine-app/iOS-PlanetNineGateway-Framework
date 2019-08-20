@@ -186,6 +186,33 @@ usePowerModel.usePowerAtOngoingGateway(gatewayObjectWithSignature: usePowerAtOng
 
 Remember to be responsible with other users' Power, if you spend it when you shouldn't they'll revoke their connection and your reputation will suffer. 
 
+### Nineum
+Once a user has connected their account you will be able to see their Nineum and use it in your game. Nineum has a variety of properties that you can make use of to do interesting stuff in your implementation. The Nineum struct has what those properties are:
+
+```swift
+public struct Nineum {
+    public let universe: Universes
+    public let address: Addresses
+    public let charge: Charges
+    public let direction: Directions
+    public let rarity: Rarities
+    public let size: Sizes
+    public let texture: Textures
+    public let shape: Shapes
+    public let year: Years
+    public let ordinal: Int
+    public let hexString: String
+}
+```
+
+For a breakdown of each property check out the [NineumModel file](https://github.com/planet-nine-app/iOS-PlanetNineGateway-Framework/blob/master/PlanetNineGateway/Models/NineumModel.swift). Nineum is represented by a 128-bit integer represented as a hex string, and a user's Nineum is an array of those hex strings. To get Nineum structs you would call
+
+```swift
+let nineumArray = NineumModel().getNineumArrayForNineumHexStrings(hexStrings: nineumHexStrings)
+```
+
+This will return an array of Nineum structs, which you can then use to check properties and organize as you see fit. 
+
 ### Transferring Nineum
 
 Transferring Nineum is a two-step process. First a request for a transfer is made, then a user must approve the transfer in the Planet Nine app. This is because third-parties are not given permission to exchange a user's Nineum. In order to request a user you will need the receiving user's userId. Since most of the time what is known is a user's name, we provide a call to get the userId:
