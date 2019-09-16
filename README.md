@@ -8,6 +8,8 @@ www.planetninekit.com is currently under construction. Until it is up and runnin
 
 * [For the web](https://github.com/planet-nine-app/web-power-gateway) 
 
+* [For Node](https://www.npmjs.com/package/planet-nine-gateway-framework)
+
 # Planet Nine Gateway
 
 Planet Nine Gateway lets you interact with the Planet Nine ecosystem on iOS. 
