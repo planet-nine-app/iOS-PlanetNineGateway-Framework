@@ -10,7 +10,7 @@ import Foundation
 
 class OngoingGateway {
     
-    let gatewayKeyWithSignature: GatewayKeyWithSignature
+    var gatewayKeyWithSignature: GatewayKeyWithSignature
     let gatewayURL: String
     
     init(gatewayName: String, publicKey: String, gatewayURL: String, timestamp: String, signature: String) {

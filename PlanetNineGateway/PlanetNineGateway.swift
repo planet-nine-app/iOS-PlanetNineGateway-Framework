@@ -11,7 +11,7 @@ import Foundation
 public class PlanetNineGateway {
     
     var oneTime: OneTimeGateway?
-    var bleOneTime: OneTimeBLEGateway?
+    var bleOneTime: BLEGateway?
     var ongoing: OngoingGateway?
     let network = Network()
     
@@ -37,6 +37,10 @@ public class PlanetNineGateway {
             return
         }
         gateway.submitPowerUsage(userId: userId, signature: signature, timestamp: timestamp, callback: callback)
+    }
+    
+    public func oneTimeBLEUserGateway(gatewayName: String, gatewayURL: String, callback: @escaping (Error?, Data?) -> Void) {
+        bleOneTime = OneTimeBLEUserGateway(gatewayName: gatewayName, gatewayURL: gatewayURL, callback: callback)
     }
     
     public func oneTimeBLEGateway(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String, callback: @escaping (Error?, Data?) -> Void) {

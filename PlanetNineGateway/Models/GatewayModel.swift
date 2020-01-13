@@ -8,6 +8,14 @@
 
 import Foundation
 
+struct UserGateway: Codable {
+    var gatewayName: String
+    var gatewayURL: String
+    func toString() -> String {
+        return "{\"gatewayName\":\"\(gatewayName)\",\"gatewayURL\":\"\(gatewayURL)\"}"
+    }
+}
+
 struct Gateway: Codable {
     var totalPower: Int
     var partnerName: String
@@ -85,7 +93,7 @@ class GatewayModel {
         }
         return decodedGatewayResponse
     }
-    
+        
     func addSignatureToGatewayKey(gatewayKeyObject: GatewayKey, signature: String) -> GatewayKeyWithSignature {
         let gatewayKeyObjectWithSignature = GatewayKeyWithSignature(gatewayName: gatewayKeyObject.gatewayName, publicKey: gatewayKeyObject.publicKey, timestamp: gatewayKeyObject.timestamp, signature: signature)
         return gatewayKeyObjectWithSignature

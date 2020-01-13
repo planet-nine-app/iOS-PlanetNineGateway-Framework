@@ -38,6 +38,8 @@
 		CAA449FB220CD7B4000B7DF8 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA449FA220CD7B4000B7DF8 /* UserModel.swift */; };
 		CAA44A1E220F5D9A000B7DF8 /* OngoingGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */; };
 		CAA44A2A220F7841000B7DF8 /* PlanetNineUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA44A29220F7841000B7DF8 /* PlanetNineUser.swift */; };
+		CADD8BDA23CC35CD00157F3C /* BLEGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADD8BD923CC35CD00157F3C /* BLEGateway.swift */; };
+		CADD8BDC23CC36FD00157F3C /* OneTimeBLEUserGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADD8BDB23CC36FD00157F3C /* OneTimeBLEUserGateway.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,8 @@
 		CAA449FA220CD7B4000B7DF8 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CAA44A1D220F5D9A000B7DF8 /* OngoingGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OngoingGateway.swift; sourceTree = "<group>"; };
 		CAA44A29220F7841000B7DF8 /* PlanetNineUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetNineUser.swift; sourceTree = "<group>"; };
+		CADD8BD923CC35CD00157F3C /* BLEGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEGateway.swift; sourceTree = "<group>"; };
+		CADD8BDB23CC36FD00157F3C /* OneTimeBLEUserGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeBLEUserGateway.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,7 @@
 			children = (
 				CAA449EA220B6B4A000B7DF8 /* BLETwoWayPeripheral.swift */,
 				CAA449EC220B6DA2000B7DF8 /* BLEUtils.swift */,
+				CADD8BD923CC35CD00157F3C /* BLEGateway.swift */,
 			);
 			path = BLE;
 			sourceTree = "<group>";
@@ -146,6 +151,7 @@
 			children = (
 				CA8BCA6022011A8500D0C3BA /* OneTimeGateway.swift */,
 				CAA449EE220B8CA7000B7DF8 /* OneTimeBLEGateway.swift */,
+				CADD8BDB23CC36FD00157F3C /* OneTimeBLEUserGateway.swift */,
 			);
 			path = "One Time Gateway";
 			sourceTree = "<group>";
@@ -324,8 +330,10 @@
 				CAA449E9220B6B01000B7DF8 /* GatewayModel.swift in Sources */,
 				CAA44A2A220F7841000B7DF8 /* PlanetNineUser.swift in Sources */,
 				CA8BCA6122011A8500D0C3BA /* OneTimeGateway.swift in Sources */,
+				CADD8BDC23CC36FD00157F3C /* OneTimeBLEUserGateway.swift in Sources */,
 				CA98A51E2203870200F8978E /* Utils.swift in Sources */,
 				CA183B92229DD1D6005ECB59 /* TransferModel.swift in Sources */,
+				CADD8BDA23CC35CD00157F3C /* BLEGateway.swift in Sources */,
 				CAA449FB220CD7B4000B7DF8 /* UserModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

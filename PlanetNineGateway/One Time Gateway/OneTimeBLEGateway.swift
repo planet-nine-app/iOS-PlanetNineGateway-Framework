@@ -9,7 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-class OneTimeBLEGateway: OneTimeGateway {
+class OneTimeBLEGateway: OneTimeGateway, BLEGateway {
     var twoWayPeripheral: BLETwoWayPeripheral?
     let networkCallback: (Error?, Data?) -> Void
     
