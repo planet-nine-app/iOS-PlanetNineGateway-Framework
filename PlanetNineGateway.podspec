@@ -13,7 +13,7 @@ This contains everything you need to build one-time, one-time-ble, and ongoing g
   s.author           = { 'Zach Babb' => 'zach@planetnine.app' }
   s.source           = { :git => 'https://github.com/planet-nine-app/iOS-PlanetNineGateway-Framework.git', :tag => s.version.to_s }
  
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '13.0'
   s.source_files = 'PlanetNineGateway/*'
   s.source_files = 'PlanetNineGateway/**/*'
   s.exclude_files = 'PlanetNineGateway/*.plist'

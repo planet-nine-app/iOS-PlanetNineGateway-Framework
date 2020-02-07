@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import UIKit
+import AuthenticationServices
 
-class OngoingGateway {
+class OngoingGateway: NSObject {
     
     var gatewayKeyWithSignature: GatewayKeyWithSignature
     let gatewayURL: String
@@ -28,15 +30,67 @@ class OngoingGateway {
         let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"
         print(urlString)
         if let link = URL(string: urlString) {
-            if UIApplication.shared.canOpenURL(link) {
+            //if UIApplication.shared.canOpenURL(link) {
+            if false {
                 UIApplication.shared.open(link)
             } else {
-                if let appStoreLink = URL(string: "https://apps.apple.com/us/app/planet-nine/id1445951763") {
+                /*if let appStoreLink = URL(string: "https://apps.apple.com/us/app/planet-nine/id1445951763") {
                     UIApplication.shared.open(appStoreLink)
                 }
-                print("Could not open Planet Nine app here is where you would put link to app store")
+                print("Could not open Planet Nine app here is where you would put link to app store")*/
+                guard let topViewController = PlanetNineGateway.topViewController() else { return }
+                let button = ASAuthorizationAppleIDButton()
+                button.addTarget(self, action: #selector(handleAuthorization), for: .touchUpInside)
+                topViewController.view.addSubview(button)
+                button.translatesAutoresizingMaskIntoConstraints = false
+                button.centerXAnchor.constraint(equalTo: topViewController.view.centerXAnchor).isActive = true
+                button.centerYAnchor.constraint(equalTo: topViewController.view.centerYAnchor).isActive = true
+                //handleAuthorization()
             }
         }
     }
     
+    @objc func handleAuthorization() {
+        print("Handling authorization")
+        let requestID = ASAuthorizationAppleIDProvider().createRequest()
+        // here request user name and email
+        requestID.requestedScopes = [.fullName, .email]
+        
+        print("Creating controller")
+        
+        let controller = ASAuthorizationController(authorizationRequests: [requestID])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        controller.performRequests()
+        print("controller performRequests")
+    }
+}
+
+extension OngoingGateway: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        print("There are \(UIApplication.shared.windows.count)")
+        return UIApplication.shared.windows[0]
+    }
+    
+    
+}
+
+extension OngoingGateway: ASAuthorizationControllerDelegate
+{
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // error
+    }
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization)
+    {
+        // success
+        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential
+        {
+            // after get user credential, you can check with your stored data for verification.
+            //let detailVC = DetailVC(cred: credential)
+            //self.present(detailVC, animated: true, completion: nil)
+            print("credential: \(credential)")
+        }
+    }
 }
