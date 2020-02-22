@@ -10,6 +10,7 @@ import Foundation
 
 struct User: Codable {
     var userId = 0
+    var userUUID = ""
     var name = "name"
     var locationId = 1
     var powerId = 1

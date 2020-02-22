@@ -19,5 +19,7 @@ This contains everything you need to build one-time, one-time-ble, and ongoing g
   s.exclude_files = 'PlanetNineGateway/*.plist'
 
   s.swift_version = '5.0'
+
+  s.dependency 'BraintreeDropIn'
  
 end

@@ -12,7 +12,7 @@ struct PowerUsage: Codable {
     let totalPower: Int
     let partnerName: String
     let gatewayName: String
-    let userId: Int
+    let userUUID: String
     let signature: String
     let partnerDisplayName: String
     let description: String
@@ -62,8 +62,8 @@ class OneTimeGateway {
         }
     }
     
-    func submitPowerUsage(userId: Int, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
-        let powerUsage = PowerUsage(totalPower: gateway.totalPower, partnerName: gateway.partnerName, gatewayName: gateway.gatewayName, userId: userId, signature: signature, partnerDisplayName: self.partnerDisplayName, description: self.description, timestamp: timestamp)
+    func submitPowerUsage(userUUID: String, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
+        let powerUsage = PowerUsage(totalPower: gateway.totalPower, partnerName: gateway.partnerName, gatewayName: gateway.gatewayName, userUUID: userUUID, signature: signature, partnerDisplayName: self.partnerDisplayName, description: self.description, timestamp: timestamp)
         Network().usePowerAtOneTimeGateway(powerUsageObject: powerUsage, callback: callback)
     }
 }

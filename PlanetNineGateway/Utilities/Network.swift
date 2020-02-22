@@ -18,11 +18,11 @@ public enum NetworkErrors: Error {
     case unknownError
 }
 
-struct GetUserById: Codable {
-    var userId: Int
+struct GetUserByUUID: Codable {
+    var userUUID: String
     var timestamp: String
     func toString() -> String {
-        return "{\"userId\":\(userId),\"timestamp\":\"\(timestamp)\"}"
+        return "{\"userUUID\":\(userUUID),\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
@@ -120,31 +120,36 @@ class Network: NSObject {
         task.resume()
     }
     
-    func getUserById(userId: Int, gatewayName: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(userId)/gateway/\(gatewayName)/signature/\(signature)/timestamp/\(timestamp)"
+    func getUserByUUID(userUUID: String, gatewayName: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/user/userUUID/\(userUUID)/gateway/\(gatewayName)/signature/\(signature)/timestamp/\(timestamp)"
         get(path: path, callback: callback)
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(powerUsageObject.userId)/power/gateway/\(powerUsageObject.gatewayName)"
+        let path = "/user/userUUID/\(powerUsageObject.userUUID)/power/gateway/\(powerUsageObject.gatewayName)"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
         put(body: jsonData, path: path, callback: callback)
     }
     
     func usePowerAtOngoingGateway(usePowerAtOngoingGatewayWithSignature: UsePowerAtOngoingGatewayWithSignature, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(usePowerAtOngoingGatewayWithSignature.userId)/power/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing"
+        let path = "/user/userUUID/\(usePowerAtOngoingGatewayWithSignature.userUUID)/power/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing"
         let jsonData = Utils().encodableToJSONData(usePowerAtOngoingGatewayWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
     
-    func getUserIdForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/name/\(username)/userId"
+    func getUserUUIDForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/user/name/\(username)/userUUID"
         get(path: path, callback: callback)
     }
     
     func requestTransfer(transferRequestWithSignature: TransferRequestWithSignature, gatewayName: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/userId/\(transferRequestWithSignature.userId)/gateway/\(gatewayName)/transfer/request"
+        let path = "/user/userUUID/\(transferRequestWithSignature.userUUID)/gateway/\(gatewayName)/transfer/request"
         let jsonData = Utils().encodableToJSONData(transferRequestWithSignature)
         put(body: jsonData, path: path, callback: callback)
+    }
+    
+    func clientToken(userGatewayTimestampTripleWithSignature: UserGatewayTimestampTripleWithSignature, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/demo/braintree/userUUID/\(userGatewayTimestampTripleWithSignature.userUUID)/gatewayName/\(userGatewayTimestampTripleWithSignature.gatewayName)/client-token/signature/\(userGatewayTimestampTripleWithSignature.signature)/timestamp/\(userGatewayTimestampTripleWithSignature.timestamp)"
+        get(path: path, callback: callback)
     }
 }

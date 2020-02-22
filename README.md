@@ -59,10 +59,10 @@ let planetNineGateway = PlanetNineGateway()
 planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
 ```
 
-Get the userId and signature from the queryItems of the URL:
+Get the userUUID and signature from the queryItems of the URL:
 
 ```swift
-let userId = Int(components.queryItems![0].value!)
+let userUUID = components.queryItems![0].value
 let signature = components.queryItems![1].value
 ```
 
@@ -71,7 +71,7 @@ And finally call `submitPowerUsage` on the gateway object with a callback that w
 ```swift
 let planetNineGateway = PlanetNineGateway()
 planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
-planetNineGateway.submitPowerUsage(userId: userId!, signature: signature!) { (error, resp) in
+planetNineGateway.submitPowerUsage(userUUID: userUUID, signature: signature!) { (error, resp) in
    guard let resp = resp else {
        print("You got an error")
        print(error)
@@ -152,8 +152,8 @@ guard let success = components.queryItems![0].value else {
     print("Unsuccessful")
     return
 }
-guard let userId = components.queryItems![1].value else {
-    print("No userId")
+guard let userUUID = components.queryItems![1].value else {
+    print("No userUUID")
     return
 }
 ```
@@ -162,7 +162,7 @@ Once you check if success is true you can then get the Planet Nine user object b
 
 ```swift
 let signature = Crypto().signMessage(message: gatewayName)
-let planetNineUser = PlanetNineUser(userId: Int(userId)!, gatewayName: gatewayName, signature: signature) { pnUser in
+let planetNineUser = PlanetNineUser(userUUID: userUUID, gatewayName: gatewayName, signature: signature) { pnUser in
     // Save the PNUser here
     UserModel().saveUser(user: pnUser)
 }
@@ -175,7 +175,7 @@ You can also make Power expenditures on the behalf of the user. To do this you w
 ```swift
 let user = UserModel().getUser()!
 let usePowerModel = UsePowerModel()
-let usePowerAtOngoingGateway = UsePowerAtOngoingGateway(totalPower: 300, partnerName: "whirl-five-cool", gatewayName: gatewayName, userId: user.userId, publicKey: Crypto().getKeys()!.publicKey, ordinal: user.powerOrdinal + 1)
+let usePowerAtOngoingGateway = UsePowerAtOngoingGateway(totalPower: 300, partnerName: "whirl-five-cool", gatewayName: gatewayName, userUUID: user.userUUID, publicKey: Crypto().getKeys()!.publicKey, ordinal: user.powerOrdinal + 1)
 let usePowerAtOngoingGatewayWithSignature = usePowerModel.addSignatureToUsePowerAtOngoingGatewayObject(object: usePowerAtOngoingGateway, signature: Crypto().signMessage(message: usePowerAtOngoingGateway.toString()))
 usePowerModel.usePowerAtOngoingGateway(gatewayObjectWithSignature: usePowerAtOngoingGatewayWithSignature) { error, resp in
    if error != nil {
@@ -217,7 +217,7 @@ This will return an array of Nineum structs, which you can then use to check pro
 
 ### Transferring Nineum
 
-Transferring Nineum is a two-step process. First a request for a transfer is made, then a user must approve the transfer in the Planet Nine app. This is because third-parties are not given permission to exchange a user's Nineum. In order to request a user you will need the receiving user's userId. Since most of the time what is known is a user's name, we provide a call to get the userId:
+Transferring Nineum is a two-step process. First a request for a transfer is made, then a user must approve the transfer in the Planet Nine app. This is because third-parties are not given permission to exchange a user's Nineum. In order to request a user you will need the receiving user's userUUID. Since most of the time what is known is a user's name, we provide a call to get the userUUID:
 
 ```swift
 pn.requestTransfer(gatewayName: "trade-your-nineum", transferRequest: transferRequest, signature: signature) { error, data in
@@ -227,13 +227,13 @@ pn.requestTransfer(gatewayName: "trade-your-nineum", transferRequest: transferRe
 }
 ```
 
-Once you have the userId for the receiving user you can construct the transfer request object. 
+Once you have the userUUID for the receiving user you can construct the transfer request object. 
 
 ```swift
-let transferRequest = TransferRequest(userId: user.userId, destinationUserId: decodedUser.userId, nineumUniqueIds: nineumUniqueIds, price: 0, ordinal: user.powerOrdinal + 1)
+let transferRequest = TransferRequest(userUUID: user.userUUID, destinationUserUUID: decodedUser.userUUID, nineumUniqueIds: nineumUniqueIds, price: 0, ordinal: user.powerOrdinal + 1)
 ```
 
-This object also contains a timestamp for your request. Here userId and destinationUserId are the userIds of the sender and receiver. nineumUniqueIds is an array of 128-bit integers representing Nineum, price is any price associated with the transfer, and ordinal is the user's powerOrdinal incremented by one. You then sign this message and send it to the server using the `requestTransfer` method. 
+This object also contains a timestamp for your request. Here userUUID and destinationUserUUID are the userUUIDs of the sender and receiver. nineumUniqueIds is an array of 128-bit integers representing Nineum, price is any price associated with the transfer, and ordinal is the user's powerOrdinal incremented by one. You then sign this message and send it to the server using the `requestTransfer` method. 
 
 ## Conclusion
 

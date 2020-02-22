@@ -9,7 +9,7 @@
 import Foundation
 
 public struct PNUser: Codable {
-    public var userId: Int
+    public var userUUID: String
     public var name: String
     public var powerOrdinal: Int
     public var lastPowerUsed: String
@@ -19,7 +19,7 @@ public struct PNUser: Codable {
     public var nineum: [String]
     public var currentPower: Int
     public init() {
-        userId = 0
+        userUUID = ""
         name = ""
         powerOrdinal = 0
         lastPowerUsed = ""
@@ -36,9 +36,9 @@ public class PlanetNineUser {
     var user: User?
     let gatewayName: String
     
-    public init(userId: Int, gatewayName: String, timestamp: String, signature: String, callback: ((PNUser) -> Void)?) {
+    public init(userUUID: String, gatewayName: String, timestamp: String, signature: String, callback: ((PNUser) -> Void)?) {
         self.gatewayName = gatewayName
-        Network().getUserById(userId: userId, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
+        Network().getUserByUUID(userUUID: userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
             if error != nil {
                 return
             }
@@ -60,7 +60,7 @@ public class PlanetNineUser {
             return nil
         }
         var pnUser = PNUser()
-        pnUser.userId = currentUser.userId
+        pnUser.userUUID = currentUser.userUUID
         pnUser.name = currentUser.name
         pnUser.powerOrdinal = currentUser.powerOrdinal
         pnUser.lastPowerUsed = currentUser.lastPowerUsed
@@ -77,7 +77,7 @@ public class PlanetNineUser {
             print("No user retrieved yet")
             return
         }
-        Network().getUserById(userId: currentUser.userId, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
+        Network().getUserByUUID(userUUID: currentUser.userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
             if error != nil {
                 return
             }
@@ -90,7 +90,7 @@ public class PlanetNineUser {
     
     class func getPNUserForUser(currentUser: User) -> PNUser {
         var pnUser = PNUser()
-        pnUser.userId = currentUser.userId
+        pnUser.userUUID = currentUser.userUUID
         pnUser.name = currentUser.name
         pnUser.powerOrdinal = currentUser.powerOrdinal
         pnUser.lastPowerUsed = currentUser.lastPowerUsed
@@ -109,7 +109,7 @@ public class PlanetNineUser {
         } catch {
             return nil
         }
-        if decodedPNUser.userId == 0 {
+        if decodedPNUser.userUUID == "" {
             return nil
         }
         return decodedPNUser

@@ -31,22 +31,22 @@ public struct UsePowerAtOngoingGateway: Codable {
     var totalPower: Int
     var partnerName: String
     var gatewayName: String
-    var userId: Int
+    var userUUID: String
     var publicKey: String
     var ordinal: Int
     var description: String
     let timestamp = "".getTime()
-    public init(totalPower: Int, partnerName: String, gatewayName: String, userId: Int, publicKey: String, ordinal: Int, description: String) {
+    public init(totalPower: Int, partnerName: String, gatewayName: String, userUUID: String, publicKey: String, ordinal: Int, description: String) {
         self.totalPower = totalPower
         self.partnerName = partnerName
         self.gatewayName = gatewayName
-        self.userId = userId
+        self.userUUID = userUUID
         self.publicKey = publicKey
         self.ordinal = ordinal
         self.description = description
     }
     public func toString() -> String {
-        return "{\"totalPower\":\(totalPower),\"partnerName\":\"\(partnerName)\",\"gatewayName\":\"\(gatewayName)\",\"userId\":\(userId),\"publicKey\":\"\(publicKey)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
+        return "{\"totalPower\":\(totalPower),\"partnerName\":\"\(partnerName)\",\"gatewayName\":\"\(gatewayName)\",\"userUUID\":\(userUUID),\"publicKey\":\"\(publicKey)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
@@ -54,7 +54,7 @@ public struct UsePowerAtOngoingGatewayWithSignature: Codable {
     let totalPower: Int
     let partnerName: String
     let gatewayName: String
-    let userId: Int
+    let userUUID: String
     let publicKey: String
     let ordinal: Int
     let description: String
@@ -74,7 +74,7 @@ public class UsePowerModel {
     }
     
     public func addSignatureToUsePowerAtOngoingGatewayObject(object: UsePowerAtOngoingGateway, signature: String) -> UsePowerAtOngoingGatewayWithSignature {
-        let objectWithSignature = UsePowerAtOngoingGatewayWithSignature(totalPower: object.totalPower, partnerName: object.partnerName, gatewayName: object.gatewayName, userId: object.userId, publicKey: object.publicKey, ordinal: object.ordinal, description: object.description, timestamp: object.timestamp, signature: signature)
+        let objectWithSignature = UsePowerAtOngoingGatewayWithSignature(totalPower: object.totalPower, partnerName: object.partnerName, gatewayName: object.gatewayName, userUUID: object.userUUID, publicKey: object.publicKey, ordinal: object.ordinal, description: object.description, timestamp: object.timestamp, signature: signature)
         return objectWithSignature
     }
     

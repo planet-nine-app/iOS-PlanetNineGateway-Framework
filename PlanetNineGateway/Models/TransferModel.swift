@@ -10,32 +10,32 @@ import Foundation
 
 
 public struct TransferRequest: Codable {
-    public let userId: Int
-    public let sourceUserId: Int
-    public let destinationUserId: Int
+    public let userUUID: String
+    public let sourceUserUUID: String
+    public let destinationUserUUID: String
     public let nineumUniqueIds: [String]
     public let price: Int
     public let currencyName: String
     public let ordinal: Int
     public let timestamp = "".getTime()
-    public init(userId: Int, destinationUserId: Int, nineumUniqueIds: [String], price: Int?, ordinal: Int) {
-        self.userId = userId
-        self.sourceUserId = userId
-        self.destinationUserId = destinationUserId
+    public init(userUUID: String, destinationUserUUID: String, nineumUniqueIds: [String], price: Int?, ordinal: Int) {
+        self.userUUID = userUUID
+        self.sourceUserUUID = userUUID
+        self.destinationUserUUID = destinationUserUUID
         self.nineumUniqueIds = nineumUniqueIds
         self.price = price ?? 0
         self.currencyName = "USD"
         self.ordinal = ordinal
     }
     public func toString() -> String {
-        return "{\"userId\":\(userId),\"sourceUserId\":\(sourceUserId),\"destinationUserId\":\(destinationUserId),\"nineumUniqueIds\":\(nineumUniqueIds),\"price\":\(price),\"currencyName\":\"\(currencyName)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
+        return "{\"userUUID\":\(userUUID),\"sourceUserUUID\":\(sourceUserUUID),\"destinationUserUUID\":\(destinationUserUUID),\"nineumUniqueIds\":\(nineumUniqueIds),\"price\":\(price),\"currencyName\":\"\(currencyName)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
 struct TransferRequestWithSignature: Codable {
-    let userId: Int
-    let sourceUserId: Int
-    let destinationUserId: Int
+    let userUUID: String
+    let sourceUserUUID: String
+    let destinationUserUUID: String
     let nineumUniqueIds: [String]
     let price: Int
     let currencyName: String
@@ -46,7 +46,7 @@ struct TransferRequestWithSignature: Codable {
 
 class TransferModel {
     func addSignatureToTransferRequest(transferRequest: TransferRequest, signature: String) -> TransferRequestWithSignature {
-        let transferRequestWithSignature = TransferRequestWithSignature(userId: transferRequest.userId, sourceUserId: transferRequest.sourceUserId, destinationUserId: transferRequest.destinationUserId, nineumUniqueIds: transferRequest.nineumUniqueIds, price: transferRequest.price, currencyName: transferRequest.currencyName, ordinal: transferRequest.ordinal, timestamp: transferRequest.timestamp, signature: signature)
+        let transferRequestWithSignature = TransferRequestWithSignature(userUUID: transferRequest.userUUID, sourceUserUUID: transferRequest.sourceUserUUID, destinationUserUUID: transferRequest.destinationUserUUID, nineumUniqueIds: transferRequest.nineumUniqueIds, price: transferRequest.price, currencyName: transferRequest.currencyName, ordinal: transferRequest.ordinal, timestamp: transferRequest.timestamp, signature: signature)
         return transferRequestWithSignature
     }
 }

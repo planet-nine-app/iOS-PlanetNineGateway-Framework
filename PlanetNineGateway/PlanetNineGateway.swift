@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Braintree
+import BraintreeDropIn
 
 public class PlanetNineGateway {
     
@@ -31,12 +33,12 @@ public class PlanetNineGateway {
         gateway.askForPowerUsage()
     }
     
-    public func submitPowerUsage(userId: Int, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
+    public func submitPowerUsage(userUUID: String, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
         guard let gateway = oneTime else {
             print("Must initialize oneTimeGateway before submitting power usage")
             return
         }
-        gateway.submitPowerUsage(userId: userId, signature: signature, timestamp: timestamp, callback: callback)
+        gateway.submitPowerUsage(userUUID: userUUID, signature: signature, timestamp: timestamp, callback: callback)
     }
     
     public func oneTimeBLEUserGateway(gatewayName: String, gatewayURL: String, callback: @escaping (Error?, Data?) -> Void) {
@@ -67,8 +69,8 @@ public class PlanetNineGateway {
         gateway.askForOngoingGatewayUsage()
     }
     
-    public func getUserIdForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
-        Network().getUserIdForUsername(username: username, callback: callback)
+    public func getUserUUIDForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
+        Network().getUserUUIDForUsername(username: username, callback: callback)
     }
     
     public func requestTransfer(gatewayName: String, transferRequest: TransferRequest, signature: String, callback: @escaping (Error?, Data?) -> Void) {
@@ -89,5 +91,42 @@ public class PlanetNineGateway {
             return topViewController(controller: presented)
         }
         return controller
+    }
+    
+    public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, signature: String, timestamp: String) {
+        
+        let userGatewayTimestampTripleWithSignature = UserGatewayTimestampTripleWithSignature(userUUID: userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature)
+        
+        Network().clientToken(userGatewayTimestampTripleWithSignature: userGatewayTimestampTripleWithSignature) { error, data in
+            if let error = error {
+                print("Error!!! \(error.localizedDescription)")
+                return
+            }
+            guard let data = data,
+                  let clientToken = String(data: data, encoding: .utf8)
+            else { return }
+            
+            DispatchQueue.main.async {
+                let request =  BTDropInRequest()
+                let dropIn = BTDropInController(authorization: clientToken, request: request)
+                { (controller, result, error) in
+                    if (error != nil) {
+                        print("ERROR")
+                    } else if (result?.isCancelled == true) {
+                        print("CANCELLED")
+                    } else if let result = result {
+                        // Use the BTDropInResult properties to update your UI
+                        // result.paymentOptionType
+                        // result.paymentMethod
+                        // result.paymentIcon
+                        // result.paymentDescription
+                    }
+                    controller.dismiss(animated: true, completion: nil)
+                }
+                presentingViewController.present(dropIn!, animated: true, completion: nil)
+            }
+        }
+        
+        
     }
 }
