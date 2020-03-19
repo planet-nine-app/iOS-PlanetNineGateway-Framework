@@ -76,6 +76,7 @@ class Network: NSObject {
                     callback(NetworkErrors.pageNotFound, data)
                     return
                 }
+                print("Received error with statusCode \(httpResponse.statusCode)")
                 callback(NetworkErrors.couldNotReachNetwork, data)
                 return
             }
@@ -151,5 +152,43 @@ class Network: NSObject {
     func clientToken(userGatewayTimestampTripleWithSignature: UserGatewayTimestampTripleWithSignature, callback: @escaping (Error?, Data?) -> Void) {
         let path = "/demo/braintree/userUUID/\(userGatewayTimestampTripleWithSignature.userUUID)/gatewayName/\(userGatewayTimestampTripleWithSignature.gatewayName)/client-token/signature/\(userGatewayTimestampTripleWithSignature.signature)/timestamp/\(userGatewayTimestampTripleWithSignature.timestamp)"
         get(path: path, callback: callback)
+    }
+    
+    func signinWithApple(gatewayKey: AppleSignInGatewayKeyWithSignature, callback: @escaping (Error?, PNUser?) -> Void) {
+        let path = "/applesso/signin"
+        let jsonData = Utils().encodableToJSONData(gatewayKey)
+        put(body: jsonData, path: path) { error, resp in
+            if error != nil {
+                callback(error, nil)
+            }
+            guard let jsonData = resp,
+                  let user = UserModel().getUserFromJSONData(userData: jsonData)
+            else { return }
+            
+            let pnUser = PlanetNineUser.getPNUserForUser(currentUser: user)
+            callback(nil, pnUser)
+        }
+    }
+    
+    func mintNineum(mintNineumRequestWithSignature: MintNineumRequestWithSignature, callback: @escaping (Error?, [String]?) -> Void) {
+        let path = "/partner/nineum/mint"
+        let jsonData = Utils().encodableToJSONData(mintNineumRequestWithSignature)
+        put(body: jsonData, path: path) { error, resp in
+            if error != nil {
+                callback(error, nil)
+            }
+            guard let jsonData = resp,
+                  let nineum = NineumModel().getNineumFromJSONData(jsonData: jsonData)
+            else { return }
+            
+            callback(nil, nineum)
+        }
+    }
+    
+    func approveTransfer(approveTransferWithSignature: ApproveTransferWithSignature, callback: @escaping (Error?, Data?) -> Void) {
+        ///user/userId/:userId/transfer/nineumTransactionId/:nineumTransactionId/approve'
+        let path = "/user/userId/\(approveTransferWithSignature.userId)/transfer/nineumTransactionId/\(approveTransferWithSignature.nineumTransactionId)/approve"
+        let jsonData = Utils().encodableToJSONData(approveTransferWithSignature)
+        put(body: jsonData, path: path, callback: callback)
     }
 }

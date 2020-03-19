@@ -97,6 +97,14 @@ public struct UserGatewayTimestampTripleWithSignature {
     public let signature: String
 }
 
+public struct AppleSignInGatewayKeyWithSignature: Codable {
+    var appName: String
+    var appleId: String
+    var appPublicKey: String
+    var timestamp: String
+    var signature: String
+}
+
 class GatewayModel {
     func getGatewayResponseFromJSON(jsonString: String) -> GatewayResponse? {
         let jsonData = jsonString.data(using: .utf8)

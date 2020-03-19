@@ -15,6 +15,7 @@ public enum Universes: String {
 
 public enum Addresses: String {
     case planetNine = "Planet Nine"
+    case demo = "Demo"
 }
 
 public enum Charges: String {
@@ -105,6 +106,17 @@ public class NineumModel {
         
     }
     
+    public func getNineumFromJSONData(jsonData: Data) -> [String]? {
+        var decodedNineum = [String]()
+        do {
+            decodedNineum = try JSONDecoder().decode([String].self, from: jsonData)
+        } catch {
+            return nil
+        }
+            
+        return decodedNineum
+    }
+    
     public func getNineumArrayForNineumHexStrings(hexStrings: [String]) -> [Nineum] {
         var nineumArray = [Nineum]()
         for hexString in hexStrings {
@@ -186,6 +198,8 @@ public class NineumModel {
         switch hexString {
         case "00000001":
             return .planetNine
+        case "00000002":
+            return .demo
         default:
             return .planetNine
         }

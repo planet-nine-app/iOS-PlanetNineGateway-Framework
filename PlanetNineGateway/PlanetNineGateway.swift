@@ -61,12 +61,17 @@ public class PlanetNineGateway {
         ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: publicKey, gatewayURL: gatewayURL, timestamp: timestamp, signature: signature)
     }
     
-    public func askForOngoingGatewayUsage() {
+    public func askForOngoingGatewayUsage(presentingViewController: UIViewController, callback: @escaping (String) -> Void) {
         guard let gateway = ongoing else {
             print("Must initialize ongoingGateway before asking for usage")
             return
         }
-        gateway.askForOngoingGatewayUsage()
+        gateway.askForOngoingGatewayUsage(presentingViewController: presentingViewController, callback: callback)
+    }
+    
+    public func signinWithApple(gatewayName: String, appleId: String, publicKey: String, timestamp: String, signature: String, callback: @escaping (Error?, PNUser?) -> Void) {
+        let signinWithAppleGatewayKeyWithSignature = AppleSignInGatewayKeyWithSignature(appName: gatewayName, appleId: appleId, appPublicKey: publicKey, timestamp: timestamp, signature: signature)
+        Network().signinWithApple(gatewayKey: signinWithAppleGatewayKeyWithSignature, callback: callback)
     }
     
     public func getUserUUIDForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
@@ -76,21 +81,6 @@ public class PlanetNineGateway {
     public func requestTransfer(gatewayName: String, transferRequest: TransferRequest, signature: String, callback: @escaping (Error?, Data?) -> Void) {
         let transferRequestWithSignature = TransferModel().addSignatureToTransferRequest(transferRequest: transferRequest, signature: signature)
         Network().requestTransfer(transferRequestWithSignature: transferRequestWithSignature, gatewayName: gatewayName, callback: callback)
-    }
-    
-    internal class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let navigationController = controller as? UINavigationController {
-            return topViewController(controller: navigationController.visibleViewController)
-        }
-        if let tabController = controller as? UITabBarController {
-            if let selected = tabController.selectedViewController {
-                return topViewController(controller: selected)
-            }
-        }
-        if let presented = controller?.presentedViewController {
-            return topViewController(controller: presented)
-        }
-        return controller
     }
     
     public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, signature: String, timestamp: String) {
@@ -128,5 +118,30 @@ public class PlanetNineGateway {
         }
         
         
+    }
+    
+    public func mintNineum(partnerUUID: String, flavors: [String], ordinal: Int, timestamp: String, signature: String, callback: @escaping (Error?, [String]?) -> Void) {
+        let mintNineumRequestWithSignature = MintNineumRequestWithSignature(partnerUUID: partnerUUID, flavors: flavors, ordinal: ordinal, timestamp: timestamp, signature: signature)
+        Network().mintNineum(mintNineumRequestWithSignature: mintNineumRequestWithSignature, callback: callback)
+    }
+    
+    public func approveTransfer(userId: Int, transferId: Int, ordinal: Int, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+        let approveTransferWithSignature = ApproveTransferWithSignature(userId: userId, nineumTransactionId: transferId, ordinal: ordinal, timestamp: timestamp, signature: signature)
+        Network().approveTransfer(approveTransferWithSignature: approveTransferWithSignature, callback: callback)
+    }
+    
+    internal class func topViewController(controller: UIViewController?) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
     }
 }

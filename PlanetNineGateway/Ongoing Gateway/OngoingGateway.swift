@@ -14,13 +14,14 @@ class OngoingGateway: NSObject {
     
     var gatewayKeyWithSignature: GatewayKeyWithSignature
     let gatewayURL: String
+    var appleSigninCallback: ((String) -> Void)?
     
     init(gatewayName: String, publicKey: String, gatewayURL: String, timestamp: String, signature: String) {
         gatewayKeyWithSignature = GatewayKeyWithSignature(gatewayName: gatewayName, publicKey: publicKey, timestamp: timestamp, signature: signature)
         self.gatewayURL = gatewayURL
     }
     
-    func askForOngoingGatewayUsage() {
+    func askForOngoingGatewayUsage(presentingViewController: UIViewController, callback: @escaping (String) -> Void) {
         print("Asking for ongoing Gateway usage")
         guard let urlEncodedGatewayName = gatewayKeyWithSignature.gatewayName.urlEncoded() else {
             print("Gateway names must be url encodable")
@@ -30,10 +31,14 @@ class OngoingGateway: NSObject {
         let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"
         print(urlString)
         if let link = URL(string: urlString) {
-            if UIApplication.shared.canOpenURL(link) {
+            //if UIApplication.shared.canOpenURL(link) {
+            if false {
                 UIApplication.shared.open(link)
             } else {
-                guard let topViewController = PlanetNineGateway.topViewController() else { return }
+                guard let topViewController = PlanetNineGateway.topViewController(controller: presentingViewController) else { return }
+                
+                appleSigninCallback = callback
+                
                 let button = ASAuthorizationAppleIDButton()
                 button.addTarget(self, action: #selector(handleAuthorization), for: .touchUpInside)
                 topViewController.view.addSubview(button)
@@ -47,7 +52,7 @@ class OngoingGateway: NSObject {
     @objc func handleAuthorization() {
         let requestID = ASAuthorizationAppleIDProvider().createRequest()
         // here request user name and email
-        requestID.requestedScopes = [.email]
+        requestID.requestedScopes = []
                 
         let controller = ASAuthorizationController(authorizationRequests: [requestID])
         controller.delegate = self
@@ -81,6 +86,9 @@ extension OngoingGateway: ASAuthorizationControllerDelegate
             //let detailVC = DetailVC(cred: credential)
             //self.present(detailVC, animated: true, completion: nil)
             print("credential: \(credential)")
+            print("user: \(credential.user)")
+            print("identity token: \(String(data: credential.identityToken!, encoding: .utf8))")
+            appleSigninCallback?(credential.user)
         }
     }
 }

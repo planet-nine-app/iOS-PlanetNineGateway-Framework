@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   
   s.name             = 'PlanetNineGateway'
-  s.version          = '0.0.35'
+  s.version          = '0.0.36'
   s.summary          = 'The Planet Nine Gateway Framework'
  
   s.description      = <<-DESC
@@ -21,5 +21,8 @@ This contains everything you need to build one-time, one-time-ble, and ongoing g
   s.swift_version = '5.0'
 
   s.dependency 'BraintreeDropIn'
+  s.dependency 'Valet'
+  s.dependency 'secp256k1.swift'
+  s.dependency 'CryptoSwift'
  
 end
