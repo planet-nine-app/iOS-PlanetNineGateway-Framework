@@ -83,7 +83,7 @@ public class PlanetNineGateway {
         Network().requestTransfer(transferRequestWithSignature: transferRequestWithSignature, gatewayName: gatewayName, callback: callback)
     }
     
-    public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, signature: String, timestamp: String) {
+    public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, signature: String, timestamp: String, callback: @escaping (Error?, Bool?) -> Void) {
         
         let userGatewayTimestampTripleWithSignature = UserGatewayTimestampTripleWithSignature(userUUID: userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature)
         
@@ -102,6 +102,7 @@ public class PlanetNineGateway {
                 { (controller, result, error) in
                     if (error != nil) {
                         print("ERROR")
+                        callback(error, nil)
                     } else if (result?.isCancelled == true) {
                         print("CANCELLED")
                     } else if let result = result {
@@ -110,6 +111,7 @@ public class PlanetNineGateway {
                         // result.paymentMethod
                         // result.paymentIcon
                         // result.paymentDescription
+                        callback(nil, true)
                     }
                     controller.dismiss(animated: true, completion: nil)
                 }
