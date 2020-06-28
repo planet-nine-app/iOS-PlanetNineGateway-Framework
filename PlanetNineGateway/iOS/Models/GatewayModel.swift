@@ -97,6 +97,23 @@ public struct UserGatewayTimestampTripleWithSignature {
     public let signature: String
 }
 
+public struct AppleSignInGatewayKey: Codable {
+    var appleId: String
+    var appPublicKey: String
+    let timestamp = "".getTime()
+    
+    public init(appleId: String, appPublicKey: String) {
+        self.appleId = appleId
+        self.appPublicKey = appPublicKey
+    }
+    
+    func toString() -> String {
+        return """
+        {"appleId":"\(appleId)","appPublicKey":"\(appPublicKey)","timestamp":"\(timestamp)"}
+        """
+    }
+}
+
 public struct AppleSignInGatewayKeyWithSignature: Codable {
     var appName: String
     var appleId: String

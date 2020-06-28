@@ -78,7 +78,12 @@ public class UsePowerModel {
         return objectWithSignature
     }
     
-    public func usePowerAtOngoingGateway(gatewayObjectWithSignature: UsePowerAtOngoingGatewayWithSignature, callback: ((Error?, Data?) -> Void)?) {
+    public func usePowerAtOngoingGateway(gatewayObject: UsePowerAtOngoingGateway, callback: ((Error?, Data?) -> Void)?) {
+        
+        guard let signature = Crypto().signMessage(message: gatewayObject.toString()) else { return }
+        
+        let gatewayObjectWithSignature = addSignatureToUsePowerAtOngoingGatewayObject(object: gatewayObject, signature: signature)
+        
         var callbackToUse: ((Error?, Data?) -> Void) = { error, resp in }
         if callback != nil {
             callbackToUse = callback!

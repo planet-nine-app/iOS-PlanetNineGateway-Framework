@@ -14,15 +14,17 @@ This contains everything you need to build one-time, one-time-ble, and ongoing g
   s.source           = { :git => 'https://github.com/planet-nine-app/iOS-PlanetNineGateway-Framework.git', :tag => s.version.to_s }
  
   s.ios.deployment_target = '13.0'
-  s.source_files = 'PlanetNineGateway/*'
-  s.source_files = 'PlanetNineGateway/**/*'
+  s.tvos.deployment_target = '13.4'
+  s.source_files = 'PlanetNineGateway/Common/**/*'
+  s.ios.source_files = 'PlanetNineGateway/iOS/**/*'
+  s.tvos.source_files = 'PlanetNineGateway/tvOS/*'
   s.exclude_files = 'PlanetNineGateway/*.plist'
 
   s.swift_version = '5.0'
 
-  s.dependency 'BraintreeDropIn', '~> 8.0.0'
-  s.dependency 'Valet', '~> 3.2.8'
-  s.dependency 'secp256k1.swift', '~> 0.1.4'
-  s.dependency 'CryptoSwift', '~> 1.3.0'
+  s.ios.dependency 'BraintreeDropIn', '~> 8.0.0'
+  s.ios.dependency 'Valet', '~> 3.2.8'
+  s.ios.dependency 'secp256k1.swift', '~> 0.1.4'
+  s.ios.dependency 'CryptoSwift', '~> 1.3.0'
  
 end

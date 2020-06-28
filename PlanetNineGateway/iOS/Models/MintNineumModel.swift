@@ -7,6 +7,27 @@
 
 import Foundation
 
+public struct MintNineumRequest: Codable {
+    let partnerUUID: String
+    let flavors: [String]
+    let ordinal: Int
+    let timestamp = "".getTime()
+    func toString() -> String {
+        var flavorString = ""
+        flavors.forEach { flavor in
+            flavorString += "\""
+            flavorString += flavor
+            flavorString += "\""
+            flavorString += ","
+        }
+        flavorString.popLast()
+        
+        return """
+        {"partnerUUID":"\(partnerUUID)","flavors":[\(flavorString)],"ordinal":\(ordinal),"timestamp":"\(timestamp)"}
+        """
+    }
+}
+
 internal struct MintNineumRequestWithSignature: Codable {
     let partnerUUID: String
     let flavors: [String]
@@ -31,4 +52,12 @@ public struct ApproveTransferWithSignature: Codable {
     let ordinal: Int
     let timestamp: String
     let signature: String
+}
+
+public struct NineumTransferId: Codable {
+    public var nineumTransactionId: Int = 0
+    
+    public init() {
+        
+    }
 }

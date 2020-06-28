@@ -16,6 +16,20 @@ public class PlanetNineGateway {
     var bleOneTime: BLEGateway?
     var ongoing: OngoingGateway?
     let network = Network()
+    let crypto = Crypto()
+    
+    public static func initialize() {
+        let crypto = Crypto()
+        if crypto.getKeys() == nil {
+            DispatchQueue.global(qos: .background).async {
+                print("Generating keys \("".getTime())")
+                crypto.generateKeys(seedPhrase: crypto.generateSeedPhrase())
+                print("Generated keys \("".getTime())")
+            }
+        } else {
+            print("Key s have been generated")
+        }
+    }
     
     public init() {
         
@@ -33,7 +47,7 @@ public class PlanetNineGateway {
         gateway.askForPowerUsage()
     }
     
-    public func submitPowerUsage(userUUID: String, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
+    public func submitPowerUsage(userUUID: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
         guard let gateway = oneTime else {
             print("Must initialize oneTimeGateway before submitting power usage")
             return
@@ -57,8 +71,13 @@ public class PlanetNineGateway {
         gateway.createTwoWayPeripheral()
     }
     
-    public func ongoingGateway(gatewayName: String, publicKey: String, gatewayURL: String, timestamp: String, signature: String) {
-        ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: publicKey, gatewayURL: gatewayURL, timestamp: timestamp, signature: signature)
+    public func ongoingGateway(gatewayName: String, publicKey: String, gatewayURL: String) {
+        
+        let gatewayKey = GatewayKey(gatewayName: gatewayName, publicKey: publicKey)
+        
+        guard let signature = crypto.signMessage(message: gatewayKey.toString()) else { return }
+        
+        ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: publicKey, gatewayURL: gatewayURL, timestamp: gatewayKey.timestamp, signature: signature)
     }
     
     public func askForOngoingGatewayUsage(presentingViewController: UIViewController, callback: @escaping (String) -> Void) {
@@ -69,8 +88,13 @@ public class PlanetNineGateway {
         gateway.askForOngoingGatewayUsage(presentingViewController: presentingViewController, callback: callback)
     }
     
-    public func signinWithApple(gatewayName: String, appleId: String, publicKey: String, timestamp: String, signature: String, callback: @escaping (Error?, PNUser?) -> Void) {
-        let signinWithAppleGatewayKeyWithSignature = AppleSignInGatewayKeyWithSignature(appName: gatewayName, appleId: appleId, appPublicKey: publicKey, timestamp: timestamp, signature: signature)
+    public func signinWithApple(gatewayName: String, appleId: String, publicKey: String, callback: @escaping (Error?, PNUser?) -> Void) {
+        
+        let appleSigninGatewayKey = AppleSignInGatewayKey(appleId: appleId, appPublicKey: publicKey)
+        
+        guard let signature = crypto.signMessage(message: appleSigninGatewayKey.toString()) else { return }
+        
+        let signinWithAppleGatewayKeyWithSignature = AppleSignInGatewayKeyWithSignature(appName: gatewayName, appleId: appleId, appPublicKey: publicKey, timestamp: appleSigninGatewayKey.timestamp, signature: signature)
         Network().signinWithApple(gatewayKey: signinWithAppleGatewayKeyWithSignature, callback: callback)
     }
     
@@ -78,14 +102,22 @@ public class PlanetNineGateway {
         Network().getUserUUIDForUsername(username: username, callback: callback)
     }
     
-    public func requestTransfer(gatewayName: String, transferRequest: TransferRequest, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        let transferRequestWithSignature = TransferModel().addSignatureToTransferRequest(transferRequest: transferRequest, signature: signature)
-        Network().requestTransfer(transferRequestWithSignature: transferRequestWithSignature, gatewayName: gatewayName, callback: callback)
+    public func requestTransfer(gatewayName: String, transferRequest: TransferRequest, callback: @escaping (Error?, Data?) -> Void) {
+        // TODO: Update this to be better
+        
+        /*let transferRequestWithSignature = TransferModel().addSignatureToTransferRequest(transferRequest: transferRequest, signature: signature)
+        Network().requestTransfer(transferRequestWithSignature: transferRequestWithSignature, gatewayName: gatewayName, callback: callback)*/
+        
+        
     }
     
-    public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, signature: String, timestamp: String, callback: @escaping (Error?, Bool?) -> Void) {
+    public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, callback: @escaping (Error?, Bool?) -> Void) {
         
-        let userGatewayTimestampTripleWithSignature = UserGatewayTimestampTripleWithSignature(userUUID: userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature)
+        let userGatewayTimestampTriple = UserGatewayTimestampTriple(userUUID: userUUID, gatewayName: gatewayName)
+        
+        guard let signature = crypto.signMessage(message: userGatewayTimestampTriple.toString()) else { return }
+        
+        let userGatewayTimestampTripleWithSignature = UserGatewayTimestampTripleWithSignature(userUUID: userGatewayTimestampTriple.userUUID, gatewayName: userGatewayTimestampTriple.gatewayName, timestamp: userGatewayTimestampTriple.timestamp, signature: signature)
         
         Network().clientToken(userGatewayTimestampTripleWithSignature: userGatewayTimestampTripleWithSignature) { error, data in
             if let error = error {
@@ -122,13 +154,22 @@ public class PlanetNineGateway {
         
     }
     
-    public func mintNineum(partnerUUID: String, flavors: [String], ordinal: Int, timestamp: String, signature: String, callback: @escaping (Error?, [String]?) -> Void) {
-        let mintNineumRequestWithSignature = MintNineumRequestWithSignature(partnerUUID: partnerUUID, flavors: flavors, ordinal: ordinal, timestamp: timestamp, signature: signature)
+    public func mintNineum(partnerUUID: String, flavors: [String], ordinal: Int, callback: @escaping (Error?, [String]?) -> Void) {
+        let mintNineumRequest = MintNineumRequest(partnerUUID: partnerUUID, flavors: flavors, ordinal: ordinal)
+        
+        guard let signature = crypto.signMessage(message: mintNineumRequest.toString()) else { return }
+        
+        let mintNineumRequestWithSignature =  MintNineumRequestWithSignature(partnerUUID: partnerUUID, flavors: flavors, ordinal: ordinal, timestamp: mintNineumRequest.timestamp, signature: signature)
         Network().mintNineum(mintNineumRequestWithSignature: mintNineumRequestWithSignature, callback: callback)
     }
     
-    public func approveTransfer(userId: Int, transferId: Int, ordinal: Int, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        let approveTransferWithSignature = ApproveTransferWithSignature(userId: userId, nineumTransactionId: transferId, ordinal: ordinal, timestamp: timestamp, signature: signature)
+    public func approveTransfer(userId: Int, transferId: Int, ordinal: Int, callback: @escaping (Error?, Data?) -> Void) {
+        
+        let approveTransfer = ApproveTransfer(userId: userId, nineumTransactionId: transferId, ordinal: ordinal)
+        
+        guard let signature = crypto.signMessage(message: approveTransfer.toString()) else { return }
+        
+        let approveTransferWithSignature = ApproveTransferWithSignature(userId: userId, nineumTransactionId: transferId, ordinal: ordinal, timestamp: approveTransfer.timestamp, signature: signature)
         Network().approveTransfer(approveTransferWithSignature: approveTransferWithSignature, callback: callback)
     }
     
@@ -145,5 +186,11 @@ public class PlanetNineGateway {
             return topViewController(controller: presented)
         }
         return controller
+    }
+    
+    var mpcBrowser: MPCBrowser?
+    
+    public func startBrowsing(peerID: String) {
+        mpcBrowser = MPCBrowser(peerID: peerID)
     }
 }
