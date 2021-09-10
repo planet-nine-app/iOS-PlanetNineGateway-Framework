@@ -27,7 +27,7 @@ struct GetUserByUUID: Codable {
 }
 
 class Network: NSObject {
-    let baseURL = "https://www.plnet9.com"
+    let baseURL = "https://api.plnet9.com"
     
     func connectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
