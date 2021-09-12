@@ -36,12 +36,12 @@ public struct UsePowerAtOngoingGateway: Codable {
     var ordinal: Int
     var description: String
     let timestamp = "".getTime()
-    public init(totalPower: Int, partnerName: String, gatewayName: String, userUUID: String, publicKey: String, ordinal: Int, description: String) {
+    public init(totalPower: Int, partnerName: String, gatewayName: String, userUUID: String, ordinal: Int, description: String) {
         self.totalPower = totalPower
         self.partnerName = partnerName
         self.gatewayName = gatewayName
         self.userUUID = userUUID
-        self.publicKey = publicKey
+        self.publicKey = Crypto().getKeys()?.publicKey ?? "noKey"
         self.ordinal = ordinal
         self.description = description
     }

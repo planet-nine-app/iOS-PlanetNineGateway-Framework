@@ -27,7 +27,6 @@ struct GetUserByUUID: Codable {
 }
 
 class Network: NSObject {
-    //let baseURL = "https://www.plnet9.com"
     let baseURL = "https://api.plnet9.com"
     
     func connectedToNetwork() -> Bool {
@@ -78,6 +77,7 @@ class Network: NSObject {
                     return
                 }
                 print("Received error with statusCode \(httpResponse.statusCode)")
+                print(httpResponse)
                 callback(NetworkErrors.couldNotReachNetwork, data)
                 return
             }

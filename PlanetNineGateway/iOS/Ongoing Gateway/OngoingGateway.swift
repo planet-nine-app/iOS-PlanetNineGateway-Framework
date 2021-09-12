@@ -21,30 +21,20 @@ class OngoingGateway: NSObject {
         self.gatewayURL = gatewayURL
     }
     
-    func askForOngoingGatewayUsage(presentingViewController: UIViewController, callback: @escaping (String) -> Void) {
+    func askForOngoingGatewayUsage(presentingViewController: UIViewController) {
         print("Asking for ongoing Gateway usage")
         guard let urlEncodedGatewayName = gatewayKeyWithSignature.gatewayName.urlEncoded() else {
             print("Gateway names must be url encodable")
             return
         }
         print(gatewayKeyWithSignature)
-        let urlString = "planetnine://ongoing/details?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"
+        let urlString = "planetnine://ongoing?gatewayname=\(urlEncodedGatewayName)&publicKey=\(gatewayKeyWithSignature.publicKey)&gatewayURL=\(gatewayURL)&signature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"
         print(urlString)
         if let link = URL(string: urlString) {
-            //if UIApplication.shared.canOpenURL(link) {
-            if false {
+            if UIApplication.shared.canOpenURL(link) {
                 UIApplication.shared.open(link)
             } else {
-                guard let topViewController = PlanetNineGateway.topViewController(controller: presentingViewController) else { return }
-                
-                appleSigninCallback = callback
-                
-                let button = ASAuthorizationAppleIDButton()
-                button.addTarget(self, action: #selector(handleAuthorization), for: .touchUpInside)
-                topViewController.view.addSubview(button)
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.centerXAnchor.constraint(equalTo: topViewController.view.centerXAnchor).isActive = true
-                button.centerYAnchor.constraint(equalTo: topViewController.view.centerYAnchor).isActive = true
+                return
             }
         }
     }

@@ -23,7 +23,7 @@ public class PlanetNineGateway {
         if crypto.getKeys() == nil {
             DispatchQueue.global(qos: .background).async {
                 print("Generating keys \("".getTime())")
-                crypto.generateKeys(seedPhrase: crypto.generateSeedPhrase())
+                crypto.generateKeys(seed: crypto.generateSeedPhrase())
                 print("Generated keys \("".getTime())")
             }
         } else {
@@ -71,21 +71,23 @@ public class PlanetNineGateway {
         gateway.createTwoWayPeripheral()
     }
     
-    public func ongoingGateway(gatewayName: String, publicKey: String, gatewayURL: String) {
+    public func ongoingGateway(gatewayName: String, gatewayURL: String) {
         
-        let gatewayKey = GatewayKey(gatewayName: gatewayName, publicKey: publicKey)
+        guard let keys = Crypto().getKeys() else { return }
+        
+        let gatewayKey = GatewayKey(gatewayName: gatewayName, publicKey: keys.publicKey)
         
         guard let signature = crypto.signMessage(message: gatewayKey.toString()) else { return }
         
-        ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: publicKey, gatewayURL: gatewayURL, timestamp: gatewayKey.timestamp, signature: signature)
+        ongoing = OngoingGateway(gatewayName: gatewayName, publicKey: keys.publicKey, gatewayURL: gatewayURL, timestamp: gatewayKey.timestamp, signature: signature)
     }
     
-    public func askForOngoingGatewayUsage(presentingViewController: UIViewController, callback: @escaping (String) -> Void) {
+    public func askForOngoingGatewayUsage(presentingViewController: UIViewController) {
         guard let gateway = ongoing else {
             print("Must initialize ongoingGateway before asking for usage")
             return
         }
-        gateway.askForOngoingGatewayUsage(presentingViewController: presentingViewController, callback: callback)
+        gateway.askForOngoingGatewayUsage(presentingViewController: presentingViewController)
     }
     
     public func signinWithApple(gatewayName: String, appleId: String, publicKey: String, callback: @escaping (Error?, PNUser?) -> Void) {

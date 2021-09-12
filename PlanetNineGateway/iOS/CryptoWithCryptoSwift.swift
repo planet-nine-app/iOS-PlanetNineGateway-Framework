@@ -12,12 +12,12 @@ import CryptoSwift
 import Security
 import Valet
 
-struct Keys: Codable {
+struct KeysWithCryptoSwift: Codable {
     var privateKey = ""
     var publicKey = ""
 }
 
-class Crypto {
+class CryptoWithCryptoSwift {
     
     let publicKeyKey = "publicKey"
     let privateKeyKey = "privateKey"
@@ -34,8 +34,8 @@ class Crypto {
                 print(error)
                 return nil
             }
-            
             guard let privKeyTxt = getKeys()?.privateKey else { return nil }
+            print("Prviate key: \(privKeyTxt)")
             let privKey: [CUnsignedChar] = Array(hex: privKeyTxt)
             
             var sig = secp256k1_ecdsa_signature()
@@ -130,6 +130,7 @@ class Crypto {
             guard serialized.withUnsafeMutableBytes({ secp256k1_ec_pubkey_serialize(ctx, $0, &length, &publicKey,  UInt32(SECP256K1_EC_COMPRESSED)) }) == 1 else { return false }
             
             let valet = Valet.valet(with: Identifier(nonEmpty: "Planet-Nine-dev")!, accessibility: .whenUnlocked)
+            print("Saving public key: \(serialized.toHexString())")
             valet.set(string: serialized.toHexString(), forKey: publicKeyKey)
             valet.set(string: msgArray.toHexString(), forKey: privateKeyKey)
             
@@ -145,6 +146,7 @@ class Crypto {
         let privateKey = valet.string(forKey: privateKeyKey)
         
         if publicKey == nil {
+            print("Public key is nil")
             return nil
         }
         
