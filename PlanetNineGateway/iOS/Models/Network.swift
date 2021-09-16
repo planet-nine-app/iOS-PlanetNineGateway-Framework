@@ -123,7 +123,6 @@ class Network: NSObject {
     }
     
     func getUserByUUID(userUUID: String, gatewayName: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        //let path = "/user/userUUID/\(userUUID)/gateway/\(gatewayName)/signature/\(signature)/timestamp/\(timestamp)"
         let path = "/gateway/\(gatewayName)/userUUID/\(userUUID)/signature/\(signature)/timestamp/\(timestamp)"
         
         get(path: path, callback: callback)

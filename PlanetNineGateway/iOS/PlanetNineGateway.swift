@@ -35,6 +35,14 @@ public class PlanetNineGateway {
         
     }
     
+    public func getUser(userUUID: String, gatewayName: String, callback: @escaping (PNUser) -> Void) {
+        let gatewayTimestampTuple = GatewayTimestampTuple(gatewayName: gatewayName)
+        let signature = Crypto().signMessage(message: gatewayTimestampTuple.toString())
+        _ = PlanetNineUser(userUUID: userUUID, gatewayName: gatewayName, timestamp: gatewayTimestampTuple.timestamp, signature: signature!) { pnUser in
+            callback(pnUser)
+        }
+    }
+    
     public func oneTimeGateway(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
         oneTime = OneTimeGateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
     }
