@@ -123,20 +123,34 @@ class Network: NSObject {
     }
     
     func getUserByUUID(userUUID: String, gatewayName: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+<<<<<<< HEAD:PlanetNineGateway/iOS/Models/Network.swift
         let path = "/gateway/\(gatewayName)/userUUID/\(userUUID)/signature/\(signature)/timestamp/\(timestamp)"
+=======
+        //let path = "/user/userUUID/\(userUUID)/gateway/\(gatewayName)/signature/\(signature)/timestamp/\(timestamp)"
+        let path = "/user/\(gatewayName)/userUUID/\(userUUID)/signature/\(signature)/timestamp/\(timestamp)"
+>>>>>>> 54d724ec0e6d892a1ec048e5d0321dc66199a470:PlanetNineGateway/Common/Utilities/Network.swift
         
         get(path: path, callback: callback)
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
 //        let path = "/user/userUUID/\(powerUsageObject.userUUID)/power/gateway/\(powerUsageObject.gatewayName)"
+<<<<<<< HEAD:PlanetNineGateway/iOS/Models/Network.swift
         let path = "/gateway/\(powerUsageObject.gatewayName)/power"
+=======
+        let path = "/user/\(powerUsageObject.gatewayName)/power"
+>>>>>>> 54d724ec0e6d892a1ec048e5d0321dc66199a470:PlanetNineGateway/Common/Utilities/Network.swift
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
         put(body: jsonData, path: path, callback: callback)
     }
     
     func usePowerAtOngoingGateway(usePowerAtOngoingGatewayWithSignature: UsePowerAtOngoingGatewayWithSignature, callback: @escaping (Error?, Data?) -> Void) {
+<<<<<<< HEAD:PlanetNineGateway/iOS/Models/Network.swift
         let path = "/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing/power"
+=======
+//        let path = "/user/userUUID/\(usePowerAtOngoingGatewayWithSignature.userUUID)/power/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing"
+        let path = "/user/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing/power"
+>>>>>>> 54d724ec0e6d892a1ec048e5d0321dc66199a470:PlanetNineGateway/Common/Utilities/Network.swift
         let jsonData = Utils().encodableToJSONData(usePowerAtOngoingGatewayWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
@@ -148,7 +162,11 @@ class Network: NSObject {
     
     func requestTransfer(transferRequestWithSignature: TransferRequestWithSignature, gatewayName: String, callback: @escaping (Error?, Data?) -> Void) {
 //        let path = "/user/userUUID/\(transferRequestWithSignature.userUUID)/gateway/\(gatewayName)/transfer/request"
+<<<<<<< HEAD:PlanetNineGateway/iOS/Models/Network.swift
         let path = "/transfer/gateway/request"
+=======
+        let path = "/user/gateway/request"
+>>>>>>> 54d724ec0e6d892a1ec048e5d0321dc66199a470:PlanetNineGateway/Common/Utilities/Network.swift
         let jsonData = Utils().encodableToJSONData(transferRequestWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
@@ -192,7 +210,11 @@ class Network: NSObject {
     func approveTransfer(approveTransferWithSignature: ApproveTransferWithSignature, callback: @escaping (Error?, Data?) -> Void) {
         ///user/userId/:userId/transfer/nineumTransactionId/:nineumTransactionId/approve'
 //        let path = "/user/userId/\(approveTransferWithSignature.userId)/transfer/nineumTransactionId/\(approveTransferWithSignature.nineumTransactionId)/approve"
+<<<<<<< HEAD:PlanetNineGateway/iOS/Models/Network.swift
         let path = "/transfer/approve"
+=======
+        let path = "/user/approve"
+>>>>>>> 54d724ec0e6d892a1ec048e5d0321dc66199a470:PlanetNineGateway/Common/Utilities/Network.swift
         let jsonData = Utils().encodableToJSONData(approveTransferWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
