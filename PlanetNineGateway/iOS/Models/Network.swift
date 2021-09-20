@@ -136,7 +136,6 @@ class Network: NSObject {
     }
     
     func usePowerAtOngoingGateway(usePowerAtOngoingGatewayWithSignature: UsePowerAtOngoingGatewayWithSignature, callback: @escaping (Error?, Data?) -> Void) {
-//        let path = "/user/userUUID/\(usePowerAtOngoingGatewayWithSignature.userUUID)/power/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing"
         let path = "/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing/power"
         let jsonData = Utils().encodableToJSONData(usePowerAtOngoingGatewayWithSignature)
         put(body: jsonData, path: path, callback: callback)
