@@ -46,7 +46,8 @@ public struct UsePowerAtOngoingGateway: Codable {
         self.description = description
     }
     public func toString() -> String {
-        return "{\"totalPower\":\(totalPower),\"partnerName\":\"\(partnerName)\",\"gatewayName\":\"\(gatewayName)\",\"userUUID\":\(userUUID),\"publicKey\":\"\(publicKey)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
+        return "{\"totalPower\":\(totalPower),\"partnerName\":\"\(partnerName)\",\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\",\"ordinal\":\(ordinal),\"timestamp\":\"\(timestamp)\"}"
+        
     }
 }
 

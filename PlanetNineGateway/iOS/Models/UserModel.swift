@@ -33,6 +33,8 @@ struct User: Codable {
 class UserModel {
         
     private var user: User?
+    private let defaults = UserDefaults.standard
+
     
     init() {
         
@@ -59,5 +61,9 @@ class UserModel {
     
     func clearUser() {
 
+    }
+    
+    func saveUser(user: PNUser) {
+        Utils().saveEncodableToDefaults(user, key: "user")
     }
 }

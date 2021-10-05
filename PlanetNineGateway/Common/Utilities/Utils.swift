@@ -19,6 +19,18 @@ class Utils {
         }
         return jsonData
     }
+    
+    func saveEncodableToDefaults<T: Encodable>(_ object: T, key: String) {
+        do {
+            let jsonData = try JSONEncoder().encode(object)
+            let jsonString = String(data: jsonData, encoding: .utf8)!
+            let defaults = UserDefaults.standard
+            defaults.set(jsonString, forKey: key)
+        } catch {
+            print("Error setting default")
+            print(error)
+        }
+    }
 }
 
 extension String {

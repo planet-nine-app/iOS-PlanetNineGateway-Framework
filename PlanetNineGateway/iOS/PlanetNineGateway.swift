@@ -35,6 +35,36 @@ public class PlanetNineGateway {
         
     }
     
+    public func usePowerAtOngoingGateway(user: PNUser, gatewayName: String, totalPower: Int, partnerName: String, description: String, callback: @escaping (Error?, PNUser?) -> Void) {
+        let usePowerModel = UsePowerModel()
+        let usePowerAtOngoingGateway = UsePowerAtOngoingGateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, userUUID: user.userUUID, ordinal: (user.powerOrdinal + 1), description: description)
+        
+        usePowerModel.usePowerAtOngoingGateway(gatewayObject: usePowerAtOngoingGateway) { error, user in
+            
+            if error != nil || user == nil {
+                print("There was an error in the call. Error: \(error)")
+                callback(error, nil)
+                return
+            }
+            
+            guard let user = user else { return }
+            
+            let pnUser = PlanetNineUser.getPNUserFromJSONData(jsonData: user)
+            //let userString = String(data: user, encoding: .utf8)
+            //print(userString)
+            callback(nil, pnUser)
+        }
+    }
+    
+    public func getUser(userUUID: String, gatewayName: String, callback: @escaping (PNUser) -> Void) {
+        let gatewayTimestampTuple = GatewayTimestampTuple(gatewayName: gatewayName)
+        let signature = Crypto().signMessage(message: gatewayTimestampTuple.toString())
+        guard let signature = signature else { return }
+        _ = PlanetNineUser(userUUID: userUUID, gatewayName: gatewayName, timestamp: gatewayTimestampTuple.timestamp, signature: signature) { pnUser in
+            callback(pnUser)
+        }
+    }
+    
     public func oneTimeGateway(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
         oneTime = OneTimeGateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
     }
