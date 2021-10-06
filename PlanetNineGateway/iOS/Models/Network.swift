@@ -128,7 +128,6 @@ class Network: NSObject {
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
-//        let path = "/user/userUUID/\(powerUsageObject.userUUID)/power/gateway/\(powerUsageObject.gatewayName)"
         let path = "/gateway/\(powerUsageObject.gatewayName)/power"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
         put(body: jsonData, path: path, callback: callback)
@@ -146,7 +145,6 @@ class Network: NSObject {
     }
     
     func requestTransfer(transferRequestWithSignature: TransferRequestWithSignature, gatewayName: String, callback: @escaping (Error?, Data?) -> Void) {
-//        let path = "/user/userUUID/\(transferRequestWithSignature.userUUID)/gateway/\(gatewayName)/transfer/request"
         let path = "/transfer/gateway/request"
         let jsonData = Utils().encodableToJSONData(transferRequestWithSignature)
         put(body: jsonData, path: path, callback: callback)
@@ -190,7 +188,6 @@ class Network: NSObject {
     
     func approveTransfer(approveTransferWithSignature: ApproveTransferWithSignature, callback: @escaping (Error?, Data?) -> Void) {
         ///user/userId/:userId/transfer/nineumTransactionId/:nineumTransactionId/approve'
-//        let path = "/user/userId/\(approveTransferWithSignature.userId)/transfer/nineumTransactionId/\(approveTransferWithSignature.nineumTransactionId)/approve"
         let path = "/transfer/approve"
         let jsonData = Utils().encodableToJSONData(approveTransferWithSignature)
         put(body: jsonData, path: path, callback: callback)
