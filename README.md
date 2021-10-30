@@ -126,18 +126,13 @@ Once you've started the gateway, it handles all spending with it automatically s
 
 An ongoing gateway is used when you want to utilize a user's information, typically their Nineum, and/or you want to make Power expenditures on their behalf. Once a user has connected their account to your app you'll see their user information and be able to perform Power transactions. A user can revoke this connection at any time so be sure to handle that situation in your app. 
 
-In order to handle ongoing gateways, your app will have to implement cryptographic functions. This has repurcusions for storing information in your app and doing so is outside of scope for the Planet Nine Gateway framework. To learn more about the cryptography necessary for Planet Nine please check out here (TODO: provide link to cryptographic information). This README assumes that you've already implemented cryptography and that you have a `Crypto` class with a `signMessage` method which will provide the required cryptographic signatures, as well as a `getKeys` method which will supply you with your publicKey.
-
-Once you have your cryptography set up, to prompt the user for an ongoing gateway just:
+The PlanetNineGateway cocoapod handles everything you need to authenticate these calls. This means your app will be doing cryptography, but will qualify for an exemption in reporting since the encryption only pertains to authentication.
 
 ```swift
-let keys = Crypto().getKeys()!
-let gatewayKey = GatewayKey(gatewayName: gatewayName, publicKey: keys.publicKey)
-let signature = Crypto().signMessage(message: gatewayKey.toString())
         
 let planetNineGateway = PlanetNineGateway()
-planetNineGateway.ongoingGateway(gatewayName: gatewayName, publicKey: keys.publicKey, gatewayURL: "ongoingtest://ongoing", signature: signature)
-planetNineGateway.askForOngoingGatewayUsage()
+planetNineGateway.ongoingGateway(gatewayName: gatewayName, gatewayURL: "ongoingtest://ongoing")
+planetNineGateway.askForOngoingGatewayUsage(presentingViewController: self)
 ```
 
 Invoking `askForOngoingGatewayUsage` will open the Planet Nine app and prompt the user for their permission. Just like with the one-time gateway, we need to capture the response from the Planet Nine app. Again in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to handle the queryItems again:
@@ -161,10 +156,9 @@ guard let userUUID = components.queryItems![1].value else {
 Once you check if success is true you can then get the Planet Nine user object by signing your gateway name. Here we assume you have a UserModel class which can save PNUsers:
 
 ```swift
-let signature = Crypto().signMessage(message: gatewayName)
-let planetNineUser = PlanetNineUser(userUUID: userUUID, gatewayName: gatewayName, signature: signature) { pnUser in
-    // Save the PNUser here
-    UserModel().saveUser(user: pnUser)
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.getUser(userUUID: userUUID, gatewayName: "The-Ballad-of-Sigurd-dev") { pnUser in
+	// handle pnUser here
 }
 ```
 
@@ -173,16 +167,14 @@ This user object will have all the relevant user information including the user'
 You can also make Power expenditures on the behalf of the user. To do this you will need to create a `UsePowerAtOngoingGateway` struct, sign it, and submit it to the server. This would look like:
 
 ```swift
-let user = UserModel().getUser()!
-let usePowerModel = UsePowerModel()
-let usePowerAtOngoingGateway = UsePowerAtOngoingGateway(totalPower: 300, partnerName: "whirl-five-cool", gatewayName: gatewayName, userUUID: user.userUUID, publicKey: Crypto().getKeys()!.publicKey, ordinal: user.powerOrdinal + 1)
-let usePowerAtOngoingGatewayWithSignature = usePowerModel.addSignatureToUsePowerAtOngoingGatewayObject(object: usePowerAtOngoingGateway, signature: Crypto().signMessage(message: usePowerAtOngoingGateway.toString()))
-usePowerModel.usePowerAtOngoingGateway(gatewayObjectWithSignature: usePowerAtOngoingGatewayWithSignature) { error, resp in
-   if error != nil {
-       print("You got an error")
-       return
-   }
-   print(String(data: resp!, encoding: .utf8))
+let planetNineGateway = PlanetNineGateway()
+planetNineGateway.usePowerAtOngoingGateway(user: user, gatewayName: "The-Ballad-of-Sigurd-dev", totalPower: 300, partnerName: "team-planet-nine", description: "Used from the Ballad of Lorbert") { error, user in
+    if let error = error {
+	// handle error
+	return
+    }
+    guard let user = user else { return }
+    // handle updated user
 }
 ```
 
