@@ -150,10 +150,10 @@ class Network: NSObject {
         put(body: jsonData, path: path, callback: callback)
     }
     
-    func clientToken(userGatewayTimestampTripleWithSignature: UserGatewayTimestampTripleWithSignature, callback: @escaping (Error?, Data?) -> Void) {
+    /*func clientToken(userGatewayTimestampTripleWithSignature: UserGatewayTimestampTripleWithSignature, callback: @escaping (Error?, Data?) -> Void) {
         let path = "/demo/braintree/userUUID/\(userGatewayTimestampTripleWithSignature.userUUID)/gatewayName/\(userGatewayTimestampTripleWithSignature.gatewayName)/client-token/signature/\(userGatewayTimestampTripleWithSignature.signature)/timestamp/\(userGatewayTimestampTripleWithSignature.timestamp)"
         get(path: path, callback: callback)
-    }
+    }*/
     
     func signinWithApple(gatewayKey: AppleSignInGatewayKeyWithSignature, callback: @escaping (Error?, PNUser?) -> Void) {
         let path = "/applesso/signin"

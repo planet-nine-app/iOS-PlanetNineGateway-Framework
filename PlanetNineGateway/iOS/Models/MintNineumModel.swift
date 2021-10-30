@@ -1,6 +1,5 @@
 //
 //  MintNineumModel.swift
-//  Braintree
 //
 //  Created by Zach Babb on 3/18/20.
 //

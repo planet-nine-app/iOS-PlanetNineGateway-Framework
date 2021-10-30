@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import Braintree
-import BraintreeDropIn
 
 public class PlanetNineGateway {
     
@@ -139,49 +137,6 @@ public class PlanetNineGateway {
         
         /*let transferRequestWithSignature = TransferModel().addSignatureToTransferRequest(transferRequest: transferRequest, signature: signature)
         Network().requestTransfer(transferRequestWithSignature: transferRequestWithSignature, gatewayName: gatewayName, callback: callback)*/
-        
-        
-    }
-    
-    public func checkoutWithBraintree(presentingViewController: UIViewController, userUUID: String, gatewayName: String, callback: @escaping (Error?, Bool?) -> Void) {
-        
-        let userGatewayTimestampTriple = UserGatewayTimestampTriple(userUUID: userUUID, gatewayName: gatewayName)
-        
-        guard let signature = crypto.signMessage(message: userGatewayTimestampTriple.toString()) else { return }
-        
-        let userGatewayTimestampTripleWithSignature = UserGatewayTimestampTripleWithSignature(userUUID: userGatewayTimestampTriple.userUUID, gatewayName: userGatewayTimestampTriple.gatewayName, timestamp: userGatewayTimestampTriple.timestamp, signature: signature)
-        
-        Network().clientToken(userGatewayTimestampTripleWithSignature: userGatewayTimestampTripleWithSignature) { error, data in
-            if let error = error {
-                print("Error!!! \(error.localizedDescription)")
-                return
-            }
-            guard let data = data,
-                  let clientToken = String(data: data, encoding: .utf8)
-            else { return }
-            
-            DispatchQueue.main.async {
-                let request =  BTDropInRequest()
-                let dropIn = BTDropInController(authorization: clientToken, request: request)
-                { (controller, result, error) in
-                    if (error != nil) {
-                        print("ERROR")
-                        callback(error, nil)
-                    } else if (result?.isCancelled == true) {
-                        print("CANCELLED")
-                    } else if let result = result {
-                        // Use the BTDropInResult properties to update your UI
-                        // result.paymentOptionType
-                        // result.paymentMethod
-                        // result.paymentIcon
-                        // result.paymentDescription
-                        callback(nil, true)
-                    }
-                    controller.dismiss(animated: true, completion: nil)
-                }
-                presentingViewController.present(dropIn!, animated: true, completion: nil)
-            }
-        }
         
         
     }
