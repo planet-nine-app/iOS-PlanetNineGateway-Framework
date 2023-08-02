@@ -1,6 +1,6 @@
 # Notice About planetninekit.com
 
-www.planetninekit.com is currently under construction. Until it is up and running here are some helpful links.
+www.planetnineapp.com/planet-nine-kit is currently under construction. Until it is up and running here are some helpful links.
 
 * For the PlanetNineGateway Cocoapod look no further than right here. Just scroll on down.
 
@@ -24,25 +24,26 @@ Install with [CocoaPods](http://cocoapods.org) by adding the following to your `
 pod 'PlanetNineGateway'
 ```
 
+You'll also need a Gateway Access Token. You can get one in the Planet Nine app. Navigate to the account screen (top right astronaut icon on the main screen), and tap the astronaut image four times. You'll be prompted for a gateway name, and then the app will present you with your access token. NOTE this is the only time you'll see your access token. If you lose it, you'll need to create another gateway. 
+
 ## Usage
 
-### Enabling Deeplinking
-First to enable deeplinking with the Planet Nine app add the `LSApplicationQueriesSchemes` property to your info.plist and add `planetnine` to the array.
+### Universal Links
+One Time, and Ongoing gateways require you to deeplink to the Planet Nine app, and give the Planet Nine app a URL that will return to your app. To do this you'll need universal links enabled for your app. Adding those is beyond the scope of this README, but you can find out more at [https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app).
 
 ### One-Time Gateways
 A one-time gateway is the most basic way of interacting with the Planet Nine app. One-time gateways let users spend Power one time when prompted from your app. To start a one-time gateway import PlanetNineGateway and simply use:
 
 ```swift
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoingtest://gateway", partnerDisplayName: "Gateway Tester", description: "This is the test app for Planet Nine Gateway Framework")
-planetNineGateway.askForPowerUsage()
+let planetNineGateway = PlanetNineGateway("HERE IS WHERE YOUR ACCESS TOKEN GOES")
+planetNineGateway.askForPowerUsage(totalPower: 400, partnerName: "lazer", gatewayURL: "pngtester://return/onetime", partnerDisplayName: "LAZER", description: "For testing the cocoapod") {
+          // Do something when your app can't open the Planet Nine app URL (this should rarely happen)
+        }
 ```
 
 `totalPower`: can be any value over 200
 
 `partnerName`: is the username of the partner to receive Nineum from the transaction
-
-`gatewayName`: is the display name of the Gateway when prompting a user to spend Power
 
 `gatewayURL`: is the URL that will be used to call back into your app
 
@@ -50,77 +51,39 @@ planetNineGateway.askForPowerUsage()
 
 `description`: is a description of what the transaction is for
 
-Calling `askForPowerUsage` will open the Planet Nine app and display an alert of the user to accept or decline the Power usage.
+Calling `askForPowerUsage` will open the Planet Nine app and display an alert to the user to accept or decline the Power usage.
 
-Once the user accepts the Power usage, the Planet Nine app will open the URL specified in gatewayURL with its response. To handle this in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to catch the URL response and then create the gateway again:
-
-```swift
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
-```
-
-Get the userUUID and signature from the queryItems of the URL:
+Once the user accepts the Power usage, the Planet Nine app will open the URL specified in gatewayURL with its response. To handle this in `SceneDelegate.swift` in the `func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)`  function you'll want to catch the URL response and call `submitPowerUsage`. This will pass the authenticated request to the Planet Nine backend, and, if successful, return the user who used power with you:
 
 ```swift
-let userUUID = components.queryItems![0].value
-let signature = components.queryItems![1].value
-```
-
-And finally call `submitPowerUsage` on the gateway object with a callback that will handle errors and responses. 
-
-```swift
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.oneTimeGateway(totalPower: 200, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: "ongoing://gateway", partnerDisplayName: "Gateway Tester", description: "For testing the Planet Nine Gateway Framework")
-planetNineGateway.submitPowerUsage(userUUID: userUUID, signature: signature!) { (error, resp) in
-   guard let resp = resp else {
-       print("You got an error")
-       print(error)
-       return
-   }
-   if error != nil {
-       print("You got an error")
-       print(error)
-       return
-   }
-   let responseString = String(data: resp, encoding: .utf8)
-   print(responseString)
-   DispatchQueue.main.async {
-       let viewController = UIApplication.topViewController() as! ViewController
-       let alert = UIAlertController(title: "Heyoo", message: "You spent the power", preferredStyle: .alert)
-       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-       viewController.present(alert, animated: true, completion: nil)
-   }
-   
+guard let urlContext = URLContexts.first else { return }
+        
+let url = urlContext.url
+        
+guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) else {
+        print("Invalid URL or path missing")
+        return
+}
+if components.path == "/onetime" {
+	guard let queryItems = components.queryItems,
+        let userUUID = queryItems[0].value,
+        let ordinalString = queryItems[1].value,
+        let ordinal = Int(ordinalString),
+        let timestamp = queryItems[2].value,
+        let signature = queryItems[3].value else {
+        	print("Could not parse query items from \(url.absoluteString)")
+                return
+        }
+        PlanetNineGateway(gatewayAccessToken:  "HERE IS WHERE YOUR ACCESS TOKEN GOES").submitPowerUsage(totalPower: 400, partnerName: "lazer", userUUID: userUUID, ordinal: ordinal, timestamp: timestamp, signature: signature, partnerDisplayName: "LAZER", description: "For testing the cocoapod") { error, data in
+                if error != nil { 
+			// Handle error
+		} else {
+			print("Success!")
+                	// Do cool stuff here
+		}
+	}
 }
 ```
-
-### One-Time BLE Gateways
-
-A One-Time BLE Gateway is for usage when you want to interact with the Planet Nine app via Bluetooth Low Energy (BLE). This is great for POS implementations. You start a BLE gateway much in the same way that you start a One-Time Gateway. 
-
-```swift
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.oneTimeBLEGateway(totalPower: 300, partnerName: "test50603336", gatewayName: "Planet Nine Point of Sale", gatewayURL: "pnpos://gateway", partnerDisplayName: "A Test User", description: "This is a test of the BLE gateway") { username in
-    print("User: \(username) used 300 Power")
-}
-planetNineGateway.broadcastBLEGateway()
-```
-
-`totalPower`: can be any value over 200
-
-`partnerName`: is the username of the partner to receive Nineum from the transaction
-
-`gatewayName`: is the display name of the Gateway when prompting a user to spend Power
-
-`gatewayURL`: is the URL that will be used to call back into your app
-
-`partnerDisplayName`: is the friendly name displayed to the user 
-
-`description`: is a description of what the transaction is for
-
-`successCallback`: this last argument is a callback for the gateway to use upon successful expenditure with a user. The Planet Nine app will provide the username of the user who uses the gateway.
-
-Once you've started the gateway, it handles all spending with it automatically so there is no additional code required. 
 
 ### Ongoing Gateways
 
@@ -130,55 +93,101 @@ The PlanetNineGateway cocoapod handles everything you need to authenticate these
 
 ```swift
         
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.ongoingGateway(gatewayName: gatewayName, gatewayURL: "ongoingtest://ongoing")
-planetNineGateway.askForOngoingGatewayUsage(presentingViewController: self)
+let planetNineGateway = PlanetNineGateway("PUT ACCESS TOKEN HERE")
+planetNineGateway.askForOngoingGatewayUsage(returnURL: "pngtester://return/ongoing")
 ```
 
-Invoking `askForOngoingGatewayUsage` will open the Planet Nine app and prompt the user for their permission. Just like with the one-time gateway, we need to capture the response from the Planet Nine app. Again in `AppDelegate.swift` in the `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool` function you'll want to handle the queryItems again:
+Invoking `askForOngoingGatewayUsage` will open the Planet Nine app and prompt the user for their permission. Just like with the one-time gateway, we need to capture the response from the Planet Nine app. Again in `SceneDelegate.swift` in the `func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)` function you'll want to handle the queryItems again, and once you have success, you can get the user:
 
 ```swift
-guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) else {
-            print("Invalid URL or path missing")
-            return false
+guard let urlContext = URLContexts.first else { return }
+        
+        let url = urlContext.url
+        print(url.absoluteString)
+      
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) else {
+		print("Invalid URL or path missing")
+		return
         }
 
-guard let success = components.queryItems![0].value else {
-    print("Unsuccessful")
-    return
-}
-guard let userUUID = components.queryItems![1].value else {
-    print("No userUUID")
-    return
-}
-```
+	guard let success = components.queryItems![0].value else {
+            print("Unsuccessful")
+            return
+        }
+        guard let userUUID = components.queryItems![1].value else {
+            print("No userUUID")
+            return
+        }
 
-Once you check if success is true you can then get the Planet Nine user object by signing your gateway name. Here we assume you have a UserModel class which can save PNUsers:
-
-```swift
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.getUser(userUUID: userUUID, gatewayName: "The-Ballad-of-Sigurd-dev") { pnUser in
-	// handle pnUser here
-}
+	if success == "true" && userUUID != "0" {
+            print("Success! Now to get user.")
+            PlanetNineGateway(gatewayAccessToken:  "a7445c86-98b6-4a86-96ff-05f345b61ba3").getUser(userUUID: userUUID) { error, user in
+                if error != nil {
+                    print(error)
+                    return
+                }
+                if let user = user {
+                    print("Got user")
+                    print(user)
+                    UserModel().saveUser(user: user)
+                }
+            }
+        }
 ```
 
 This user object will have all the relevant user information including the user's Nineum. For an example of working with a user's Nineum check out this blogpost about making an inventory system (TODO: Link to inventory system blog post). 
 
-You can also make Power expenditures on the behalf of the user. To do this you will need to create a `UsePowerAtOngoingGateway` struct, sign it, and submit it to the server. This would look like:
+You can also make Power expenditures on the behalf of the user. Once the user has authorized your app with the above, you just need to call `usePowerAtOngoingGateway`:
 
 ```swift
-let planetNineGateway = PlanetNineGateway()
-planetNineGateway.usePowerAtOngoingGateway(user: user, gatewayName: "The-Ballad-of-Sigurd-dev", totalPower: 300, partnerName: "team-planet-nine", description: "Used from the Ballad of Lorbert") { error, user in
-    if let error = error {
-	// handle error
-	return
-    }
-    guard let user = user else { return }
-    // handle updated user
-}
+let planetNineGateway = PlanetNineGateway("YOUR ACCESS TOKEN HERE")
+let user = UserModel().getUser() // This isn't part of the pod, saving and retrieving the user is up to you
+planetNineGateway.usePowerAtOngoingGateway(user: user, totalPower: 300, partnerName: "lazer", description: "Ongoing power usage in PNGTester") { error, user in
+            if error != nil {
+                print(error)
+                return
+            }
+            
+            if let user = user {
+                print("User now has \(user.currentPower) power")
+                // Do cool stuff here
+                UserModel().saveUser(user: user)
+            }
+        }
 ```
 
 Remember to be responsible with other users' Power, if you spend it when you shouldn't they'll revoke their connection and your reputation will suffer. 
+
+### MAGIC 
+
+NOTE: This API is experimental, and may break at any time without warning
+
+Multi-device Asynchronous Generic Input/Output Consensus is a backronym for MAGIC. The MAGIC protocol defines roles for casters and targets. Right now, only targets are supported in the cocoapod. A MAGIC target can interact with the Planet Nine app, and eventually with other casters. To become a MAGIC target call `becomeMAGICTarget`: 
+
+```swift
+let planetNineGateway = PlanetNineGateway("YOUR ACCESS TOKEN HERE")
+planetNineGateway.becomeMAGICTarget(totalPower: 450, partnerName: "lazer", partnerDisplayName: "Developer", description: "Testing the MAGIC", spellReceivedCallback: {
+            // Display some notice that the spell has been received
+        }, networkCallback: { error, user in
+            if let user = user {
+                // Do something cool for the user here
+            }
+        })
+```
+
+`totalPower`: can be any value over 200
+
+`partnerName`: is the username of the partner to receive Nineum from the transaction
+
+`partnerDisplayName`: is the friendly name displayed to the user 
+
+`description`: is a description of what the transaction is for
+
+`spellReceivedCallback`: Network calls happen in between receiving the spell from the caster, and receiving the user after the power is spent. Use this callback to display some visual feedback that your app is working on it.
+
+`networkCallback`: This gets called with the result from spending the power. If successful, you'll get a user object to use. You should do something beneficial for the user here.
+
+Once you've started the gateway, it handles all spending with it automatically so there is no additional code required. 
 
 ### Nineum
 Once a user has connected their account you will be able to see their Nineum and use it in your game. Nineum has a variety of properties that you can make use of to do interesting stuff in your implementation. The Nineum struct has what those properties are:
@@ -206,26 +215,6 @@ let nineumArray = NineumModel().getNineumArrayForNineumHexStrings(hexStrings: ni
 ```
 
 This will return an array of Nineum structs, which you can then use to check properties and organize as you see fit. 
-
-### Transferring Nineum
-
-Transferring Nineum is a two-step process. First a request for a transfer is made, then a user must approve the transfer in the Planet Nine app. This is because third-parties are not given permission to exchange a user's Nineum. In order to request a user you will need the receiving user's userUUID. Since most of the time what is known is a user's name, we provide a call to get the userUUID:
-
-```swift
-pn.requestTransfer(gatewayName: "trade-your-nineum", transferRequest: transferRequest, signature: signature) { error, data in
-
-// Do work here
-
-}
-```
-
-Once you have the userUUID for the receiving user you can construct the transfer request object. 
-
-```swift
-let transferRequest = TransferRequest(userUUID: user.userUUID, destinationUserUUID: decodedUser.userUUID, nineumUniqueIds: nineumUniqueIds, price: 0, ordinal: user.powerOrdinal + 1)
-```
-
-This object also contains a timestamp for your request. Here userUUID and destinationUserUUID are the userUUIDs of the sender and receiver. nineumUniqueIds is an array of 128-bit integers representing Nineum, price is any price associated with the transfer, and ordinal is the user's powerOrdinal incremented by one. You then sign this message and send it to the server using the `requestTransfer` method. 
 
 ## Conclusion
 

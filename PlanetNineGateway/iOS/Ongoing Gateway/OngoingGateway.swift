@@ -12,7 +12,7 @@ import AuthenticationServices
 
 class OngoingGateway {
     
-    class func askForOngoingGatewayUsage(presentingViewController: UIViewController, gatewayAccessToken: String, publicKey: String, returnURL: String) {
+    class func askForOngoingGatewayUsage(gatewayAccessToken: String, publicKey: String, returnURL: String) {
         let gatewayKey = GatewayKey(gatewayAccessToken: gatewayAccessToken, publicKey: publicKey)
         let gatewayKeyWithSignature = GatewayKeyWithSignature(gatewayAccessToken: gatewayAccessToken, publicKey: publicKey, timestamp: gatewayKey.timestamp, signature: Crypto().signMessage(message: gatewayKey.toString()) ?? "")
         let urlString = "https://www.plnet9.com/ongoing?gatewayAccessToken=\(gatewayAccessToken)&publicKey=\(publicKey)&gatewayurl=\(returnURL)&gatewaySignature=\(gatewayKeyWithSignature.signature)&timestamp=\(gatewayKeyWithSignature.timestamp)"

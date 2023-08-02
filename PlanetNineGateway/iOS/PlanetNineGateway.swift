@@ -34,10 +34,10 @@ public class PlanetNineGateway {
         self.gatewayAccessToken = gatewayAccessToken
     }
     
-    public func askForOngoingGatewayUsage(presentingViewController: UIViewController, returnURL: String) {
+    public func askForOngoingGatewayUsage(returnURL: String) {
         guard let keys = Crypto().getKeys() else { return }
         
-        OngoingGateway.askForOngoingGatewayUsage(presentingViewController: presentingViewController, gatewayAccessToken: gatewayAccessToken, publicKey: keys.publicKey, returnURL: returnURL)
+        OngoingGateway.askForOngoingGatewayUsage(gatewayAccessToken: gatewayAccessToken, publicKey: keys.publicKey, returnURL: returnURL)
     }
     
     public func usePowerAtOngoingGateway(user: PNUser, totalPower: Int, partnerName: String, description: String, callback: @escaping (Error?, PNUser?) -> Void) {
@@ -76,11 +76,5 @@ public class PlanetNineGateway {
             return topViewController(controller: presented)
         }
         return controller
-    }
-    
-    var mpcBrowser: MPCBrowser?
-    
-    public func startBrowsing(peerID: String) {
-        mpcBrowser = MPCBrowser(peerID: peerID)
     }
 }
