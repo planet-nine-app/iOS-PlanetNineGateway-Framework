@@ -122,74 +122,21 @@ class Network: NSObject {
         task.resume()
     }
     
-    func getUserByUUID(userUUID: String, gatewayName: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/gateway/\(gatewayName)/userUUID/\(userUUID)/signature/\(signature)/timestamp/\(timestamp)"        
+    func getUserByUUID(userUUID: String, gatewayAccessToken: String, timestamp: String, signature: String, callback: @escaping (Error?, Data?) -> Void) {
+        let path = "/gateway/gatewayAccessToken/\(gatewayAccessToken)/userUUID/\(userUUID)/signature/\(signature)/timestamp/\(timestamp)"        
         get(path: path, callback: callback)
     }
     
     func usePowerAtOneTimeGateway(powerUsageObject: PowerUsage, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/gateway/\(powerUsageObject.gatewayName)/power"
+        let path = "/gateway/power"
         let jsonData = Utils().encodableToJSONData(powerUsageObject)
         put(body: jsonData, path: path, callback: callback)
     }
     
     func usePowerAtOngoingGateway(usePowerAtOngoingGatewayWithSignature: UsePowerAtOngoingGatewayWithSignature, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/gateway/\(usePowerAtOngoingGatewayWithSignature.gatewayName)/ongoing/power"
+        let path = "/gateway/gatewayAccessToken/\(usePowerAtOngoingGatewayWithSignature.gatewayAccessToken)/ongoing/power"
         let jsonData = Utils().encodableToJSONData(usePowerAtOngoingGatewayWithSignature)
         put(body: jsonData, path: path, callback: callback)
     }
     
-    func getUserUUIDForUsername(username: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/user/name/\(username)/userUUID"
-        get(path: path, callback: callback)
-    }
-    
-    func requestTransfer(transferRequestWithSignature: TransferRequestWithSignature, gatewayName: String, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/transfer/gateway/request"
-        let jsonData = Utils().encodableToJSONData(transferRequestWithSignature)
-        put(body: jsonData, path: path, callback: callback)
-    }
-    
-    /*func clientToken(userGatewayTimestampTripleWithSignature: UserGatewayTimestampTripleWithSignature, callback: @escaping (Error?, Data?) -> Void) {
-        let path = "/demo/braintree/userUUID/\(userGatewayTimestampTripleWithSignature.userUUID)/gatewayName/\(userGatewayTimestampTripleWithSignature.gatewayName)/client-token/signature/\(userGatewayTimestampTripleWithSignature.signature)/timestamp/\(userGatewayTimestampTripleWithSignature.timestamp)"
-        get(path: path, callback: callback)
-    }*/
-    
-    func signinWithApple(gatewayKey: AppleSignInGatewayKeyWithSignature, callback: @escaping (Error?, PNUser?) -> Void) {
-        let path = "/applesso/signin"
-        let jsonData = Utils().encodableToJSONData(gatewayKey)
-        put(body: jsonData, path: path) { error, resp in
-            if error != nil {
-                callback(error, nil)
-            }
-            guard let jsonData = resp,
-                  let user = UserModel().getUserFromJSONData(userData: jsonData)
-            else { return }
-            
-            let pnUser = PlanetNineUser.getPNUserForUser(currentUser: user)
-            callback(nil, pnUser)
-        }
-    }
-    
-    func mintNineum(mintNineumRequestWithSignature: MintNineumRequestWithSignature, callback: @escaping (Error?, [String]?) -> Void) {
-        let path = "/partner/nineum/mint"
-        let jsonData = Utils().encodableToJSONData(mintNineumRequestWithSignature)
-        put(body: jsonData, path: path) { error, resp in
-            if error != nil {
-                callback(error, nil)
-            }
-            guard let jsonData = resp,
-                  let nineum = NineumModel().getNineumFromJSONData(jsonData: jsonData)
-            else { return }
-            
-            callback(nil, nineum)
-        }
-    }
-    
-    func approveTransfer(approveTransferWithSignature: ApproveTransferWithSignature, callback: @escaping (Error?, Data?) -> Void) {
-        ///user/userId/:userId/transfer/nineumTransactionId/:nineumTransactionId/approve'
-        let path = "/transfer/approve"
-        let jsonData = Utils().encodableToJSONData(approveTransferWithSignature)
-        put(body: jsonData, path: path, callback: callback)
-    }
 }

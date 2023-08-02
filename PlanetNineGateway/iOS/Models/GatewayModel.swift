@@ -19,20 +19,22 @@ struct UserGateway: Codable {
 struct Gateway: Codable {
     var totalPower: Int
     var partnerName: String
-    var gatewayName: String
-    var gatewayURL: String
     var partnerDisplayName: String
     var description: String
     func toString() -> String {
-        return "{\"totalPower\":\(totalPower),\"gatewayName\":\"\(gatewayName)\",\"partnerName\":\"\(partnerName)\",\"gatewayURL\":\"\(gatewayURL)\",\"partnerDisplayName\":\"\(partnerDisplayName)\",\"description\":\"\(description)\"}"
+        return "{\"totalPower\":\(totalPower),\"partnerName\":\"\(partnerName)\",\"partnerDisplayName\":\"\(partnerDisplayName)\",\"description\":\"\(description)\"}"
+    }
+    func toBLEString() -> String {
+        return "{\"t\":\(totalPower),\"p\":\"\(partnerName)\",\"n\":\"\(partnerDisplayName)\",\"d\":\"\(description)\"}"
     }
 }
 
 struct GatewayResponse: Codable {
     var userUUID: String
-    var username: String
+    var ordinal: Int
     var signature: String
     var timestamp: String
+    var ongoing: Bool
 }
 
 struct GatewayUsePower: Codable {
@@ -46,86 +48,56 @@ struct GatewayUsePower: Codable {
     var timestamp: String
 }
 
-public struct GatewayKey: Codable {
-    public var gatewayName: String
-    public var publicKey: String
-    public let timestamp = "".getTime()
-    public init(gatewayName: String, publicKey: String) {
-        self.gatewayName = gatewayName
-        self.publicKey = publicKey
-    }
-    public func toString() -> String {
-        return "{\"gatewayName\":\"\(gatewayName)\",\"publicKey\":\"\(publicKey)\",\"timestamp\":\"\(timestamp)\"}"
+struct GatewayKey: Codable {
+    var gatewayAccessToken: String
+    var publicKey: String
+    let timestamp = "".getTime()
+    func toString() -> String {
+        return "{\"gatewayAccessToken\":\"\(gatewayAccessToken)\",\"publicKey\":\"\(publicKey)\",\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
 struct GatewayKeyWithSignature: Codable {
-    var gatewayName: String
+    var gatewayAccessToken: String
     var publicKey: String
     let timestamp: String
     var signature: String
 }
 
-public struct GatewayTimestampTuple {
-    public let gatewayName: String
-    public let timestamp = "".getTime()
-    public init(gatewayName: String) {
-        self.gatewayName = gatewayName
-    }
-    public func toString() -> String {
-        return "{\"gatewayName\":\"\(gatewayName)\",\"timestamp\":\"\(timestamp)\"}"
+struct GatewayTimestampTuple {
+    let gatewayAccessToken: String
+    let timestamp = "".getTime()
+    func toString() -> String {
+        return "{\"gatewayAccessToken\":\"\(gatewayAccessToken)\",\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
-public struct UserGatewayTimestampTriple {
-    public let userUUID: String
-    public let gatewayName: String
-    public let timestamp = "".getTime()
-    public init(userUUID: String, gatewayName: String) {
-        self.userUUID = userUUID
-        self.gatewayName = gatewayName
-    }
-    public func toString() -> String {
+struct GatewayTimestampTupleWithSignature {
+    let gatewayAccessToken: String
+    let timestamp: String
+    let signature: String
+}
+
+struct UserGatewayTimestampTriple {
+    let userUUID: String
+    let gatewayName: String
+    let timestamp = "".getTime()
+    func toString() -> String {
         return "{\"userUUID\":\(userUUID),\"gatewayName\":\"\(gatewayName)\",\"timestamp\":\"\(timestamp)\"}"
     }
 }
 
-public struct UserGatewayTimestampTripleWithSignature {
-    public let userUUID: String
-    public let gatewayName: String
-    public let timestamp: String
-    public let signature: String
-}
-
-public struct AppleSignInGatewayKey: Codable {
-    var appleId: String
-    var appPublicKey: String
-    let timestamp = "".getTime()
-    
-    public init(appleId: String, appPublicKey: String) {
-        self.appleId = appleId
-        self.appPublicKey = appPublicKey
-    }
-    
-    func toString() -> String {
-        return """
-        {"appleId":"\(appleId)","appPublicKey":"\(appPublicKey)","timestamp":"\(timestamp)"}
-        """
-    }
-}
-
-public struct AppleSignInGatewayKeyWithSignature: Codable {
-    var appName: String
-    var appleId: String
-    var appPublicKey: String
-    var timestamp: String
-    var signature: String
+struct UserGatewayTimestampTripleWithSignature {
+    let userUUID: String
+    let gatewayName: String
+    let timestamp: String
+    let signature: String
 }
 
 class GatewayModel {
     func getGatewayResponseFromJSON(jsonString: String) -> GatewayResponse? {
         let jsonData = jsonString.data(using: .utf8)
-        var decodedGatewayResponse = GatewayResponse(userUUID: "", username: "", signature: "", timestamp: "")
+        var decodedGatewayResponse = GatewayResponse(userUUID: "", ordinal: 0, signature: "", timestamp: "", ongoing: false)
         do {
             decodedGatewayResponse = try JSONDecoder().decode(GatewayResponse.self, from: jsonData!)
         } catch {
@@ -140,7 +112,7 @@ class GatewayModel {
     }
         
     func addSignatureToGatewayKey(gatewayKeyObject: GatewayKey, signature: String) -> GatewayKeyWithSignature {
-        let gatewayKeyObjectWithSignature = GatewayKeyWithSignature(gatewayName: gatewayKeyObject.gatewayName, publicKey: gatewayKeyObject.publicKey, timestamp: gatewayKeyObject.timestamp, signature: signature)
+        let gatewayKeyObjectWithSignature = GatewayKeyWithSignature(gatewayAccessToken: gatewayKeyObject.gatewayAccessToken, publicKey: gatewayKeyObject.publicKey, timestamp: gatewayKeyObject.timestamp, signature: signature)
         return gatewayKeyObjectWithSignature
     }
 }

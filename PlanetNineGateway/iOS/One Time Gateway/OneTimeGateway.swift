@@ -11,8 +11,8 @@ import Foundation
 struct PowerUsage: Codable {
     let totalPower: Int
     let partnerName: String
-    let gatewayName: String
     let userUUID: String
+    let ordinal: Int
     let signature: String
     let partnerDisplayName: String
     let description: String
@@ -21,49 +21,30 @@ struct PowerUsage: Codable {
 
 class OneTimeGateway {
     
-    var gateway: Gateway
-    let partnerDisplayName: String
-    let description: String
-    
-    init(totalPower: Int, partnerName: String, gatewayName: String, gatewayURL: String, partnerDisplayName: String, description: String) {
-        gateway = Gateway(totalPower: totalPower, partnerName: partnerName, gatewayName: gatewayName, gatewayURL: gatewayURL, partnerDisplayName: partnerDisplayName, description: description)
-        self.partnerDisplayName = partnerDisplayName
-        self.description = description
-    }
-    
-    func askForPowerUsage() {
-        print("asking for power usage")
-        guard let urlEncodedGatewayName = gateway.gatewayName.urlEncoded() else {
-            print("Error: Gateway Name's must be url encodable")
+    class func askForPowerUsage(totalPower: Int, partnerName: String, gatewayURL: String, partnerDisplayName: String, description: String, cantOpen: (() -> Void)?) {
+        guard let partnerDisplayName = partnerDisplayName.urlEncoded(),
+              let description = description.urlEncoded() else {
+            print("Cannot encode partnerDisplayName and/or description")
             return
         }
-        guard let urlEncodedPartnerDisplayName = partnerDisplayName.urlEncoded() else {
-            print("Error: partnerDisplayName must be url encodable")
-            return
-        }
-        guard let urlEncodedDescription = description.urlEncoded() else {
-            print("Error: description must be url encodable")
-            return
-        }
-        let urlString = "planetnine://gateway/details?gatewayname=\(urlEncodedGatewayName)&partnerName=\(gateway.partnerName)&gatewayurl=\(gateway.gatewayURL)&totalPower=\(gateway.totalPower)&partnerDisplayName=\(urlEncodedPartnerDisplayName)&description=\(urlEncodedDescription)"
-        print("trying to open \(urlString)")
+        let urlString = "https://www.plnet9.com/spend?partnerName=\(partnerName)&totalPower=\(totalPower)&partnerDisplayName=\(partnerDisplayName)&description=\(description)&gatewayurl=\(gatewayURL)&handoff=true"
         if let link = URL(string: urlString) {
             if UIApplication.shared.canOpenURL(link) {
                  UIApplication.shared.open(link)
             } else {
-                //TODO: Add link to app store
-                if let appStoreLink = URL(string: "https://apps.apple.com/us/app/planet-nine/id1445951763") {
+                /*if let appStoreLink = URL(string: "https://apps.apple.com/us/app/planet-nine/id1445951763") {
                     UIApplication.shared.open(appStoreLink)
-                }
-                print("Could not open Planet Nine app here is where you would put link to app store")
+                }*/
+                cantOpen?()
             }
         } else {
-            print("Could not open urlString")
+            print("Could not construct URL string")
+            cantOpen?()
         }
     }
     
-    func submitPowerUsage(userUUID: String, signature: String, timestamp: String, callback: @escaping (Error?, Data?) -> Void) {
-        let powerUsage = PowerUsage(totalPower: gateway.totalPower, partnerName: gateway.partnerName, gatewayName: gateway.gatewayName, userUUID: userUUID, signature: signature, partnerDisplayName: self.partnerDisplayName, description: self.description, timestamp: timestamp)
+    class func submitPowerUsage(totalPower: Int, partnerName: String, userUUID: String, ordinal: Int, timestamp: String, signature: String, partnerDisplayName: String, description: String, callback: @escaping (Error?, Data?) -> Void) {
+        let powerUsage = PowerUsage(totalPower: totalPower, partnerName: partnerName, userUUID: userUUID, ordinal: ordinal, signature: signature, partnerDisplayName: partnerDisplayName, description: description, timestamp: timestamp)
         Network().usePowerAtOneTimeGateway(powerUsageObject: powerUsage, callback: callback)
     }
 }

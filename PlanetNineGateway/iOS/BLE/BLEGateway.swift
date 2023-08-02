@@ -10,7 +10,6 @@ import Foundation
 import CoreBluetooth
 
 protocol BLEGateway {
-    func createTwoWayPeripheral()
     func readCallback(characteristic: CBCharacteristic) -> String
     func writeCallback(value: String, central: CBCentral)
     func notifyCallback(characteristic: CBCharacteristic) -> String

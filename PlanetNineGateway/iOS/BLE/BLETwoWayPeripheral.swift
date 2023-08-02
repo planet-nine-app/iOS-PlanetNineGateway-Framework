@@ -70,10 +70,10 @@ class BLETwoWayPeripheral: NSObject, CBPeripheralManagerDelegate {
     }
     
     func createServicesAndStartAdvertising() {
-        let service = CBMutableService(type: bleServices().twoWay, primary: true)
-        let readCharacteristic = CBMutableCharacteristic(type: bleCharacteristics().read, properties: .read, value: nil, permissions: .readable)
-        let writeCharacteristic = CBMutableCharacteristic(type: bleCharacteristics().write, properties: .write, value: nil, permissions: .writeable)
-        let notifyCharacteristic = CBMutableCharacteristic(type: bleCharacteristics().notify, properties: .notify, value: nil, permissions: .readable)
+        let service = CBMutableService(type: BLEServices().twoWay, primary: true)
+        let readCharacteristic = CBMutableCharacteristic(type: BLECharacteristics().read, properties: .read, value: nil, permissions: .readable)
+        let writeCharacteristic = CBMutableCharacteristic(type: BLECharacteristics().write, properties: .write, value: nil, permissions: .writeable)
+        let notifyCharacteristic = CBMutableCharacteristic(type: BLECharacteristics().notify, properties: .notify, value: nil, permissions: .readable)
         
         characteristics.append(readCharacteristic)
         characteristics.append(writeCharacteristic)

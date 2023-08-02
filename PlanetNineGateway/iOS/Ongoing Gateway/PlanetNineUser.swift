@@ -31,87 +31,20 @@ public struct PNUser: Codable {
     }
 }
 
-public class PlanetNineUser {
+class PlanetNineUser {
     
-    var user: User?
-    let gatewayName: String
-    
-    public init(userUUID: String, gatewayName: String, timestamp: String, signature: String, callback: ((PNUser) -> Void)?) {
-        self.gatewayName = gatewayName
-        Network().getUserByUUID(userUUID: userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
+    class func getUser(userUUID: String, gatewayTimestampTupleWithSignature: GatewayTimestampTupleWithSignature, callback: @escaping (Error?, PNUser?) -> Void) {
+        Network().getUserByUUID(userUUID: userUUID, gatewayAccessToken: gatewayTimestampTupleWithSignature.gatewayAccessToken, timestamp: gatewayTimestampTupleWithSignature.timestamp, signature: gatewayTimestampTupleWithSignature.signature) { error, data in
             if error != nil {
+                callback(error, nil)
                 return
             }
-            guard let jsonData = resp else {
-                return
-            }
-            self.user = UserModel().getUserFromJSONData(userData: jsonData)
-            if callback != nil {
-                guard let pnUser = self.getUser() else {
-                    return
-                }
-                callback!(pnUser)
+            if let data = data,
+               let pnUser = UserModel.getUserFromJSONData(userData: data) {
+                callback(nil, pnUser)
+            } else {
+                callback(NSError(domain: "", code: 404, userInfo: nil), nil)
             }
         }
-    }
-    
-    public func getUser() -> PNUser? {
-        guard let currentUser = user else {
-            return nil
-        }
-        var pnUser = PNUser()
-        pnUser.userUUID = currentUser.userUUID
-        pnUser.name = currentUser.name
-        pnUser.powerOrdinal = currentUser.powerOrdinal
-        pnUser.lastPowerUsed = currentUser.lastPowerUsed
-        pnUser.powerRegenerationRate = currentUser.powerRegenerationRate
-        pnUser.globalRegenerationRate = currentUser.globalRegenerationRate
-        pnUser.publicKey = currentUser.publicKey
-        pnUser.nineum = currentUser.nineum
-        pnUser.currentPower = currentUser.currentPower
-        return pnUser
-    }
-    
-    public func refreshUser(timestamp: String, signature: String) {
-        guard let currentUser = user else {
-            print("No user retrieved yet")
-            return
-        }
-        Network().getUserByUUID(userUUID: currentUser.userUUID, gatewayName: gatewayName, timestamp: timestamp, signature: signature) { error, resp in
-            if error != nil {
-                return
-            }
-            guard let jsonData = resp else {
-                return
-            }
-            self.user = UserModel().getUserFromJSONData(userData: jsonData)
-        }
-    }
-    
-    class func getPNUserForUser(currentUser: User) -> PNUser {
-        var pnUser = PNUser()
-        pnUser.userUUID = currentUser.userUUID
-        pnUser.name = currentUser.name
-        pnUser.powerOrdinal = currentUser.powerOrdinal
-        pnUser.lastPowerUsed = currentUser.lastPowerUsed
-        pnUser.powerRegenerationRate = currentUser.powerRegenerationRate
-        pnUser.globalRegenerationRate = currentUser.globalRegenerationRate
-        pnUser.publicKey = currentUser.publicKey
-        pnUser.nineum = currentUser.nineum
-        pnUser.currentPower = currentUser.currentPower
-        return pnUser
-    }
-    
-    public class func getPNUserFromJSONData(jsonData: Data) -> PNUser? {
-        var decodedPNUser = PNUser()
-        do {
-            decodedPNUser = try JSONDecoder().decode(PNUser.self, from: jsonData)
-        } catch {
-            return nil
-        }
-        if decodedPNUser.userUUID == "" {
-            return nil
-        }
-        return decodedPNUser
     }
 }

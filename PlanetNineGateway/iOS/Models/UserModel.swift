@@ -44,7 +44,7 @@ class UserModel {
         return user
     }
     
-    func getUserFromJSONData(userData: Data) -> User? {
+    class func getUserFromJSONData(userData: Data) -> PNUser? {
         var decodedUser = User()
         do {
             decodedUser = try JSONDecoder().decode(User.self, from: userData)
@@ -56,7 +56,18 @@ class UserModel {
             return nil
         }
         
-        return decodedUser
+        var pnUser = PNUser()
+        pnUser.userUUID = decodedUser.userUUID
+        pnUser.name = decodedUser.name
+        pnUser.powerOrdinal = decodedUser.powerOrdinal
+        pnUser.lastPowerUsed = decodedUser.lastPowerUsed
+        pnUser.powerRegenerationRate = decodedUser.powerRegenerationRate
+        pnUser.globalRegenerationRate = decodedUser.globalRegenerationRate
+        pnUser.publicKey = decodedUser.publicKey
+        pnUser.nineum = decodedUser.nineum
+        pnUser.currentPower = decodedUser.currentPower
+        
+        return pnUser
     }
     
     func clearUser() {

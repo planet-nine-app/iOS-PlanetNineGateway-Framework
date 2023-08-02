@@ -23,7 +23,7 @@ This contains everything you need to build one-time, one-time-ble, and ongoing g
   s.swift_version = '5.0'
 
   s.ios.dependency 'Valet', '~> 3.2.8'
-  s.ios.dependency 'secp256k1.swift', '~> 0.1.4'
+  # s.ios.dependency 'secp256k1.swift', '~> 0.1.4'
   # s.ios.dependency 'CryptoSwift', '~> 1.4.1'
  
 end
