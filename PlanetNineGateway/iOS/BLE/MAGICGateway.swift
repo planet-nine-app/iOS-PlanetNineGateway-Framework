@@ -9,6 +9,15 @@
 import Foundation
 import CoreBluetooth
 
+struct UserUpdate: Codable {
+    let success: Bool
+    let ordinal: Int
+    let currentPower: Int
+    func toString() -> String {
+        return "{\"success\":\(success),\"ordinal\":\(ordinal),\"currentPower\":\(currentPower)}"
+    }
+}
+
 class MAGICGateway: BLEGateway {
     var twoWayPeripheral: BLETwoWayPeripheral!
     let gateway: Gateway
@@ -16,15 +25,6 @@ class MAGICGateway: BLEGateway {
     let networkCallback: (Error?, PNUser?) -> Void
     let bleCharacteristics = BLECharacteristics()
     let gatewayAccessToken: String
-    
-    struct UserUpdate: Codable {
-        let success: Bool
-        let ordinal: Int
-        let currentPower: Int
-        func toString() -> String {
-            return "{\"success\":\(success),\"ordinal\":\(ordinal),\"currentPower\":\(currentPower)}"
-        }
-    }
     
     init(totalPower: Int, partnerName: String, partnerDisplayName: String, description: String, gatewayAccessToken: String, spellReceivedCallback: @escaping () -> Void, networkCallback: @escaping (Error?, PNUser?) -> Void) {
         self.spellReceivedCallback = spellReceivedCallback
@@ -35,7 +35,7 @@ class MAGICGateway: BLEGateway {
     }
     
     func readCallback(characteristic: CBCharacteristic) -> String {
-        if characteristic.uuid == bleCharacteristics.read {
+        if characteristic.uuid == bleCharacteristics.readMagicGateway {
             return gateway.toBLEString()
         }
         return ""

@@ -12,6 +12,8 @@ public class PlanetNineGateway {
     
     var oneTime: OneTimeGateway?
     var bleOneTime: BLEGateway?
+    var magicCaster: MAGICCaster?
+    var magicDevice: MAGICDevice?
     var ongoing: OngoingGateway?
     let network = Network()
     let crypto = Crypto()
@@ -61,6 +63,23 @@ public class PlanetNineGateway {
     
     public func becomeMAGICTarget(totalPower: Int, partnerName: String, partnerDisplayName: String, description: String, spellReceivedCallback: @escaping () -> Void, networkCallback: @escaping (Error?, PNUser?) -> Void) {
        bleOneTime = MAGICGateway(totalPower: totalPower, partnerName: partnerName, partnerDisplayName: partnerDisplayName, description: description, gatewayAccessToken: gatewayAccessToken, spellReceivedCallback: spellReceivedCallback, networkCallback: networkCallback)
+    }
+    
+    public func askToBecomeMagicDevice(networkCallback: @escaping (Error?, PNUser?) -> Void) {
+        guard let publicKey = crypto.getKeys()?.publicKey else { return }
+        magicDevice = MAGICDevice(gatewayAccessToken: gatewayAccessToken, publicKey: publicKey, networkCallback: networkCallback)
+    }
+    
+    public func becomeMagicCaster(gatewayCallback: @escaping (Gateway) -> Void) {
+        magicCaster = MAGICCaster(gatewayAccessToken: gatewayAccessToken, gatewayCallback: gatewayCallback)
+    }
+    
+    public func castSpell(user: PNUser, gateway: Gateway) {
+        guard let magicCaster = magicCaster else {
+            print("Must call becomeMagicCaster before casting spells")
+            return
+        }
+        magicCaster.castSpell(user: user, gateway: gateway)
     }
     
     internal class func topViewController(controller: UIViewController?) -> UIViewController? {
